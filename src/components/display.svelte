@@ -37,10 +37,11 @@ const switcherHandle = (event) => {
 }
 
 // Vote button
+let voteIsInactive = true; //prohibits voting
 let voteButtonState = true;
 let voteButtonHover = false;
 const voteHandle = (event) => {
-  if (voteButtonState === true) {
+  if (!voteIsInactive && voteButtonState) {
     if (event.type === 'click') {
       voteButtonState = !voteButtonState;
     } else if (
@@ -68,21 +69,25 @@ const voteHandle = (event) => {
         class="format-btn {!formatButtonHover ? (formatButtonState ? 'visible' : '') : ''}"
         src={displayScreen.buttons[0].video}
         alt="Switcher"
+        draggable="false"
       />
       <img
         class="format-btn {!formatButtonHover ? (!formatButtonState ? 'visible' : '') : ''}"
         src={displayScreen.buttons[0].text}
         alt="Switcher"
+        draggable="false"
       />
       <img
         class="format-btn {!formatButtonState ? (formatButtonHover ? 'visible' : '') : ''}"
         src={displayScreen.buttons[0].videoHover}
         alt="Switcher"
+        draggable="false"
       />
       <img
         class="format-btn {formatButtonState ? (formatButtonHover ? 'visible' : '') : ''}"
         src={displayScreen.buttons[0].textHover}
         alt="Switcher"
+        draggable="false"
       />
     </div>
     <div
@@ -94,24 +99,28 @@ const voteHandle = (event) => {
       on:mouseout={voteHandle}
     >
       <img
-        class="vote-btn {!voteButtonHover ? (voteButtonState ? 'visible' : '') : ''}"
+        class="vote-btn {!voteIsInactive ? (!voteButtonHover ? (voteButtonState ? 'visible' : '') : '') : ''}"
         src={displayScreen.buttons[1].image}
         alt="Vote"
+        draggable="false"
       />
       <img
-        class="vote-btn {voteButtonState ? (voteButtonHover ? 'visible' : '') : ''}"
+        class="vote-btn {!voteIsInactive ? (voteButtonState ? (voteButtonHover ? 'visible' : '') : '') : ''}"
         src={displayScreen.buttons[1].hover}
         alt="Vote"
+        draggable="false"
       />
       <img
-        class="vote-btn {!voteButtonState ? 'visible' : ''}"
+        class="vote-btn {!voteIsInactive ? (!voteButtonState ? 'visible' : '') : ''}"
         src={displayScreen.buttons[1].click}
         alt="Vote"
+        draggable="false"
       />
       <img
-        class="vote-btn"
+        class="vote-btn {voteIsInactive ? 'visible' : ''}"
         src={displayScreen.buttons[1].inactive}
         alt="Vote"
+        draggable="false"
       />
     </div>
   </div>
@@ -119,7 +128,7 @@ const voteHandle = (event) => {
     <source srcset={displayScreen.display.mobilesize} media="(max-width: 600px)" />
     <img src={displayScreen.display.fullsize} alt="Display" />
   </picture>
-  <iframe id="video" title="YouTube" allowfullscreen></iframe>
+  <!-- <iframe src="https://www.youtube.com/embed/hDmI82bvDhc" id="video" title="YouTube" allowfullscreen /> -->
   <picture class="display-bg">
     <source srcset={displayScreen.display.mobileBG} media="(max-width: 600px)" />
     <img src={displayScreen.display.BG} alt="Background" />
@@ -132,6 +141,7 @@ const voteHandle = (event) => {
     position: relative;
     width: 98vw;
     margin-inline: 1vw;
+    margin-top: 2.5vw;
   }
 
   .display, .display-bg {
@@ -147,6 +157,10 @@ const voteHandle = (event) => {
 
   #video {
     position: absolute;
+    height: 48.75vw;
+    width: 87vw;
+    top: 8vw;
+    left: 5.5vw;
   }
 
   .display-buttons {
