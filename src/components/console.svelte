@@ -43,7 +43,6 @@ const consolePanel = {
   }
 }
 
-
 const consoleButtonsHandle = (event, id, isActive = false) => {
   if (id != 'omnihub') { //temporarily disabled Omnihub
     const button = document.getElementById(id);
@@ -76,9 +75,6 @@ const consoleButtonsHandle = (event, id, isActive = false) => {
   }
 }
 </script>
-
-
-
 
 
 <div class="console-panel">
