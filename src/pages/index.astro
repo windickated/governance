@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro"
 import Display from "../components/display.svelte"
 import Console from "../components/console.svelte"
 import Sidebars from "../components/sidebars.svelte"
+import Storynode from "../components/storynode.svelte"
 ---
 
 
@@ -10,10 +11,12 @@ import Sidebars from "../components/sidebars.svelte"
 
 	
 	<Display client:load />
-	
-	<Console client:load />
 
 	<Sidebars client:load />
+
+	<Storynode nodeNumber="11" />
+
+	<Console client:load />
 
 
 </Layout>

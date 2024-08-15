@@ -128,7 +128,6 @@ const voteHandle = (event) => {
     <source srcset={displayScreen.display.mobilesize} media="(max-width: 600px)" />
     <img src={displayScreen.display.fullsize} alt="Display" />
   </picture>
-  <!-- <iframe src="https://www.youtube.com/embed/hDmI82bvDhc" id="video" title="YouTube" allowfullscreen /> -->
   <picture class="display-bg">
     <source srcset={displayScreen.display.mobileBG} media="(max-width: 600px)" />
     <img src={displayScreen.display.BG} alt="Background" />
@@ -153,14 +152,6 @@ const voteHandle = (event) => {
     position: absolute;
     top: 0;
     left: 0;
-  }
-
-  #video {
-    position: absolute;
-    height: 48.75vw;
-    width: 87vw;
-    top: 8vw;
-    left: 5.5vw;
   }
 
   .display-buttons {

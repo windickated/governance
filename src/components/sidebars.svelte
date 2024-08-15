@@ -358,12 +358,5 @@ a11y-no-static-element-interactions -->
       left: 0;
       background-image: none;
     }
-
-    .nft-bar{
-      background-color: rgba(255,0,0,0.5);
-    }
-    .episodes-bar{
-      background-color: rgba(0,0,255,0.5);
-    }
   }
 </style>

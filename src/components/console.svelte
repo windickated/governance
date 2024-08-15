@@ -121,6 +121,7 @@ const consoleButtonsHandle = (event, id, isActive = false) => {
 <style>
   .console-panel {
     position: relative;
+    margin-top: 5vw;
   }
 
   .console-buttons {
@@ -143,6 +144,10 @@ const consoleButtonsHandle = (event, id, isActive = false) => {
   }
 
   @media screen and (width > 600px) {
+    .console-panel {
+      margin-top: 8.5vw;
+    }
+
     .big {
       width: 20%;
     }
