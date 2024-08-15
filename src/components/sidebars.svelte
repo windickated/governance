@@ -17,7 +17,6 @@ function closeActiveTab() {
 // NFTs tab opening
 function handleNFTsBar() {
   const BG = document.querySelector('.bg');
-  iconHandle('nfts');
 
   if (episodesBarState) handleEpisodesBar();
 
@@ -28,6 +27,7 @@ function handleNFTsBar() {
       nftsInterval = setInterval(() => { slideBarPC(true, 'nfts') }, 5);
     }
     nftBarState = true;
+    iconHandle('nfts');
     BG.style.display = 'block';
   } else {
     if (window.outerWidth <= 600) {
@@ -36,6 +36,7 @@ function handleNFTsBar() {
       nftsInterval = setInterval(() => { slideBarPC(false, 'nfts') }, 5);
     }
     nftBarState = false;
+    iconHandle('nfts');
     BG.style.display = 'none';
   }
 }
@@ -44,7 +45,6 @@ function handleNFTsBar() {
 //Episodes tab opening
 function handleEpisodesBar() {
   const BG = document.querySelector('.bg');
-  iconHandle('episodes');
 
   if (nftBarState) handleNFTsBar();
 
@@ -55,6 +55,7 @@ function handleEpisodesBar() {
       episodesInterval = setInterval(() => { slideBarPC(true, 'episodes') }, 5);
     }
     episodesBarState = true;
+    iconHandle('episodes');
     BG.style.display = 'block';
   } else {
     if (window.outerWidth <= 600) {
@@ -63,6 +64,7 @@ function handleEpisodesBar() {
       episodesInterval = setInterval(() => { slideBarPC(false, 'episodes') }, 5);
     }
     episodesBarState = false;
+    iconHandle('episodes');
     BG.style.display = 'none';
   }
 }
@@ -74,15 +76,23 @@ function iconHandle(tab) {
   if (window.outerWidth <= 600) {
     if (tab === 'nfts') {
       if (nftBarState) {
-        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
-      } else {
+        episodesIcon.style.zIndex = '19';
+        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen-Inactive.avif')";
         nftIcon.style.backgroundImage = "url('/sideIconMobileClose.avif')";
+      } else {
+        episodesIcon.style.zIndex = '19';
+        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
+        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
       }
     } else if (tab === 'episodes') {
       if (episodesBarState) {
-        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
-      } else {
+        episodesIcon.style.zIndex = '22';
         episodesIcon.style.backgroundImage = "url('/episodesMobileClose.avif')";
+        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen-Inactive.avif')";
+      } else {
+        episodesIcon.style.zIndex = '19';
+        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
+        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
       }
     }
   } else {
@@ -156,7 +166,6 @@ function slideBarMobile(open, tab) {
   const nftBar = document.querySelector('.nft-bar');
   const episodesIcon = document.querySelector('.episodes-icon');
   const episodesBar = document.querySelector('.episodes-bar');
-
   if (open) {
     if (tab === 'nfts') {
       if (nftsBarPosition == 80) {
@@ -348,6 +357,13 @@ a11y-no-static-element-interactions -->
       right: auto;
       left: 0;
       background-image: none;
+    }
+
+    .nft-bar{
+      background-color: rgba(255,0,0,0.5);
+    }
+    .episodes-bar{
+      background-color: rgba(0,0,255,0.5);
     }
   }
 </style>
