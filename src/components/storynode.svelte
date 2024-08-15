@@ -153,13 +153,13 @@ function getStoryDate() {
 
   .options {
     position: absolute;
-    top: 59vw;
-    width: 59.8vw;
-    height: 23vw;
+    top: 61vw;
+    width: 61vw;
+    height: 23.5vw;
     white-space: nowrap;
     list-style: circle inside;
     margin: 2vw;
-    margin-left: 2vw;
+    margin-left: 1.5vw;
     margin-bottom: auto;
     padding-left: 3vw;
     padding-bottom: auto;
@@ -188,6 +188,12 @@ function getStoryDate() {
   .option {
     -webkit-text-stroke: 0.01vw #33E2E6;
     cursor: pointer;
+  }
+
+  .option:hover, .option:active {
+    color: #33E2E6;
+    text-shadow: 0 0 3px #33E2E6;
+    list-style-type: disc;
   }
 
   .voting-ended {
