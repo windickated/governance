@@ -99,15 +99,15 @@ function iconHandle(tab) {
   } else {
     if (tab === 'nfts') {
       if (nftBarState) {
-        nftIcon.style.backgroundImage = "url('/sideIconPCOpen.avif')";
-      } else {
         nftIcon.style.backgroundImage = "url('/sideIconPCClose.avif')";
+      } else {
+        nftIcon.style.backgroundImage = "url('/sideIconPCOpen.avif')";
       }
     } else if (tab === 'episodes') {
       if (episodesBarState) {
-        episodesIcon.style.backgroundImage = "url('/episodesPCOpen.avif')";
-      } else {
         episodesIcon.style.backgroundImage = "url('/episodesPCClose.avif')";
+      } else {
+        episodesIcon.style.backgroundImage = "url('/episodesPCOpen.avif')";
       }
     }
   }

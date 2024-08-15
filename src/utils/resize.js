@@ -1,11 +1,42 @@
-window.addEventListener('load', adjustOptionsContainer);
-window.addEventListener('resize', adjustOptionsContainer);
+const nftIcon = document.querySelector('.nft-icon');
+const nftBar = document.querySelector('.nft-bar');
+const episodesIcon = document.querySelector('.episodes-icon');
+const episodesBar = document.querySelector('.episodes-bar');
+const storyOptions = document.querySelector('.options');
+const optionsCounter = document.querySelectorAll('.option').length;
 
+
+window.addEventListener('load', resize);
+window.addEventListener('resize', resize);
+
+function resize() {
+  adjustBarsPosition();
+  adjustOptionsContainer();
+}
+
+
+function adjustBarsPosition() {
+  nftIcon.style.top = '0';
+  nftIcon.style.right = '0';
+  episodesIcon.style.top = '0';
+  episodesIcon.style.left = '0';
+  episodesIcon.style.zIndex = '19';
+  if (window.outerWidth <= 600) {
+    nftBar.style.top = '-80%';
+    nftBar.style.left = '0';
+    nftBar.style.right = '0';
+    episodesBar.style.top = '-80%';
+    episodesBar.style.left = '0';
+  } else {
+    nftBar.style.top = '0';
+    nftBar.style.left = '';
+    nftBar.style.right = '-80vw';
+    episodesBar.style.top = '0';
+    episodesBar.style.left = '-44vw';
+  }
+}
 
 function adjustOptionsContainer() {
-  const storyOptions = document.querySelector('.options');
-  const optionsCounter = document.querySelectorAll('.option').length;
-
   if(window.outerWidth >= 600) {
     if(optionsCounter == 5) {
       storyOptions.style.fontSize = `${11/optionsCounter}vw`;
