@@ -40,7 +40,7 @@ function getStoryDate() {
 
 <section class="story-node-wraper">
 
-  <iframe src={storyNode.video} id="video" title="YouTube" allowfullscreen />
+  <iframe src={storyNode.video} class="video visible" title="YouTube" allowfullscreen />
 
   <div class="legend">
     <h1 class="header">
@@ -59,7 +59,9 @@ function getStoryDate() {
     {/each}
   </ul>
 
-  <span class="voting-ended">{isEnded ? "Voting ended" : "Voting active"}</span>
+  <span class="voting-ended">
+    {isEnded ? "Voting ended" : "Voting active"}
+  </span>
 
 </section>
 
@@ -71,12 +73,13 @@ function getStoryDate() {
     margin-inline: 5vw;
   }
 
-  #video {
+  .video {
     position: absolute;
     height: 48.75vw;
     width: 87vw;
     top: 10.5vw;
     left: 6.5vw;
+    display: none;
   }
 
   .legend {
@@ -127,7 +130,11 @@ function getStoryDate() {
     border: none;
     border-radius: auto;
     color: #bebebe;
-    visibility: hidden;
+    display: none;
+  }
+
+  .visible {
+    display: block;
   }
 
   .text::-webkit-scrollbar {
@@ -197,8 +204,9 @@ function getStoryDate() {
 
 
   @media screen and (max-width: 600px) {
-    #video {
+    .video {
       top: 25.5vw;
+      display: block;
     }
 
     .legend {
@@ -226,7 +234,7 @@ function getStoryDate() {
       border: 0.1vw solid rgba(51, 226, 230, 0.5);
       border-radius: 2.5vw;
       padding: 3vw;
-      visibility: visible;
+      display: block;
     }
 
     .options {

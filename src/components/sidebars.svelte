@@ -70,6 +70,7 @@ function handleEpisodesBar() {
 }
 
 
+// Utility function for icons switching
 function iconHandle(tab) {
   const nftIcon = document.querySelector('.nft-icon');
   const episodesIcon = document.querySelector('.episodes-icon');
@@ -111,7 +112,6 @@ function iconHandle(tab) {
     }
   }
 }
-
 
 // Utility function for PC tabs handling
 function slideBarPC(open, tab) {
@@ -158,7 +158,6 @@ function slideBarPC(open, tab) {
     }
   }
 }
-
 
 // Utility function for Mobile tabs handling
 function slideBarMobile(open, tab) {

@@ -25,11 +25,15 @@ const displayScreen = {
 }
 
 // Format button
-let formatButtonState = false;
+let formatButtonState = true; // video on, text off
 let formatButtonHover = false;
 const switcherHandle = (event) => {
+  const storyText = document.querySelector('.text');
+  const storyVideo = document.querySelector('.video')
   if (event.type === 'click') {
     formatButtonState = !formatButtonState;
+    storyText.classList.toggle('visible')
+    storyVideo.classList.toggle('visible')
   } else if (
     event.type === 'mouseover' || event.type === 'mouseout') {
     formatButtonHover = !formatButtonHover;
