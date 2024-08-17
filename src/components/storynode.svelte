@@ -1,9 +1,8 @@
 <script>
-import { onMount, afterUpdate } from "svelte"
+import { afterUpdate } from "svelte"
 import { node } from "../stores/storyNode.js"
 import seasonOne from "../data/DischordianSaga-1.js"
 
-onMount(resizeOptions);
 afterUpdate(resizeOptions);
 
 let nodeNumber;

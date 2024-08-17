@@ -1,4 +1,6 @@
 <script>
+import seasonOne from "../data/DischordianSaga-1.js"
+
 let width;
 let nftIcon;
 let episodesIcon;
@@ -217,7 +219,19 @@ function slideBarMobile(open, tab) {
 />
 
 <div class="episodes-bar" bind:this={episodesBar}>
-
+  <p class="episodes-legend">The Dishordian Saga</p>
+  <div class="episodes-container">
+    {#each seasonOne as episode}
+      <div class="episode">
+        <img
+          class="episode-image"
+          src="https://img.youtube.com/vi/{episode.videoLink}/hqdefault.jpg"
+          alt="Episode {episode.episode}"
+        />
+        <p class="episode-title">{episode.storyTitle}</p>
+      </div>
+    {/each}
+  </div>
 </div>
 
 
@@ -327,6 +341,58 @@ a11y-no-static-element-interactions -->
     backdrop-filter: blur(1vw);
   }
 
+  /* EPISODES bar */
+
+  .episodes-legend {
+    text-align: center;
+    padding: 2vw;
+    font-size: 3vw;
+    color: rgba(51, 226, 230, 0.9);
+    filter: drop-shadow(0 0 1vw 5vw #33E2E6);
+  }
+
+  .episode {
+    width: 35vw;
+    padding: 1vw;
+    margin: 1vw;
+    margin-bottom: 2vw;
+    background-color: rgba(51, 226, 230, 0.4);
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1.5vw;
+    cursor: pointer;
+  }
+
+  .episode-image {
+    object-fit: cover;
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1vw;
+    width: 100%;
+    height: 20vw;
+  }
+
+  .episode-title {
+    padding-top: 0.5vw;
+    padding-bottom: 0.5vw;
+    text-align: center;
+    white-space: wrap;
+    width: 35vw;
+    font-size: 2.5vw;
+    line-height: 3vw;
+    text-shadow: 0 0 0.1vw #010020;
+  }
+
+  .episode:hover {
+    background-color: rgba(51, 226, 230, 0.5);
+    color: #33E2E6;
+  }
+
+  .episode:active {
+    color: #010020;
+    filter: drop-shadow(0 0 1vw rgba(51, 226, 230, 0.8));
+  }
+
+  /* NFTs bar */
+
 
   @media screen and (max-width: 600px) {
     .nft-icon {
@@ -351,6 +417,28 @@ a11y-no-static-element-interactions -->
       right: auto;
       left: 0;
       background-image: none;
+    }
+
+    .episodes-legend {
+      font-size: 5vw;
+      padding: 3vw;
+    }
+
+    .episode {
+      width: 86vw;
+      margin: 4vw;
+      margin-top: 0;
+    }
+
+    .episode-image {
+      height: 50vw;
+    }
+
+    .episode-title {
+      padding-left: 2.5%;
+      font-size: 1.2em;
+      line-height: 1.5em;
+      width: 95%;
     }
   }
 </style>
