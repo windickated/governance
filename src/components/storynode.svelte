@@ -1,10 +1,19 @@
 <script>
+import { onMount, afterUpdate } from "svelte"
+import node from "../stores/storyNode.js"
 import seasonOne from "../data/DischordianSaga-1.js"
 
-export let nodeNumber = 15;
+onMount(resizeOptions);
+afterUpdate(resizeOptions);
+
+let nodeNumber;
 let isEnded;
 
-const storyNode = {
+node.subscribe(number => {
+  nodeNumber = number;
+})
+
+$: storyNode = {
   title: seasonOne[nodeNumber - 1].storyTitle,
   duration: getStoryDate(),
   video: `https://www.youtube.com/embed/${seasonOne[nodeNumber - 1].videoLink}`,
@@ -38,7 +47,7 @@ function getStoryDate() {
 let width;
 let optionsContainer;
 function resizeOptions() {
-  const optionsCounter = optionsContainer.childNodes.length;
+  const optionsCounter = seasonOne[nodeNumber - 1].storyOptions.length;
   if(width >= 600) {
     if(optionsCounter == 5) {
       optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
@@ -68,11 +77,8 @@ function resizeOptions() {
 
 
 
-<svelte:window
-  on:load={resizeOptions}
-  on:resize={resizeOptions}
-  bind:outerWidth={width}
-/>
+<svelte:window on:resize={resizeOptions} bind:outerWidth={width} />
+
 
 <section class="story-node-wraper">
 

@@ -4,21 +4,17 @@ import Display from "../components/display.svelte"
 import Console from "../components/console.svelte"
 import Sidebars from "../components/sidebars.svelte"
 import Storynode from "../components/storynode.svelte"
-
-let nodeNumber = 13;
 ---
 
 
 <Layout>
-
 	
 	<Display client:load />
-
-	<Sidebars client:load />
 
 	<Storynode client:load />
 
 	<Console client:load />
 
+	<Sidebars client:load />
 
 </Layout>

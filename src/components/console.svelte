@@ -1,4 +1,14 @@
 <script>
+import node from "../stores/storyNode.js"
+import seasonOne from "../data/DischordianSaga-1.js"
+
+const lastNodeNumber = seasonOne.length;
+let nodeNumber;
+
+node.subscribe(number => {
+  nodeNumber = number;
+})
+
 const consolePanel = {
   buttons: [
     {
@@ -63,8 +73,20 @@ const consoleButtonsHandle = (event, id, isActive = false) => {
         button.style.display = 'block';
         buttonActive.style.display = 'none';
         switch (id) {
-          case 'sagaverse': window.open('https://sagaverse.vercel.app', '_blank');
-          case 'conexus': window.open('https://conexus.vercel.app', '_blank');
+          case 'sagaverse':
+            window.open('https://sagaverse.vercel.app', '_blank');
+            break;
+          case 'conexus':
+            window.open('https://conexus.vercel.app', '_blank');
+            break;
+          case 'back':
+            if (nodeNumber != 1) nodeNumber --;
+            $node = nodeNumber;
+            break;
+          case 'forward':
+            if (nodeNumber != lastNodeNumber) nodeNumber ++;
+            $node = nodeNumber;
+            break;
         }
       }, 150)
     } else if (event.type === 'mouseout') {
