@@ -1,7 +1,7 @@
 <script>
 import seasonOne from "../data/DischordianSaga-1.js"
 
-export let nodeNumber;
+export let nodeNumber = 15;
 let isEnded;
 
 const storyNode = {

@@ -311,7 +311,7 @@ const seasonOne = [
       `This is the last vote in Season One of the Dischordian Saga. What you decide here will determine the fate of the universe and completely reshape the future of all of reality within the Dischordian Saga. Choose wisely.`
     ],
     storyOptions:[
-      "Kill the Host .",
+      "Kill the Host.",
       "Betray the Oracle."
     ]
   }
