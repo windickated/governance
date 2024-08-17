@@ -1,8 +1,6 @@
 <script>
-import node from "../stores/storyNode.js"
-import seasonOne from "../data/DischordianSaga-1.js"
+import { node, lastNodeNumber } from "../stores/storyNode.js"
 
-const lastNodeNumber = seasonOne.length;
 let nodeNumber;
 
 node.subscribe(number => {

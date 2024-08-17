@@ -1,6 +1,6 @@
 <script>
 import { onMount, afterUpdate } from "svelte"
-import node from "../stores/storyNode.js"
+import { node } from "../stores/storyNode.js"
 import seasonOne from "../data/DischordianSaga-1.js"
 
 onMount(resizeOptions);
