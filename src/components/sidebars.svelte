@@ -246,7 +246,11 @@ function slideBarMobile(open, tab) {
 />
 
 <div class="nft-bar" bind:this={nftBar}>
-
+  <div class="wallet-container">
+    <p class="wallet-legend">Connect Web3 Wallet:</p>
+    <p class="wallet"></p>
+    <button class="wallet-connect">Connect wallet</button>
+  </div>
 </div>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
@@ -393,6 +397,51 @@ a11y-no-static-element-interactions -->
 
   /* NFTs bar */
 
+  .wallet-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(51, 226, 230, 0.5);
+    filter: drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5));
+    margin: 3vw 5vw 1vw 5vw;
+    padding: 1vw 2vw;
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1.5vw;
+  }
+
+  .wallet-legend {
+    color: #161E5F;
+    font-size: 2.5vw;
+    filter: drop-shadow(0 0 0.05vw #010020);
+    text-align: right;
+    padding-right: 2.5vw;
+  }
+
+  .wallet {
+    display: none;
+    padding: 0 3vw;
+    font-size: 2vw;
+    color: rgba(51, 226, 230, 1);
+    background-color: rgba(51, 226, 230, 0.2);
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1vw;
+    line-height: 3.5vw;
+  }
+
+  .wallet-connect {
+    height: 3.5vw;
+    width: 18vw;
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1vw;
+    font-size: 2vw;
+    background-color: #161E5F;
+    color: #33E2E6;
+  }
+
+  .wallet-connect:hover, .wallet-connect:active {
+    background-color: rgba(22, 30, 95, 0.75);
+  }
+
 
   @media screen and (max-width: 600px) {
     .nft-icon {
@@ -439,6 +488,27 @@ a11y-no-static-element-interactions -->
       font-size: 1.2em;
       line-height: 1.5em;
       width: 95%;
+    }
+
+    .wallet-container {
+      margin-top: 6vw;
+      margin-bottom: 2vw;
+      height: 14vw;
+    }
+
+    .wallet-legend {
+      font-size: inherit;
+    }
+
+    .wallet {
+      font-size: inherit;
+      padding: 2vw 3vw;
+    }
+
+    .wallet-connect {
+      font-size: inherit;
+      width: 38vw;
+      height: 10vw;
     }
   }
 </style>
