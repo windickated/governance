@@ -256,6 +256,64 @@ const seasonOne = [
       "Attack the Oracle.",
       "Communicate with the Source."
     ]
+  },
+  {
+    episode: 13,
+    videoLink:"X4srpGZnLE8",
+    storyTitle:"Wyrmwood",
+    storyDuration:["2024-07-21T12:00:00Z", "2024-07-24T12:00:00Z"],
+    storyText:[
+      `The Antiquarian: In the heart of a crystal pyramid, known as the Templum Veritatis, the Potentials gather, driven by their choice to understand the mysterious Wyrm hole—a relic of dischordian logic. Their decision leads them into the depths of the Temple of Truth itself, where secrets wait shrouded in crystal and shadow.`,
+      `Potential: "Blessed Oracle, while we still have time, tell us more about the portal that brought us here. Since its creation, have your people ever explored its nature or design?"`,
+      `The Antiquarian: The Oracle hesitated slightly before answering.
+      Oracle: "Some tales are so steeped in the echoes of ancient truths that they must only be whispered within the sanctum of the Templum Veritatis, the temple of truth itself. Behold the saga of the Wyrm hole, a tunnel through space and time wrought by my desperate flight from the Panopticon! A blight upon this world, a portal to the source of untold chaos, it heralds the doom of civilizations and is birthplace for the infectious darkness that threatens to consume our collective Light!"`,
+      `Oracle: "Not just the Collector, oh no! For millennia, waves of a Thought Virus plagued us, each cycle more devastating than the last. Zombies, both flesh and silicon, ravaged our lands, resetting civilization to its primal roots."`,
+      `The Antiquarian: Breaking the Silence, a Neon spoke for the first time.`,
+      `Potential: "How were you able to end these plagues?"`,
+      `Oracle: "Ten thousand years ago, a revelation! I discovered a crystal, native to our land. By influencing its growth, I formed a network of crystalline matrices. These emit tones—subharmonic frequencies that create barriers impenetrable by the virus."`,
+      `Oracle: "This harmony, this divine symphony, vaccinated our world against the Thought Virus. Dormant it lay, for all other hosts in the universe had been consumed."`,
+      `Potential: "Could our arrival have posed a risk?"`,
+      `Oracle: "Indeed, it was a monumental risk. Your species, newly evolved, unscathed by the virus—had you been carriers, the consequences would have been apocalyptic."`,
+      `Potential: "What was that sound?"`,
+      `Oracle: "The barriers between worlds have just shattered! Reality ITSELF trembles!!! Your protection field over the Collector's pyramid has been destroyed, and I sense doom approaching through the wormhole. Armageddon has come at last!"`,
+      `The Antiquarian: "As the Oracle's words hang heavy in the air, the Potentials stand at a precipice. With the barriers broken, what new horrors might spill forth from the Wyrm hole? This world, once shielded by harmonic grace, now faces the unknown once more."`,
+      `The Antiquarian: "In this crystal theater of fate, the Potentials and the one they know as the Oracle must now navigate a path fraught with peril. The Collector and the host of unknown horrors emerge, and death itself walks the land again."`
+    ],
+    storyOptions:[
+      "Hunt the Collector.",
+      "Prepare to Defend the City.",
+      "Lead a War Party to the Wyrm Hole.",
+      "Betray the Oracle.",
+      "Divide Your Forces to Face Multiple Threats."
+    ]
+  },
+  {
+    episode: 14,
+    videoLink:"G314HD_UR1g",
+    storyTitle:"The Hunt",
+    storyDuration:["2024-07-26T12:00:00Z", "2024-07-29T12:00:00Z"],
+    storyText:[
+      `There is no text for this story node.`
+    ],
+    storyOptions:[
+      "Lead a War Party to the Wyrm Hole.",
+      "Prepare to Defend the City.",
+      "Betray the Oracle.",
+      "Attempt to Contact the Source."
+    ]
+  },
+  {
+    episode: 15,
+    videoLink:"hDmI82bvDhc",
+    storyTitle:"The Beginning of the End",
+    storyDuration:["2024-08-09T12:00:00Z", "2024-08-12T12:00:00Z"],
+    storyText:[
+      `This is the last vote in Season One of the Dischordian Saga. What you decide here will determine the fate of the universe and completely reshape the future of all of reality within the Dischordian Saga. Choose wisely.`
+    ],
+    storyOptions:[
+      "Kill the Host .",
+      "Betray the Oracle."
+    ]
   }
 ]
 

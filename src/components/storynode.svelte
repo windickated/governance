@@ -34,9 +34,45 @@ function getStoryDate() {
 
   return fullDate;
 }
+
+let width;
+let optionsContainer;
+function resizeOptions() {
+  const optionsCounter = optionsContainer.childNodes.length;
+  if(width >= 600) {
+    if(optionsCounter == 5) {
+      optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
+      optionsContainer.style.paddingTop = `${9/optionsCounter}vw`;
+      optionsContainer.style.height = '23.5vw';
+    } else if(optionsCounter == 4) {
+      optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
+      optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
+      optionsContainer.style.height = '23.5vw';
+    } else {
+      optionsContainer.style.fontSize = '2.5vw';
+      if(optionsCounter == 3) {
+        optionsContainer.style.paddingTop = '5vw';
+        optionsContainer.style.height = '21vw';
+      } else {
+        optionsContainer.style.paddingTop = '7vw';
+        optionsContainer.style.height = '19vw';
+      }
+    }
+  } else {
+    optionsContainer.style.fontSize = '1.1em';
+    optionsContainer.style.paddingTop = '2vw';
+    optionsContainer.style.height = 'auto';
+  }
+}
 </script>
 
 
+
+<svelte:window
+  on:load={resizeOptions}
+  on:resize={resizeOptions}
+  bind:outerWidth={width}
+/>
 
 <section class="story-node-wraper">
 
@@ -51,7 +87,7 @@ function getStoryDate() {
 
   <div class="text">{storyNode.text}</div>
 
-  <ul class="options">
+  <ul class="options" bind:this={optionsContainer}>
     {#each storyNode.options as option}
       <li class="option">
         {option}

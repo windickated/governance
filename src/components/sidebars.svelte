@@ -1,4 +1,11 @@
 <script>
+let width;
+let nftIcon;
+let episodesIcon;
+let nftBar;
+let episodesBar;
+let BG;
+
 let nftBarState = false;
 let episodesBarState = false;
 
@@ -16,12 +23,10 @@ function closeActiveTab() {
 
 // NFTs tab opening
 function handleNFTsBar() {
-  const BG = document.querySelector('.bg');
-
   if (episodesBarState) handleEpisodesBar();
 
   if (!nftBarState) {
-    if (window.outerWidth <= 600) {
+    if (width <= 600) {
       nftsInterval = setInterval(() => { slideBarMobile(true, 'nfts') }, 5);
     } else {
       nftsInterval = setInterval(() => { slideBarPC(true, 'nfts') }, 5);
@@ -30,7 +35,7 @@ function handleNFTsBar() {
     iconHandle('nfts');
     BG.style.display = 'block';
   } else {
-    if (window.outerWidth <= 600) {
+    if (width <= 600) {
       nftsInterval = setInterval(() => { slideBarMobile(false, 'nfts') }, 5);
     } else {
       nftsInterval = setInterval(() => { slideBarPC(false, 'nfts') }, 5);
@@ -44,12 +49,10 @@ function handleNFTsBar() {
 
 //Episodes tab opening
 function handleEpisodesBar() {
-  const BG = document.querySelector('.bg');
-
   if (nftBarState) handleNFTsBar();
 
   if (!episodesBarState) {
-    if (window.outerWidth <= 600) {
+    if (width <= 600) {
       episodesInterval = setInterval(() => { slideBarMobile(true, 'episodes') }, 5);
     } else {
       episodesInterval = setInterval(() => { slideBarPC(true, 'episodes') }, 5);
@@ -58,7 +61,7 @@ function handleEpisodesBar() {
     iconHandle('episodes');
     BG.style.display = 'block';
   } else {
-    if (window.outerWidth <= 600) {
+    if (width <= 600) {
       episodesInterval = setInterval(() => { slideBarMobile(false, 'episodes') }, 5);
     } else {
       episodesInterval = setInterval(() => { slideBarPC(false, 'episodes') }, 5);
@@ -72,9 +75,7 @@ function handleEpisodesBar() {
 
 // Utility function for icons switching
 function iconHandle(tab) {
-  const nftIcon = document.querySelector('.nft-icon');
-  const episodesIcon = document.querySelector('.episodes-icon');
-  if (window.outerWidth <= 600) {
+  if (width <= 600) {
     if (tab === 'nfts') {
       if (nftBarState) {
         episodesIcon.style.zIndex = '19';
@@ -115,11 +116,6 @@ function iconHandle(tab) {
 
 // Utility function for PC tabs handling
 function slideBarPC(open, tab) {
-  const nftIcon = document.querySelector('.nft-icon');
-  const nftBar = document.querySelector('.nft-bar');
-  const episodesIcon = document.querySelector('.episodes-icon');
-  const episodesBar = document.querySelector('.episodes-bar');
-
   if (tab === 'nfts') {
     if (open) {
       if (nftsBarPosition == 80) {
@@ -161,10 +157,6 @@ function slideBarPC(open, tab) {
 
 // Utility function for Mobile tabs handling
 function slideBarMobile(open, tab) {
-  const nftIcon = document.querySelector('.nft-icon');
-  const nftBar = document.querySelector('.nft-bar');
-  const episodesIcon = document.querySelector('.episodes-icon');
-  const episodesBar = document.querySelector('.episodes-bar');
   if (open) {
     if (tab === 'nfts') {
       if (nftsBarPosition == 80) {
@@ -211,39 +203,42 @@ function slideBarMobile(open, tab) {
 
 
 
-<!-- --- Episodes tab --- -->
+<svelte:window bind:outerWidth={width} />
 
+
+<!-- --- Episodes tab --- -->
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <span
+  bind:this={episodesIcon}
   role="button"
   tabindex="0"
   class="episodes-icon"
   on:click={handleEpisodesBar}
 />
 
-<div class="episodes-bar">
+<div class="episodes-bar" bind:this={episodesBar}>
 
 </div>
 
 
-
 <!-- --- NFTs tab --- -->
-
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <span
+  bind:this={nftIcon}
   role="button" 
   tabindex="0"
   class="nft-icon"
   on:click={handleNFTsBar}
 />
 
-<div class="nft-bar">
+<div class="nft-bar" bind:this={nftBar}>
 
 </div>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
 a11y-no-static-element-interactions -->
-<div class="bg" on:click={closeActiveTab}></div>
+<div class="bg" on:click={closeActiveTab} bind:this={BG}></div>
+
 
 
 <style>
