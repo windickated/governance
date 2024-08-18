@@ -1,209 +1,209 @@
 <script>
-import { node } from "../stores/storyNode.js"
-import seasonOne from "../data/DischordianSaga-1.js"
+  import { node } from "../stores/storyNode.js"
+  import seasonOne from "../data/DischordianSaga-1.js"
 
-function switchEpisode() {$node = this.id };
+  function switchEpisode() {$node = this.id };
 
-let width;
-let nftIcon;
-let episodesIcon;
-let nftBar;
-let episodesBar;
-let BG;
+  let width;
+  let nftIcon;
+  let episodesIcon;
+  let nftBar;
+  let episodesBar;
+  let BG;
 
-let nftBarState = false;
-let episodesBarState = false;
+  let nftBarState = false;
+  let episodesBarState = false;
 
-let nftsBarPosition = nftBarState ? 80 : 0;
-let episodesBarPosition = episodesBarState ? 44 : 0;
+  let nftsBarPosition = nftBarState ? 80 : 0;
+  let episodesBarPosition = episodesBarState ? 44 : 0;
 
-let nftsInterval;
-let episodesInterval;
+  let nftsInterval;
+  let episodesInterval;
 
-function closeActiveTab() {
-  if (episodesBarState) handleEpisodesBar();
-  if (nftBarState) handleNFTsBar();
-}
-
-
-// NFTs tab opening
-function handleNFTsBar() {
-  if (episodesBarState) handleEpisodesBar();
-
-  if (!nftBarState) {
-    if (width <= 600) {
-      nftsInterval = setInterval(() => { slideBarMobile(true, 'nfts') }, 5);
-    } else {
-      nftsInterval = setInterval(() => { slideBarPC(true, 'nfts') }, 5);
-    }
-    nftBarState = true;
-    iconHandle('nfts');
-    BG.style.display = 'block';
-  } else {
-    if (width <= 600) {
-      nftsInterval = setInterval(() => { slideBarMobile(false, 'nfts') }, 5);
-    } else {
-      nftsInterval = setInterval(() => { slideBarPC(false, 'nfts') }, 5);
-    }
-    nftBarState = false;
-    iconHandle('nfts');
-    BG.style.display = 'none';
+  function closeActiveTab() {
+    if (episodesBarState) handleEpisodesBar();
+    if (nftBarState) handleNFTsBar();
   }
-}
 
 
-//Episodes tab opening
-function handleEpisodesBar() {
-  if (nftBarState) handleNFTsBar();
+  // NFTs tab opening
+  function handleNFTsBar() {
+    if (episodesBarState) handleEpisodesBar();
 
-  if (!episodesBarState) {
-    if (width <= 600) {
-      episodesInterval = setInterval(() => { slideBarMobile(true, 'episodes') }, 5);
-    } else {
-      episodesInterval = setInterval(() => { slideBarPC(true, 'episodes') }, 5);
-    }
-    episodesBarState = true;
-    iconHandle('episodes');
-    BG.style.display = 'block';
-  } else {
-    if (width <= 600) {
-      episodesInterval = setInterval(() => { slideBarMobile(false, 'episodes') }, 5);
-    } else {
-      episodesInterval = setInterval(() => { slideBarPC(false, 'episodes') }, 5);
-    }
-    episodesBarState = false;
-    iconHandle('episodes');
-    BG.style.display = 'none';
-  }
-}
-
-
-// Utility function for icons switching
-function iconHandle(tab) {
-  if (width <= 600) {
-    if (tab === 'nfts') {
-      if (nftBarState) {
-        episodesIcon.style.zIndex = '19';
-        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen-Inactive.avif')";
-        nftIcon.style.backgroundImage = "url('/sideIconMobileClose.avif')";
+    if (!nftBarState) {
+      if (width <= 600) {
+        nftsInterval = setInterval(() => { slideBarMobile(true, 'nfts') }, 5);
       } else {
-        episodesIcon.style.zIndex = '19';
-        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
-        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
+        nftsInterval = setInterval(() => { slideBarPC(true, 'nfts') }, 5);
+      }
+      nftBarState = true;
+      iconHandle('nfts');
+      BG.style.display = 'block';
+    } else {
+      if (width <= 600) {
+        nftsInterval = setInterval(() => { slideBarMobile(false, 'nfts') }, 5);
+      } else {
+        nftsInterval = setInterval(() => { slideBarPC(false, 'nfts') }, 5);
+      }
+      nftBarState = false;
+      iconHandle('nfts');
+      BG.style.display = 'none';
+    }
+  }
+
+
+  //Episodes tab opening
+  function handleEpisodesBar() {
+    if (nftBarState) handleNFTsBar();
+
+    if (!episodesBarState) {
+      if (width <= 600) {
+        episodesInterval = setInterval(() => { slideBarMobile(true, 'episodes') }, 5);
+      } else {
+        episodesInterval = setInterval(() => { slideBarPC(true, 'episodes') }, 5);
+      }
+      episodesBarState = true;
+      iconHandle('episodes');
+      BG.style.display = 'block';
+    } else {
+      if (width <= 600) {
+        episodesInterval = setInterval(() => { slideBarMobile(false, 'episodes') }, 5);
+      } else {
+        episodesInterval = setInterval(() => { slideBarPC(false, 'episodes') }, 5);
+      }
+      episodesBarState = false;
+      iconHandle('episodes');
+      BG.style.display = 'none';
+    }
+  }
+
+
+  // Utility function for icons switching
+  function iconHandle(tab) {
+    if (width <= 600) {
+      if (tab === 'nfts') {
+        if (nftBarState) {
+          episodesIcon.style.zIndex = '19';
+          episodesIcon.style.backgroundImage = "url('/episodesMobileOpen-Inactive.avif')";
+          nftIcon.style.backgroundImage = "url('/sideIconMobileClose.avif')";
+        } else {
+          episodesIcon.style.zIndex = '19';
+          episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
+          nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
+        }
+      } else if (tab === 'episodes') {
+        if (episodesBarState) {
+          episodesIcon.style.zIndex = '22';
+          episodesIcon.style.backgroundImage = "url('/episodesMobileClose.avif')";
+          nftIcon.style.backgroundImage = "url('/sideIconMobileOpen-Inactive.avif')";
+        } else {
+          episodesIcon.style.zIndex = '19';
+          episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
+          nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
+        }
+      }
+    } else {
+      if (tab === 'nfts') {
+        if (nftBarState) {
+          nftIcon.style.backgroundImage = "url('/sideIconPCClose.avif')";
+        } else {
+          nftIcon.style.backgroundImage = "url('/sideIconPCOpen.avif')";
+        }
+      } else if (tab === 'episodes') {
+        if (episodesBarState) {
+          episodesIcon.style.backgroundImage = "url('/episodesPCClose.avif')";
+        } else {
+          episodesIcon.style.backgroundImage = "url('/episodesPCOpen.avif')";
+        }
+      }
+    }
+  }
+
+  // Utility function for PC tabs handling
+  function slideBarPC(open, tab) {
+    if (tab === 'nfts') {
+      if (open) {
+        if (nftsBarPosition == 80) {
+          clearInterval(nftsInterval);
+        } else {
+          nftsBarPosition += 4;
+          nftIcon.style.right = `${nftsBarPosition}vw`;
+          nftBar.style.right = `${nftsBarPosition - 80}vw`;
+        }
+      } else {
+        if(nftsBarPosition == 0) {
+          clearInterval(nftsInterval);
+        } else {
+          nftsBarPosition -= 4;
+          nftIcon.style.right = `${nftsBarPosition}vw`;
+          nftBar.style.right = `${nftsBarPosition - 80}vw`;
+        }
       }
     } else if (tab === 'episodes') {
-      if (episodesBarState) {
-        episodesIcon.style.zIndex = '22';
-        episodesIcon.style.backgroundImage = "url('/episodesMobileClose.avif')";
-        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen-Inactive.avif')";
+      if (open) {
+        if (episodesBarPosition == 40) {
+          clearInterval(episodesInterval);
+        } else {
+          episodesBarPosition += 4;
+          episodesIcon.style.left = `${episodesBarPosition + 4}vw`;
+          episodesBar.style.left = `${episodesBarPosition - 40}vw`;
+        }
       } else {
-        episodesIcon.style.zIndex = '19';
-        episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
-        nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
-      }
-    }
-  } else {
-    if (tab === 'nfts') {
-      if (nftBarState) {
-        nftIcon.style.backgroundImage = "url('/sideIconPCClose.avif')";
-      } else {
-        nftIcon.style.backgroundImage = "url('/sideIconPCOpen.avif')";
-      }
-    } else if (tab === 'episodes') {
-      if (episodesBarState) {
-        episodesIcon.style.backgroundImage = "url('/episodesPCClose.avif')";
-      } else {
-        episodesIcon.style.backgroundImage = "url('/episodesPCOpen.avif')";
+        if(episodesBarPosition == 0) {
+          clearInterval(episodesInterval);
+        } else {
+          episodesBarPosition -= 4;
+          episodesIcon.style.left = `${episodesBarPosition}vw`;
+          episodesBar.style.left = `${episodesBarPosition - 44}vw`;
+        }
       }
     }
   }
-}
 
-// Utility function for PC tabs handling
-function slideBarPC(open, tab) {
-  if (tab === 'nfts') {
+  // Utility function for Mobile tabs handling
+  function slideBarMobile(open, tab) {
     if (open) {
-      if (nftsBarPosition == 80) {
-        clearInterval(nftsInterval);
-      } else {
-        nftsBarPosition += 4;
-        nftIcon.style.right = `${nftsBarPosition}vw`;
-        nftBar.style.right = `${nftsBarPosition - 80}vw`;
+      if (tab === 'nfts') {
+        if (nftsBarPosition == 80) {
+          clearInterval(nftsInterval);
+        } else {
+          nftsBarPosition += 4;
+          if (!episodesBarState) episodesIcon.style.top = `${nftsBarPosition}%`;
+          nftIcon.style.top = `${nftsBarPosition}%`;
+          nftBar.style.top = `${nftsBarPosition - 80}%`;
+        }
+      } else if (tab === 'episodes') {
+        if (episodesBarPosition == 80) {
+          clearInterval(episodesInterval);
+        } else {
+          episodesBarPosition += 4;
+          if (!nftBarState) nftIcon.style.top = `${episodesBarPosition}%`;
+          episodesIcon.style.top = `${episodesBarPosition}%`;
+          episodesBar.style.top = `${episodesBarPosition - 80}%`;
+        }
       }
     } else {
-      if(nftsBarPosition == 0) {
-        clearInterval(nftsInterval);
-      } else {
-        nftsBarPosition -= 4;
-        nftIcon.style.right = `${nftsBarPosition}vw`;
-        nftBar.style.right = `${nftsBarPosition - 80}vw`;
-      }
-    }
-  } else if (tab === 'episodes') {
-    if (open) {
-      if (episodesBarPosition == 40) {
-        clearInterval(episodesInterval);
-      } else {
-        episodesBarPosition += 4;
-        episodesIcon.style.left = `${episodesBarPosition + 4}vw`;
-        episodesBar.style.left = `${episodesBarPosition - 40}vw`;
-      }
-    } else {
-      if(episodesBarPosition == 0) {
-        clearInterval(episodesInterval);
-      } else {
-        episodesBarPosition -= 4;
-        episodesIcon.style.left = `${episodesBarPosition}vw`;
-        episodesBar.style.left = `${episodesBarPosition - 44}vw`;
+      if (tab === 'nfts') {
+        if(nftsBarPosition == 0) {
+          clearInterval(nftsInterval);
+        } else {
+          nftsBarPosition -= 4;
+          if (!episodesBarState) episodesIcon.style.top = `${nftsBarPosition}%`;
+          nftIcon.style.top = `${nftsBarPosition}%`;
+          nftBar.style.top = `${nftsBarPosition - 80}%`;
+        }
+      } else if (tab === 'episodes') {
+        if(episodesBarPosition == 0) {
+          clearInterval(episodesInterval);
+        } else {
+          episodesBarPosition -= 4;
+          if (!nftBarState) nftIcon.style.top = `${episodesBarPosition}%`;
+          episodesIcon.style.top = `${episodesBarPosition}%`;
+          episodesBar.style.top = `${episodesBarPosition - 80}%`;
+        }
       }
     }
   }
-}
-
-// Utility function for Mobile tabs handling
-function slideBarMobile(open, tab) {
-  if (open) {
-    if (tab === 'nfts') {
-      if (nftsBarPosition == 80) {
-        clearInterval(nftsInterval);
-      } else {
-        nftsBarPosition += 4;
-        if (!episodesBarState) episodesIcon.style.top = `${nftsBarPosition}%`;
-        nftIcon.style.top = `${nftsBarPosition}%`;
-        nftBar.style.top = `${nftsBarPosition - 80}%`;
-      }
-    } else if (tab === 'episodes') {
-      if (episodesBarPosition == 80) {
-        clearInterval(episodesInterval);
-      } else {
-        episodesBarPosition += 4;
-        if (!nftBarState) nftIcon.style.top = `${episodesBarPosition}%`;
-        episodesIcon.style.top = `${episodesBarPosition}%`;
-        episodesBar.style.top = `${episodesBarPosition - 80}%`;
-      }
-    }
-  } else {
-    if (tab === 'nfts') {
-      if(nftsBarPosition == 0) {
-        clearInterval(nftsInterval);
-      } else {
-        nftsBarPosition -= 4;
-        if (!episodesBarState) episodesIcon.style.top = `${nftsBarPosition}%`;
-        nftIcon.style.top = `${nftsBarPosition}%`;
-        nftBar.style.top = `${nftsBarPosition - 80}%`;
-      }
-    } else if (tab === 'episodes') {
-      if(episodesBarPosition == 0) {
-        clearInterval(episodesInterval);
-      } else {
-        episodesBarPosition -= 4;
-        if (!nftBarState) nftIcon.style.top = `${episodesBarPosition}%`;
-        episodesIcon.style.top = `${episodesBarPosition}%`;
-        episodesBar.style.top = `${episodesBarPosition - 80}%`;
-      }
-    }
-  }
-}
 </script>
 
 

@@ -1,77 +1,77 @@
 <script>
-import { afterUpdate } from "svelte"
-import { node } from "../stores/storyNode.js"
-import seasonOne from "../data/DischordianSaga-1.js"
+  import { afterUpdate } from "svelte"
+  import { node } from "../stores/storyNode.js"
+  import seasonOne from "../data/DischordianSaga-1.js"
 
-afterUpdate(resizeOptions);
+  afterUpdate(resizeOptions);
 
-let nodeNumber;
-let isEnded;
+  let nodeNumber;
+  let isEnded;
 
-node.subscribe(number => {
-  nodeNumber = number;
-})
+  node.subscribe(number => {
+    nodeNumber = number;
+  })
 
-$: storyNode = {
-  title: seasonOne[nodeNumber - 1].storyTitle,
-  duration: getStoryDate(),
-  video: `https://www.youtube.com/embed/${seasonOne[nodeNumber - 1].videoLink}`,
-  text: seasonOne[nodeNumber - 1].storyText,
-  options: seasonOne[nodeNumber - 1].storyOptions
-}
-
-
-function getStoryDate() {
-  let dateStart = new Date(seasonOne[nodeNumber - 1].storyDuration[0]);
-  let dateEnd = new Date(seasonOne[nodeNumber - 1].storyDuration[1]);
-
-  let dayStart = ('0' + dateStart.getDate()).slice(-2);
-  let dayEnd = ('0' + dateEnd.getDate()).slice(-2);
-  let monthStart = ('0' + (dateStart.getMonth() + 1)).slice(-2);
-  let monthEnd = ('0' + (dateEnd.getMonth() + 1)).slice(-2);
-  let yearStart = dateStart.getFullYear();
-  let yearEnd = dateEnd.getFullYear();
-
-  let fullDateStart = `${dayStart}.${monthStart}.${yearStart}`;
-  let fullDateEnd = `${dayEnd}.${monthEnd}.${yearEnd}`;
-
-  let fullDate = 'Duration: ' + fullDateStart + ' - ' + fullDateEnd;
-
-  let dateNow = new Date();
-  isEnded = (dateNow > dateEnd) ? true : false;
-
-  return fullDate;
-}
-
-let width;
-let optionsContainer;
-function resizeOptions() {
-  const optionsCounter = seasonOne[nodeNumber - 1].storyOptions.length;
-  if(width >= 600) {
-    if(optionsCounter == 5) {
-      optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
-      optionsContainer.style.paddingTop = `${9/optionsCounter}vw`;
-      optionsContainer.style.height = '23.5vw';
-    } else if(optionsCounter == 4) {
-      optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
-      optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
-      optionsContainer.style.height = '23.5vw';
-    } else {
-      optionsContainer.style.fontSize = '2.5vw';
-      if(optionsCounter == 3) {
-        optionsContainer.style.paddingTop = '5vw';
-        optionsContainer.style.height = '21vw';
-      } else {
-        optionsContainer.style.paddingTop = '7vw';
-        optionsContainer.style.height = '19vw';
-      }
-    }
-  } else {
-    optionsContainer.style.fontSize = '1.1em';
-    optionsContainer.style.paddingTop = '2vw';
-    optionsContainer.style.height = 'auto';
+  $: storyNode = {
+    title: seasonOne[nodeNumber - 1].storyTitle,
+    duration: getStoryDate(),
+    video: `https://www.youtube.com/embed/${seasonOne[nodeNumber - 1].videoLink}`,
+    text: seasonOne[nodeNumber - 1].storyText,
+    options: seasonOne[nodeNumber - 1].storyOptions
   }
-}
+
+
+  function getStoryDate() {
+    let dateStart = new Date(seasonOne[nodeNumber - 1].storyDuration[0]);
+    let dateEnd = new Date(seasonOne[nodeNumber - 1].storyDuration[1]);
+
+    let dayStart = ('0' + dateStart.getDate()).slice(-2);
+    let dayEnd = ('0' + dateEnd.getDate()).slice(-2);
+    let monthStart = ('0' + (dateStart.getMonth() + 1)).slice(-2);
+    let monthEnd = ('0' + (dateEnd.getMonth() + 1)).slice(-2);
+    let yearStart = dateStart.getFullYear();
+    let yearEnd = dateEnd.getFullYear();
+
+    let fullDateStart = `${dayStart}.${monthStart}.${yearStart}`;
+    let fullDateEnd = `${dayEnd}.${monthEnd}.${yearEnd}`;
+
+    let fullDate = 'Duration: ' + fullDateStart + ' - ' + fullDateEnd;
+
+    let dateNow = new Date();
+    isEnded = (dateNow > dateEnd) ? true : false;
+
+    return fullDate;
+  }
+
+  let width;
+  let optionsContainer;
+  function resizeOptions() {
+    const optionsCounter = seasonOne[nodeNumber - 1].storyOptions.length;
+    if(width >= 600) {
+      if(optionsCounter == 5) {
+        optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
+        optionsContainer.style.paddingTop = `${9/optionsCounter}vw`;
+        optionsContainer.style.height = '23.5vw';
+      } else if(optionsCounter == 4) {
+        optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
+        optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
+        optionsContainer.style.height = '23.5vw';
+      } else {
+        optionsContainer.style.fontSize = '2.5vw';
+        if(optionsCounter == 3) {
+          optionsContainer.style.paddingTop = '5vw';
+          optionsContainer.style.height = '21vw';
+        } else {
+          optionsContainer.style.paddingTop = '7vw';
+          optionsContainer.style.height = '19vw';
+        }
+      }
+    } else {
+      optionsContainer.style.fontSize = '1.1em';
+      optionsContainer.style.paddingTop = '2vw';
+      optionsContainer.style.height = 'auto';
+    }
+  }
 </script>
 
 

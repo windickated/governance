@@ -1,98 +1,98 @@
 <script>
-import { node, lastNodeNumber } from "../stores/storyNode.js"
+  import { node, lastNodeNumber } from "../stores/storyNode.js"
 
-let nodeNumber;
-node.subscribe(number => {
-  nodeNumber = number;
-})
+  let nodeNumber;
+  node.subscribe(number => {
+    nodeNumber = number;
+  })
 
-const consolePanel = {
-  buttons: [
-    {
-      id: "conexus",
-      image: "/conexus.avif",
-      hover: "/conexus-hover.avif",
-      click: "/conexus-active.avif",
-      size: "big"
-    },
-    {
-      id: "back",
-      image: "/back.avif",
-      hover: "/back-hover.avif",
-      click: "/back-active.avif",
-      size: "small"
-    },
-    {
-      id: "omnihub",
-      image: "/omnihub-inactive.avif", ///omnihub.avif
-      hover: "/omnihub-hover.avif",
-      click: "/omnihub-active.avif",
-      size: "big"
-    },
-    {
-      id: "forward",
-      image: "/forward.avif",
-      hover: "/forward-hover.avif",
-      click: "/forward-active.avif",
-      size: "small"
-    },
-    {
-      id: "sagaverse",
-      image: "/sagaverse.avif",
-      hover: "/sagaverse-hover.avif",
-      click: "/sagaverse-active.avif",
-      size: "big"
+  const consolePanel = {
+    buttons: [
+      {
+        id: "conexus",
+        image: "/conexus.avif",
+        hover: "/conexus-hover.avif",
+        click: "/conexus-active.avif",
+        size: "big"
+      },
+      {
+        id: "back",
+        image: "/back.avif",
+        hover: "/back-hover.avif",
+        click: "/back-active.avif",
+        size: "small"
+      },
+      {
+        id: "omnihub",
+        image: "/omnihub-inactive.avif", ///omnihub.avif
+        hover: "/omnihub-hover.avif",
+        click: "/omnihub-active.avif",
+        size: "big"
+      },
+      {
+        id: "forward",
+        image: "/forward.avif",
+        hover: "/forward-hover.avif",
+        click: "/forward-active.avif",
+        size: "small"
+      },
+      {
+        id: "sagaverse",
+        image: "/sagaverse.avif",
+        hover: "/sagaverse-hover.avif",
+        click: "/sagaverse-active.avif",
+        size: "big"
+      }
+    ],
+    console: {
+      fullsize: "/console.avif",
+      mobilesize: "/consoleMobile.avif"
     }
-  ],
-  console: {
-    fullsize: "/console.avif",
-    mobilesize: "/consoleMobile.avif"
   }
-}
 
-const consoleButtonsHandle = (event, id, isActive = false) => {
-  if (id != 'omnihub') { //temporarily disabled Omnihub
-    const button = document.getElementById(id);
-    const buttonHover = document.getElementById(`${id}-hover`);
-    const buttonActive = document.getElementById(`${id}-active`);
-    if (event.type === 'click') {
-      button.style.display = 'none';
-      buttonHover.style.display = 'none';
-      buttonActive.style.display = 'block';
-    } else if (event.type === 'mouseover' && !isActive) {
-      button.style.display = 'none';
-      buttonHover.style.display = 'block';
-      buttonActive.style.display = 'none';
-    } else if (isActive) {
-      button.style.display = 'none';
-      buttonActive.style.display = 'block';
-      setTimeout(() => {
-        button.style.display = 'block';
+  const consoleButtonsHandle = (event, id, isActive = false) => {
+    if (id != 'omnihub') { //temporarily disabled Omnihub
+      const button = document.getElementById(id);
+      const buttonHover = document.getElementById(`${id}-hover`);
+      const buttonActive = document.getElementById(`${id}-active`);
+      if (event.type === 'click') {
+        button.style.display = 'none';
+        buttonHover.style.display = 'none';
+        buttonActive.style.display = 'block';
+      } else if (event.type === 'mouseover' && !isActive) {
+        button.style.display = 'none';
+        buttonHover.style.display = 'block';
         buttonActive.style.display = 'none';
-        switch (id) {
-          case 'sagaverse':
-            window.open('https://sagaverse.vercel.app', '_blank');
-            break;
-          case 'conexus':
-            window.open('https://conexus.vercel.app', '_blank');
-            break;
-          case 'back':
-            if (nodeNumber != 1) nodeNumber --;
-            $node = nodeNumber;
-            break;
-          case 'forward':
-            if (nodeNumber != lastNodeNumber) nodeNumber ++;
-            $node = nodeNumber;
-            break;
-        }
-      }, 150)
-    } else if (event.type === 'mouseout') {
-      button.style.display = 'block';
-      buttonHover.style.display = 'none';
-      buttonActive.style.display = 'none';
+      } else if (isActive) {
+        button.style.display = 'none';
+        buttonActive.style.display = 'block';
+        setTimeout(() => {
+          button.style.display = 'block';
+          buttonActive.style.display = 'none';
+          switch (id) {
+            case 'sagaverse':
+              window.open('https://sagaverse.vercel.app', '_blank');
+              break;
+            case 'conexus':
+              window.open('https://conexus.vercel.app', '_blank');
+              break;
+            case 'back':
+              if (nodeNumber != 1) nodeNumber --;
+              $node = nodeNumber;
+              break;
+            case 'forward':
+              if (nodeNumber != lastNodeNumber) nodeNumber ++;
+              $node = nodeNumber;
+              break;
+          }
+        }, 150)
+      } else if (event.type === 'mouseout') {
+        button.style.display = 'block';
+        buttonHover.style.display = 'none';
+        buttonActive.style.display = 'none';
+      }
     }
   }
-}
 </script>
 
 
