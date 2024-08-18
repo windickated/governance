@@ -62,8 +62,6 @@
   }
 
 
-
-
   /* --- TABS HANDLING --- */
 
   let width;
@@ -298,6 +296,7 @@
           alt="Episode {episode.episode}"
         />
         <p class="episode-title">{episode.storyTitle}</p>
+        <p class="episode-number">Episode {episode.episode}</p>
       </div>
     {/each}
   </div>
@@ -344,6 +343,7 @@
     </div>
   {/if}
 </div>
+
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
 a11y-no-static-element-interactions -->
@@ -475,6 +475,13 @@ a11y-no-static-element-interactions -->
     font-size: 2.5vw;
     line-height: 3vw;
     text-shadow: 0 0 0.1vw #010020;
+  }
+
+  .episode-number {
+    text-align: center;
+    font-size: 2vw;
+    padding-top: 0.5vw;
+    opacity: 0.75;
   }
 
   .episode:hover {
@@ -638,7 +645,7 @@ a11y-no-static-element-interactions -->
     }
 
     .episode-image {
-      height: 50vw;
+      height: 48vw;
     }
 
     .episode-title {
@@ -646,6 +653,10 @@ a11y-no-static-element-interactions -->
       font-size: 1.2em;
       line-height: 1.5em;
       width: 95%;
+    }
+
+    .episode-number {
+      font-size: inherit;
     }
 
     .wallet-container {
