@@ -13,6 +13,28 @@
   let walletButton;
   let isConnected = false;
 
+  const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
+  class nftTile {
+    constructor(data, i) {
+      this.name = data[i].name;
+      this.image = data[i].image;
+      this.class = data[i].attributes[5].value;
+      this.clicked = false;
+      this.active = true;
+    } 
+  }
+  const potentials = [];
+
+  const getNFTs = async () => { //test func
+    const metadata = [];
+    for(let i in nftNumbers) {
+      const response = await fetch(`https://api.degenerousdao.com/nft/data/${nftNumbers[i]}`);
+      metadata[i] = await response.json();
+      potentials[i] = new nftTile(metadata, i);
+    }
+    console.log(potentials)
+  }
+
   function connectWallet() { //test func
     isConnected = !isConnected;
     if (isConnected) {
@@ -25,6 +47,7 @@
       wallet.innerHTML = '0xeb0a...60c1';
       walletContainer.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
       walletContainer.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))';
+      getNFTs();
     } else {
       walletButton.innerHTML = 'Connect wallet';
       walletButton.style.backgroundColor = '#161E5F';
@@ -37,6 +60,8 @@
       walletContainer.style.backgroundColor = 'rgba(51, 226, 230, 0.5)';
     }
   }
+
+
 
 
   /* --- TABS HANDLING --- */
@@ -303,6 +328,21 @@
       Connect wallet
     </button>
   </div>
+  {#if isConnected}
+    <div class="nfts-legend">
+      <p class="nfts-total">Total NFTs: {potentials.length}</p>
+      <p class="nfts-selected">Selected NFTs: 0</p>
+    </div>
+    <div class="nfts-container">
+      {#each potentials as NFT}
+        <div class="nft" id={NFT.name}>
+          <img class="nft-image" src={NFT.image} alt={NFT.name} />
+          <p class="nft-name">{ NFT.name }</p>
+          <p class="nft-class">{ NFT.class }</p>
+        </div>
+      {/each}
+    </div>
+  {/if}
 </div>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
@@ -490,6 +530,76 @@ a11y-no-static-element-interactions -->
     color: #33E2E6;
   }
 
+  .nfts-legend {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+
+  .nfts-total, .nfts-selected {
+    color: #33E2E6;
+    -webkit-text-stroke: 0.1vw #33E2E6;
+    padding-top: 2.5vw;
+    padding-bottom: 1vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    font-size: 2vw;
+  }
+
+  .nfts-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1vw 2vw;
+  }
+
+  .nft {
+    position: relative;
+    box-sizing: border-box;
+    width: 17vw;
+    height: 23vw;
+    background-color: rgba(22, 30, 95, 0.75);
+    margin: 1vw;
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1.5vw;
+    padding-bottom: 1vw;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    filter: drop-shadow(0 0 0.1vw #010020);
+  }
+
+  .nft:hover {
+    background-color: rgba(22, 30, 95, 1);
+    filter: drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1));
+  }
+
+  .nft:active {
+    background-color: #2441BD;
+    filter: drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1));
+    color: #33E2E6;
+  }
+
+  .nft-image {
+    object-fit: cover;
+    height: 70%;
+    width: 95%;
+    margin: 2.5%;
+    border: 0.05vw solid #33E2E6;
+    border-radius: 1vw;
+  }
+
+  .nft-name {
+    font-size: 2vw;
+    line-height: 2.5vw;
+  }
+
+  .nft-class {
+    font-size: 1.5vw;
+    line-height: 2.5vw;
+  }
+
 
   @media screen and (max-width: 600px) {
     .nft-icon {
@@ -557,6 +667,24 @@ a11y-no-static-element-interactions -->
       font-size: inherit;
       width: 38vw;
       height: 10vw;
+    }
+
+    .nfts-total, .nfts-selected {
+      font-size: inherit;
+    }
+
+    .nft {
+      width: 46vw;
+      height: 60vw;
+      padding-bottom: 4vw;
+    }
+
+    .nft-name {
+      font-size: 1.2em;
+    }
+
+    .nft-class {
+      font-size: 0.9em;
     }
   }
 </style>
