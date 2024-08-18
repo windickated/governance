@@ -4,6 +4,43 @@
 
   function switchEpisode() {$node = this.id };
 
+
+  /* --- NFTs tab --- */
+
+  let walletContainer;
+  let walletLegend;
+  let wallet;
+  let walletButton;
+  let isConnected = false;
+
+  function connectWallet() { //test func
+    isConnected = !isConnected;
+    if (isConnected) {
+      walletButton.innerHTML = 'Disconect';
+      walletButton.style.backgroundColor = 'rgba(51, 226, 230, 0.9)';
+      walletButton.style.color = '#010020';
+      walletLegend.style.color = '#33E2E6';
+      walletLegend.style.display = 'none';
+      wallet.style.display = 'block';
+      wallet.innerHTML = '0xeb0a...60c1';
+      walletContainer.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
+      walletContainer.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))';
+    } else {
+      walletButton.innerHTML = 'Connect wallet';
+      walletButton.style.backgroundColor = '#161E5F';
+      walletButton.style.color = '#33E2E6';
+      walletLegend.style.color = '#010020';
+      walletLegend.style.display = 'block';
+      wallet.style.display = 'none';
+      wallet.innerHTML = '';
+      walletContainer.style.filter = 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))';
+      walletContainer.style.backgroundColor = 'rgba(51, 226, 230, 0.5)';
+    }
+  }
+
+
+  /* --- TABS HANDLING --- */
+
   let width;
   let nftIcon;
   let episodesIcon;
@@ -24,7 +61,6 @@
     if (episodesBarState) handleEpisodesBar();
     if (nftBarState) handleNFTsBar();
   }
-
 
   // NFTs tab opening
   function handleNFTsBar() {
@@ -51,7 +87,6 @@
     }
   }
 
-
   //Episodes tab opening
   function handleEpisodesBar() {
     if (nftBarState) handleNFTsBar();
@@ -76,7 +111,6 @@
       BG.style.display = 'none';
     }
   }
-
 
   // Utility function for icons switching
   function iconHandle(tab) {
@@ -256,10 +290,18 @@
 />
 
 <div class="nft-bar" bind:this={nftBar}>
-  <div class="wallet-container">
-    <p class="wallet-legend">Connect Web3 Wallet:</p>
-    <p class="wallet"></p>
-    <button class="wallet-connect">Connect wallet</button>
+  <div class="wallet-container" bind:this={walletContainer}>
+    <p class="wallet-legend" bind:this={walletLegend}>
+      Connect Web3 Wallet:
+    </p>
+    <p class="wallet" bind:this={wallet}></p>
+    <button
+      class="wallet-connect"
+      bind:this={walletButton}
+      on:click={connectWallet}
+    >
+      Connect wallet
+    </button>
   </div>
 </div>
 
@@ -446,10 +488,6 @@ a11y-no-static-element-interactions -->
     font-size: 2vw;
     background-color: #161E5F;
     color: #33E2E6;
-  }
-
-  .wallet-connect:hover, .wallet-connect:active {
-    background-color: rgba(22, 30, 95, 0.75);
   }
 
 
