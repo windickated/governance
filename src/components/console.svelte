@@ -2,7 +2,6 @@
 import { node, lastNodeNumber } from "../stores/storyNode.js"
 
 let nodeNumber;
-
 node.subscribe(number => {
   nodeNumber = number;
 })

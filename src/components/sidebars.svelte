@@ -1,5 +1,8 @@
 <script>
+import { node } from "../stores/storyNode.js"
 import seasonOne from "../data/DischordianSaga-1.js"
+
+function switchEpisode() {$node = this.id };
 
 let width;
 let nftIcon;
@@ -220,9 +223,16 @@ function slideBarMobile(open, tab) {
 
 <div class="episodes-bar" bind:this={episodesBar}>
   <p class="episodes-legend">The Dishordian Saga</p>
+  <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
   <div class="episodes-container">
     {#each seasonOne as episode}
-      <div class="episode">
+      <div
+        role="button"
+        tabindex="0"
+        class="episode"
+        id={episode.episode}
+        on:click={switchEpisode}
+      >
         <img
           class="episode-image"
           src="https://img.youtube.com/vi/{episode.videoLink}/hqdefault.jpg"

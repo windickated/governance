@@ -90,7 +90,11 @@ function resizeOptions() {
     <h2 class="duration">{ storyNode.duration }</h2>
   </div>
 
-  <div class="text">{storyNode.text}</div>
+  <div class="text">
+    {#each storyNode.text as paragraph}
+      <p class="text-paragraph">{ paragraph }</p>
+    {/each}
+  </div>
 
   <ul class="options" bind:this={optionsContainer}>
     {#each storyNode.options as option}
@@ -172,6 +176,10 @@ function resizeOptions() {
     border-radius: auto;
     color: #bebebe;
     display: none;
+  }
+
+  .text-paragraph {
+    padding-bottom: 2vw;
   }
 
   .visible {
@@ -272,8 +280,8 @@ function resizeOptions() {
       left: auto;
       overflow-y: auto;
       height: auto;
-      font-size: inherit;
-      line-height: inherit;
+      font-size: 1em;
+      line-height: 1.5em;
       margin-bottom: 2vw;
       background-color: rgba(22, 30, 95, 0.75);
       -webkit-backdrop-filter: blur(2vw);
