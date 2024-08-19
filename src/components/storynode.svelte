@@ -3,6 +3,7 @@
   import { season, node } from "../stores/storyNode.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
+
   let seasonNumber;
   let nodeNumber;
   let isEnded;
@@ -20,7 +21,6 @@
     text: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyText : '',
     options: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions : ''
   }
-
 
   function getStoryDate() {
     let dateStart = new Date(DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[0]);

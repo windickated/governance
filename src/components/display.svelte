@@ -57,6 +57,7 @@
 </script>
 
 
+
 <div class="display-screen">
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
   <!-- svelte-ignore a11y-mouse-events-have-key-events -->
@@ -137,6 +138,7 @@
     <img src={displayScreen.display.BG} alt="Background" />
   </picture>
 </div>
+
 
 
 <style>

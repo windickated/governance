@@ -1,9 +1,24 @@
 <script>
+  import { afterUpdate } from "svelte";
   import { season, node, lastNodeNumber } from "../stores/storyNode.js"
 
 
+  let width;
+  let consoleBar;
   let seasonNumber;
   let nodeNumber;
+
+  afterUpdate(() => {
+    if (width <= 600) {
+      if (!nodeNumber) {
+        consoleBar.style.position = 'fixed';
+        consoleBar.style.bottom = '0';
+      } else {
+        consoleBar.style.position = 'relative';
+        consoleBar.style.bottom = '';
+      }
+    }
+  })
 
   season.subscribe(number => { seasonNumber = number });
 
@@ -103,7 +118,11 @@
 </script>
 
 
-<div class="console-panel">
+
+<svelte:window bind:outerWidth={width} />
+
+
+<div class="console-panel" bind:this={consoleBar}>
   <div class="console-buttons">
     {#each consolePanel.buttons as button}
       <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -142,6 +161,7 @@
     <img src={consolePanel.console.fullsize} alt="Console" />
   </picture>
 </div>
+
 
 
 <style>
