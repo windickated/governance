@@ -3,21 +3,21 @@
   import { node } from "../stores/storyNode.js"
   import seasonOne from "../data/DischordianSaga-1.js"
 
-  afterUpdate(resizeOptions);
-
   let nodeNumber;
   let isEnded;
+
+  afterUpdate(resizeOptions);
 
   node.subscribe(number => {
     nodeNumber = number;
   })
 
   $: storyNode = {
-    title: seasonOne[nodeNumber - 1].storyTitle,
-    duration: getStoryDate(),
-    video: `https://www.youtube.com/embed/${seasonOne[nodeNumber - 1].videoLink}`,
-    text: seasonOne[nodeNumber - 1].storyText,
-    options: seasonOne[nodeNumber - 1].storyOptions
+    title: nodeNumber ? seasonOne[nodeNumber - 1].storyTitle : '',
+    duration: nodeNumber ? getStoryDate() : '',
+    video: nodeNumber ? `https://www.youtube.com/embed/${seasonOne[nodeNumber - 1].videoLink}` : '',
+    text: nodeNumber ? seasonOne[nodeNumber - 1].storyText : '',
+    options: nodeNumber ? seasonOne[nodeNumber - 1].storyOptions : ''
   }
 
 
@@ -46,30 +46,32 @@
   let width;
   let optionsContainer;
   function resizeOptions() {
-    const optionsCounter = seasonOne[nodeNumber - 1].storyOptions.length;
-    if(width >= 600) {
-      if(optionsCounter == 5) {
-        optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
-        optionsContainer.style.paddingTop = `${9/optionsCounter}vw`;
-        optionsContainer.style.height = '23.5vw';
-      } else if(optionsCounter == 4) {
-        optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
-        optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
-        optionsContainer.style.height = '23.5vw';
-      } else {
-        optionsContainer.style.fontSize = '2.5vw';
-        if(optionsCounter == 3) {
-          optionsContainer.style.paddingTop = '5vw';
-          optionsContainer.style.height = '21vw';
+    if(nodeNumber) {
+      const optionsCounter = seasonOne[nodeNumber - 1].storyOptions.length;
+      if(width >= 600) {
+        if(optionsCounter == 5) {
+          optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
+          optionsContainer.style.paddingTop = `${9/optionsCounter}vw`;
+          optionsContainer.style.height = '23.5vw';
+        } else if(optionsCounter == 4) {
+          optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
+          optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
+          optionsContainer.style.height = '23.5vw';
         } else {
-          optionsContainer.style.paddingTop = '7vw';
-          optionsContainer.style.height = '19vw';
+          optionsContainer.style.fontSize = '2.5vw';
+          if(optionsCounter == 3) {
+            optionsContainer.style.paddingTop = '5vw';
+            optionsContainer.style.height = '21vw';
+          } else {
+            optionsContainer.style.paddingTop = '7vw';
+            optionsContainer.style.height = '19vw';
+          }
         }
+      } else {
+        optionsContainer.style.fontSize = '1.1em';
+        optionsContainer.style.paddingTop = '2vw';
+        optionsContainer.style.height = 'auto';
       }
-    } else {
-      optionsContainer.style.fontSize = '1.1em';
-      optionsContainer.style.paddingTop = '2vw';
-      optionsContainer.style.height = 'auto';
     }
   }
 </script>
@@ -81,32 +83,38 @@
 
 <section class="story-node-wraper">
 
-  <iframe src={storyNode.video} class="video visible" title="YouTube" allowfullscreen />
+    <iframe src={storyNode.video} class="video visible" title="YouTube" allowfullscreen />
 
-  <div class="legend">
-    <h1 class="header">
-      The Dischordian Saga: { storyNode.title } - Episode { nodeNumber }
-    </h1>
-    <h2 class="duration">{ storyNode.duration }</h2>
-  </div>
+    <div class="legend">
+      {#if nodeNumber}
+        <h1 class="header">
+            The Dischordian Saga: { storyNode.title } - Episode { nodeNumber }
+        </h1>
+        <h2 class="duration">{ storyNode.duration }</h2>
+      {:else}
+        <h1 class="empty-header">Select episode</h1>
+      {/if}
+    </div>
 
-  <div class="text">
-    {#each storyNode.text as paragraph}
-      <p class="text-paragraph">{ paragraph }</p>
-    {/each}
-  </div>
+    {#if nodeNumber}
+      <div class="text">
+        {#each storyNode.text as paragraph}
+          <p class="text-paragraph">{ paragraph }</p>
+        {/each}
+      </div>
 
-  <ul class="options" bind:this={optionsContainer}>
-    {#each storyNode.options as option}
-      <li class="option">
-        {option}
-      </li>
-    {/each}
-  </ul>
+      <ul class="options" bind:this={optionsContainer}>
+        {#each storyNode.options as option}
+          <li class="option">
+            {option}
+          </li>
+        {/each}
+      </ul>
 
-  <span class="voting-ended">
-    {isEnded ? "Voting ended" : "Voting active"}
-  </span>
+      <span class="voting-ended">
+        {isEnded ? "Voting ended" : "Voting active"}
+      </span>
+    {/if}
 
 </section>
 
@@ -140,6 +148,14 @@
     padding: 1.5vw;
     border: 0.1vw solid rgba(51, 226, 230, 0.5);
     border-radius: 2.5vw;
+  }
+
+  .empty-header {
+    font-size: 4vw;
+    text-align: center;
+    padding: 1vw 0;
+    color: #33E2E6;
+    opacity: 0.5;
   }
 
   .header {
@@ -308,6 +324,14 @@
       border-radius: 2.5vw;
       padding-top: 2vw;
       padding-bottom: 2vw;
+    }
+
+    .option {
+      margin-bottom: 0.5em;
+    }
+
+    .option:last-child {
+      margin-bottom: 0;
     }
 
     .voting-ended {

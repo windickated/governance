@@ -1,9 +1,41 @@
 <script>
+  import { afterUpdate } from "svelte";
   import { node } from "../stores/storyNode.js"
   import seasonOne from "../data/DischordianSaga-1.js"
 
-  function switchEpisode() {$node = this.id };
+  
+  let episodes;
 
+  let nodeNumber;
+  node.subscribe(number => {
+    nodeNumber = number;
+  })
+
+  afterUpdate(() => {
+    if (nodeNumber) activeEpisode(nodeNumber);
+  })
+
+  function switchEpisode() { $node = this.id };
+
+  function activeEpisode(id) {
+    episodes.childNodes.forEach(episode => {
+      if (id == episode.id) {
+        episode.style.color = '#010020';
+        episode.style.filter = 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.8))';
+      } else {
+        episode.style.color = 'inherit';
+        episode.style.filter = 'none';
+      }
+    })
+  }
+
+
+  const selectedNFTs = [];
+  function selectNFT() {
+    potentials[this.id].clicked = !potentials[this.id].clicked;
+    selectedNFTs.push(potentials[this.id]);
+    console.log(potentials[this.id])
+  }
 
   /* --- NFTs tab --- */
 
@@ -16,6 +48,7 @@
   const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
   class nftTile {
     constructor(data, i) {
+      this.id = i;
       this.name = data[i].name;
       this.image = data[i].image;
       this.class = data[i].attributes[5].value;
@@ -32,7 +65,6 @@
       metadata[i] = await response.json();
       potentials[i] = new nftTile(metadata, i);
     }
-    console.log(potentials)
   }
 
   function connectWallet() { //test func
@@ -281,7 +313,7 @@
 <div class="episodes-bar" bind:this={episodesBar}>
   <p class="episodes-legend">The Dishordian Saga</p>
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
-  <div class="episodes-container">
+  <div class="episodes-container" bind:this={episodes}>
     {#each seasonOne as episode}
       <div
         role="button"
@@ -330,11 +362,13 @@
   {#if isConnected}
     <div class="nfts-legend">
       <p class="nfts-total">Total NFTs: {potentials.length}</p>
-      <p class="nfts-selected">Selected NFTs: 0</p>
+      <p class="nfts-selected">Selected NFTs: {selectedNFTs.length}</p>
     </div>
     <div class="nfts-container">
       {#each potentials as NFT}
-        <div class="nft" id={NFT.name}>
+        <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
+        a11y-no-static-element-interactions -->
+        <div class="nft" id={NFT.id} on:click={selectNFT}>
           <img class="nft-image" src={NFT.image} alt={NFT.name} />
           <p class="nft-name">{ NFT.name }</p>
           <p class="nft-class">{ NFT.class }</p>
@@ -489,11 +523,6 @@ a11y-no-static-element-interactions -->
     color: #33E2E6;
   }
 
-  .episode:active {
-    color: #010020;
-    filter: drop-shadow(0 0 1vw rgba(51, 226, 230, 0.8));
-  }
-
   /* NFTs bar */
 
   .wallet-container {
@@ -605,6 +634,7 @@ a11y-no-static-element-interactions -->
   .nft-class {
     font-size: 1.5vw;
     line-height: 2.5vw;
+    opacity: 0.75;
   }
 
 

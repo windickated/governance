@@ -77,12 +77,16 @@
               window.open('https://conexus.vercel.app', '_blank');
               break;
             case 'back':
-              if (nodeNumber != 1) nodeNumber --;
-              $node = nodeNumber;
+              if (nodeNumber) {
+                if (nodeNumber != 1) nodeNumber --;
+                $node = nodeNumber;
+              }
               break;
             case 'forward':
-              if (nodeNumber != lastNodeNumber) nodeNumber ++;
-              $node = nodeNumber;
+              if (nodeNumber) {
+                if (nodeNumber != lastNodeNumber) nodeNumber ++;
+                $node = nodeNumber;
+              }
               break;
           }
         }, 150)
@@ -161,6 +165,7 @@
   .visible {
     display: block;
   }
+  
 
   @media screen and (width > 600px) {
     .console-panel {
