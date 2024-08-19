@@ -1,4 +1,5 @@
 const DischordianSaga = [
+  // Season 1
   [
     {
       episode: 1,
@@ -317,6 +318,7 @@ const DischordianSaga = [
       ]
     },
   ],
+  // Season 2
   [
     {
       episode: 1,

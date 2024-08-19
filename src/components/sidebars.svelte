@@ -16,6 +16,12 @@
 
   afterUpdate(() => { if (nodeNumber) activeEpisode(nodeNumber) });
 
+  function switchSeason() {
+    $season = this.value;
+    $node = undefined;
+    activeEpisode(0);
+  }
+
   function switchEpisode() { $node = this.id };
 
   function activeEpisode(id) {
@@ -312,7 +318,14 @@
 />
 
 <div class="episodes-bar" bind:this={episodesBar}>
-  <p class="episodes-legend">The Dishordian Saga</p>
+  <p class="season-title">The Dishordian Saga</p>
+  <select class="season" on:change={switchSeason}>
+    {#each DischordianSaga as season, number}
+      <option value={number + 1}>
+        Season {number + 1}
+      </option>
+    {/each}
+  </select>
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
   <div class="episodes-container" bind:this={episodes}>
     {#each DischordianSaga[seasonNumber - 1] as episode}
@@ -474,12 +487,29 @@ a11y-no-static-element-interactions -->
 
   /* EPISODES bar */
 
-  .episodes-legend {
+  .season-title {
     text-align: center;
     padding: 2vw;
-    font-size: 3vw;
+    font-size: 2.5vw;
     color: rgba(51, 226, 230, 0.9);
     filter: drop-shadow(0 0 1vw 5vw #33E2E6);
+  }
+
+  .season {
+    width: 35vw;
+    margin-inline: auto;
+    margin-top: 1vw;
+    margin-bottom: 2vw;
+    text-align: center;
+    font-size: 2vw;
+    padding: 1vw 0;
+    line-height: 3vw;
+    color: rgba(1, 0, 32, 0.9);
+    outline: none;
+    border: 0.1vw solid rgba(51, 226, 230, 0.5);
+    border-radius: 2vw;
+    background-color: rgba(51, 226, 230, 0.5);
+    cursor: pointer;
   }
 
   .episode {
@@ -656,23 +686,36 @@ a11y-no-static-element-interactions -->
     }
 
     .nft-bar, .episodes-bar {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
       width: 100vw;
       height: 80%;
       top: -80%;
       right: auto;
       left: 0;
+      padding: 0;
       background-image: none;
     }
 
-    .episodes-legend {
-      font-size: 5vw;
-      padding: 3vw;
+    .season-title {
+      font-size: 1.5em;
+      line-height: 3em;
+      padding: 0;
+    }
+
+    .season {
+      width: 80vw;
+      font-size: 1.2em;
+      line-height: 1.5em;
+      margin: 0;
+      margin-bottom: 1em;
     }
 
     .episode {
       width: 86vw;
-      margin: 4vw;
       margin-top: 0;
+      margin-bottom: 1em;
     }
 
     .episode-image {
