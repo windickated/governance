@@ -1,5 +1,11 @@
-import { writable } from "svelte/store";
-import seasonOne from "../data/DischordianSaga-1";
+import { writable } from "svelte/store"
+import DischordianSaga from "../data/DischordianSaga.js"
 
-export const lastNodeNumber = seasonOne.length;
+
+export let season = writable(1);
 export let node = writable(undefined);
+
+export const lastNodeNumber = [
+  DischordianSaga[0].length,
+  DischordianSaga[1].length
+];

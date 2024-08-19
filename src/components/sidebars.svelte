@@ -1,19 +1,18 @@
 <script>
-  import { afterUpdate } from "svelte";
-  import { node } from "../stores/storyNode.js"
-  import seasonOne from "../data/DischordianSaga-1.js"
+  import { afterUpdate } from "svelte"
+  import { season, node } from "../stores/storyNode.js"
+  import DischordianSaga from "../data/DischordianSaga.js"
 
-  
+
   let episodes;
-
+  let seasonNumber;
   let nodeNumber;
-  node.subscribe(number => {
-    nodeNumber = number;
-  })
 
-  afterUpdate(() => {
-    if (nodeNumber) activeEpisode(nodeNumber);
-  })
+  season.subscribe(number => { seasonNumber = number });
+
+  node.subscribe(number => { nodeNumber = number });
+
+  afterUpdate(() => { if (nodeNumber) activeEpisode(nodeNumber) });
 
   function switchEpisode() { $node = this.id };
 
@@ -314,7 +313,7 @@
   <p class="episodes-legend">The Dishordian Saga</p>
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
   <div class="episodes-container" bind:this={episodes}>
-    {#each seasonOne as episode}
+    {#each DischordianSaga[seasonNumber - 1] as episode}
       <div
         role="button"
         tabindex="0"

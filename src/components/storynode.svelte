@@ -1,29 +1,30 @@
 <script>
   import { afterUpdate } from "svelte"
-  import { node } from "../stores/storyNode.js"
-  import seasonOne from "../data/DischordianSaga-1.js"
+  import { season, node } from "../stores/storyNode.js"
+  import DischordianSaga from "../data/DischordianSaga.js"
 
+  let seasonNumber;
   let nodeNumber;
   let isEnded;
 
   afterUpdate(resizeOptions);
 
-  node.subscribe(number => {
-    nodeNumber = number;
-  })
+  season.subscribe(number => { seasonNumber = number });
+
+  node.subscribe(number => { nodeNumber = number });
 
   $: storyNode = {
-    title: nodeNumber ? seasonOne[nodeNumber - 1].storyTitle : '',
+    title: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle : '',
     duration: nodeNumber ? getStoryDate() : '',
-    video: nodeNumber ? `https://www.youtube.com/embed/${seasonOne[nodeNumber - 1].videoLink}` : '',
-    text: nodeNumber ? seasonOne[nodeNumber - 1].storyText : '',
-    options: nodeNumber ? seasonOne[nodeNumber - 1].storyOptions : ''
+    video: nodeNumber ? `https://www.youtube.com/embed/${DischordianSaga[seasonNumber - 1][nodeNumber - 1].videoLink}` : '',
+    text: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyText : '',
+    options: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions : ''
   }
 
 
   function getStoryDate() {
-    let dateStart = new Date(seasonOne[nodeNumber - 1].storyDuration[0]);
-    let dateEnd = new Date(seasonOne[nodeNumber - 1].storyDuration[1]);
+    let dateStart = new Date(DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[0]);
+    let dateEnd = new Date(DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[1]);
 
     let dayStart = ('0' + dateStart.getDate()).slice(-2);
     let dayEnd = ('0' + dateEnd.getDate()).slice(-2);
@@ -47,7 +48,7 @@
   let optionsContainer;
   function resizeOptions() {
     if(nodeNumber) {
-      const optionsCounter = seasonOne[nodeNumber - 1].storyOptions.length;
+      const optionsCounter = DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
       if(width >= 600) {
         if(optionsCounter == 5) {
           optionsContainer.style.fontSize = `${11/optionsCounter}vw`;

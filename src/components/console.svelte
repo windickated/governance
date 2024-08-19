@@ -1,10 +1,13 @@
 <script>
-  import { node, lastNodeNumber } from "../stores/storyNode.js"
+  import { season, node, lastNodeNumber } from "../stores/storyNode.js"
 
+
+  let seasonNumber;
   let nodeNumber;
-  node.subscribe(number => {
-    nodeNumber = number;
-  })
+
+  season.subscribe(number => { seasonNumber = number });
+
+  node.subscribe(number => { nodeNumber = number });
 
   const consolePanel = {
     buttons: [
@@ -84,7 +87,7 @@
               break;
             case 'forward':
               if (nodeNumber) {
-                if (nodeNumber != lastNodeNumber) nodeNumber ++;
+                if (nodeNumber != lastNodeNumber[seasonNumber - 1]) nodeNumber ++;
                 $node = nodeNumber;
               }
               break;
