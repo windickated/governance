@@ -88,9 +88,10 @@
 
     <div class="legend">
       {#if nodeNumber}
-        <h1 class="header">
-            The Dischordian Saga: { storyNode.title } - Episode { nodeNumber }
-        </h1>
+        <h1 class="header">{ storyNode.title }</h1>
+        <h1 class="season-episode-number">
+          The Dischordian Saga: Season {seasonNumber} - Episode { nodeNumber }
+      </h1>
         <h2 class="duration">{ storyNode.duration }</h2>
       {:else}
         <h1 class="empty-header">Select episode</h1>
@@ -159,13 +160,18 @@
     opacity: 0.5;
   }
 
-  .header {
+  .header, .season-episode-number {
     font-size: 3vw;
     text-align: center;
     -webkit-text-stroke: 0.03vw #33E2E6;
     filter: drop-shadow(0 0 0.1vw #33E2E6);
-    line-height: 1.6em;
+    line-height: 5vw;
+  }
+
+  .season-episode-number {
+    font-size: 2.5vw;
     margin-bottom: 2vw;
+    opacity: 0.75;
   }
 
   .duration {
@@ -287,14 +293,29 @@
     }
 
     .legend {
-      margin-bottom: 2vw;
+      margin-bottom: 0.5em;
+      padding: 1em 0.75em;
     }
-    .header {
+
+    .empty-header {
       font-size: 1.2em;
     }
-    .duration {
-      font-size: 1.1em;
+
+    .header, .season-episode-number {
+      font-size: 1.2em;
+      line-height: 1.6em;
+      margin-bottom: 0.5em;
     }
+
+    .season-episode-number {
+      font-size: 1em;
+    }
+
+    .duration {
+      font-size: 1em;
+      opacity: 0.75;
+    }
+
     .text {
       position: static;
       top: auto;
