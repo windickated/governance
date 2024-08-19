@@ -112,7 +112,7 @@
         {/each}
       </ul>
 
-      <span class="voting-ended">
+      <span class="voting-ended {isEnded ? '' : 'voting-active'}">
         {isEnded ? "Voting ended" : "Voting active"}
       </span>
     {/if}
@@ -272,6 +272,11 @@
     font-size: 3vw;
     filter: drop-shadow(0 0 1vw 5vw #33E2E6);
     -webkit-text-stroke: 0.2vw rgba(255, 0, 0, 0.1);
+  }
+
+  .voting-active {
+    color: rgba(51, 226, 230, 0.8);
+    -webkit-text-stroke: 0.2vw rgba(0, 255, 0, 0.1);
   }
 
 

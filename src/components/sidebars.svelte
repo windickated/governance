@@ -4,6 +4,8 @@
   import DischordianSaga from "../data/DischordianSaga.js"
 
 
+  /* --- EPISODES tab --- */
+
   let episodes;
   let seasonNumber;
   let nodeNumber;
@@ -28,13 +30,6 @@
     })
   }
 
-
-  const selectedNFTs = [];
-  function selectNFT() {
-    potentials[this.id].clicked = !potentials[this.id].clicked;
-    selectedNFTs.push(potentials[this.id]);
-    console.log(potentials[this.id])
-  }
 
   /* --- NFTs tab --- */
 
@@ -64,6 +59,13 @@
       metadata[i] = await response.json();
       potentials[i] = new nftTile(metadata, i);
     }
+  }
+
+  const selectedNFTs = [];
+  function selectNFT() {
+    potentials[this.id].clicked = !potentials[this.id].clicked;
+    selectedNFTs.push(potentials[this.id]);
+    console.log(potentials[this.id])
   }
 
   function connectWallet() { //test func
