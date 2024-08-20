@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from "svelte"
-  import { season, node } from "../stores/storyNode.js"
+  import { _season, _episode } from "../stores/storyNode.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
 
@@ -10,9 +10,9 @@
 
   afterUpdate(resizeOptions);
 
-  season.subscribe(number => { seasonNumber = number });
+  _season.subscribe(number => { seasonNumber = number });
 
-  node.subscribe(number => { nodeNumber = number });
+  _episode.subscribe(number => { nodeNumber = number });
 
   $: storyNode = {
     title: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle : '',

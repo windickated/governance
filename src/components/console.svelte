@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from "svelte";
-  import { season, node, lastNodeNumber } from "../stores/storyNode.js"
+  import { _season, _episode, lastNodeNumber } from "../stores/storyNode.js"
 
 
   let width;
@@ -20,9 +20,9 @@
     }
   })
 
-  season.subscribe(number => { seasonNumber = number });
+  _season.subscribe(number => { seasonNumber = number });
 
-  node.subscribe(number => { nodeNumber = number });
+  _episode.subscribe(number => { nodeNumber = number });
 
   const consolePanel = {
     buttons: [
@@ -97,13 +97,13 @@
             case 'back':
               if (nodeNumber) {
                 if (nodeNumber != 1) nodeNumber --;
-                $node = nodeNumber;
+                $_episode = nodeNumber;
               }
               break;
             case 'forward':
               if (nodeNumber) {
                 if (nodeNumber != lastNodeNumber[seasonNumber - 1]) nodeNumber ++;
-                $node = nodeNumber;
+                $_episode = nodeNumber;
               }
               break;
           }

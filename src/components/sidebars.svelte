@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from "svelte"
-  import { season, node } from "../stores/storyNode.js"
+  import { _season, _episode } from "../stores/storyNode.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
 
@@ -10,19 +10,19 @@
   let seasonNumber;
   let nodeNumber;
 
-  season.subscribe(number => { seasonNumber = number });
+  _season.subscribe(number => { seasonNumber = number });
 
-  node.subscribe(number => { nodeNumber = number });
+  _episode.subscribe(number => { nodeNumber = number });
 
   afterUpdate(() => { if (nodeNumber) activeEpisode(nodeNumber) });
 
   function switchSeason() {
-    $season = this.value;
-    $node = undefined;
+    $_season = this.value;
+    $_episode = undefined;
     activeEpisode(0);
   }
 
-  function switchEpisode() { $node = this.id };
+  function switchEpisode() { $_episode = this.id };
 
   function activeEpisode(id) {
     episodes.childNodes.forEach(episode => {
