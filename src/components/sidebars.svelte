@@ -1,7 +1,7 @@
 <script>
   import { afterUpdate } from "svelte"
   import { _season, _episode } from "../stores/storyNode.js"
-  import { _potentials } from "../stores/selectedNFTs.js"
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
 
@@ -24,6 +24,21 @@
         tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
         tile.style.color = 'inherit';
       })
+    }
+    if (inactiveNFTs.length > 0) {
+      for (let i = 0; i < inactiveNFTs.length; i++) {
+        potentials.forEach(potential => {
+          if (potential.id == inactiveNFTs[i].id) {
+            potential.active = false;
+            nftTiles.childNodes.forEach(tile => {
+              if (tile.id == potential.id) {
+                tile.style.opacity = '0.5';
+                tile.style.pointerEvents = 'none';
+              }
+            })
+          }
+        })
+      }
     }
   })
 
@@ -57,7 +72,9 @@
   let isConnected = false;
 
   let selectedNFTs;
+  let inactiveNFTs;
   _potentials.subscribe(array => selectedNFTs = array);
+  _inactivePotentials.subscribe(array => inactiveNFTs = array);
 
   const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
   class nftTile {

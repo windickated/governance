@@ -1,6 +1,6 @@
 <script>
   import { _episode } from "../stores/storyNode.js"
-  import { _potentials } from "../stores/selectedNFTs.js"
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import { _option } from "../stores/selectedOption.js"
 
 
@@ -8,7 +8,9 @@
   _episode.subscribe(number => { nodeNumber = number });
 
   let selectedNFTs;
+  let inactiveNFTs = [];
   _potentials.subscribe(array => selectedNFTs = array);
+  _inactivePotentials.subscribe(array => inactiveNFTs = array);
 
   let selectedOption;
   _option.subscribe(number => { selectedOption = number });
@@ -70,6 +72,8 @@
         console.log('Episode:', nodeNumber, ' Option:', selectedOption, selectedNFTs) //vote info
         setTimeout(() => {
         voteButtonState = !voteButtonState;
+        selectedNFTs.map(nft => inactiveNFTs.push(nft));
+        $_inactivePotentials = inactiveNFTs;
         $_potentials = [];
         $_option = undefined;
         }, 750)
@@ -78,6 +82,7 @@
           voteButtonHover = !voteButtonHover;
       }
     }
+    
   }
 </script>
 
