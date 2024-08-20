@@ -83,25 +83,26 @@
 
   let nftTiles;
   function selectNFT() {
-    $_potentials = [];
-    potentials[this.id].clicked = !potentials[this.id].clicked;
-    nftTiles.childNodes.forEach(tile => {
-      if (tile.id == this.id) {
-        if (potentials[this.id].clicked) {
-          tile.style.backgroundColor = '#2441BD';
-          tile.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1))';
-          tile.style.color = '#33E2E6';
-        } else {
-          tile.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
-          tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
-          tile.style.color = 'inherit';
+    if (nodeNumber) {
+      $_potentials = [];
+      potentials[this.id].clicked = !potentials[this.id].clicked;
+      nftTiles.childNodes.forEach(tile => {
+        if (tile.id == this.id) {
+          if (potentials[this.id].clicked) {
+            tile.style.backgroundColor = '#2441BD';
+            tile.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1))';
+            tile.style.color = '#33E2E6';
+          } else {
+            tile.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
+            tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
+            tile.style.color = 'inherit';
+          }
         }
-      }
-    })
-    potentials.map(nft => {
-      if (nft.clicked) $_potentials.push(nft);
-    })
-    // console.log(selectedNFTs)
+      })
+      potentials.map(nft => {
+        if (nft.clicked) $_potentials.push(nft);
+      })
+    }
   }
 
   function connectWallet() { //test func
@@ -665,11 +666,6 @@ a11y-no-static-element-interactions -->
     align-items: center;
     justify-content: space-between;
     filter: drop-shadow(0 0 0.1vw #010020);
-  }
-
-  .nft:hover {
-    background-color: rgba(22, 30, 95, 1);
-    filter: drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1));
   }
 
   .nft-image {

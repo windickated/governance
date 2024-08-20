@@ -1,7 +1,7 @@
 <script>
-  import { afterUpdate } from "svelte";
   import { _episode } from "../stores/storyNode.js"
   import { _potentials } from "../stores/selectedNFTs.js"
+  import { _option } from "../stores/selectedOption.js"
 
 
   let nodeNumber;
@@ -10,9 +10,10 @@
   let selectedNFTs;
   _potentials.subscribe(array => selectedNFTs = array);
 
-  afterUpdate(() => {
-    voteIsInactive = selectedNFTs.length > 0 ? false : true;
-  })
+  let selectedOption;
+  _option.subscribe(number => { selectedOption = number });
+
+  $: voteIsInactive = selectedOption != undefined ? false : true;
 
   const displayScreen = {
     buttons: [
@@ -62,18 +63,16 @@
   let voteButtonState = true;
   let voteButtonHover = false;
 
-  if (selectedNFTs != undefined) voteIsInactive = false;
-
   const voteHandle = (event) => {
     if (!voteIsInactive && voteButtonState) {
       if (event.type === 'click') {
         voteButtonState = !voteButtonState;
-        console.log('voted', selectedNFTs) //
+        console.log('Episode:', nodeNumber, ' Option:', selectedOption, selectedNFTs) //vote info
         setTimeout(() => {
         voteButtonState = !voteButtonState;
         $_potentials = [];
-        console.log('reset', selectedNFTs) //
-        }, 1000)
+        $_option = undefined;
+        }, 750)
       } else if (
         event.type === 'mouseover' || event.type === 'mouseout') {
           voteButtonHover = !voteButtonHover;

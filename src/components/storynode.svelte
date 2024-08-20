@@ -1,18 +1,50 @@
 <script>
-  import { afterUpdate } from "svelte"
+  import { afterUpdate, onMount } from "svelte"
   import { _season, _episode } from "../stores/storyNode.js"
+  import { _potentials } from "../stores/selectedNFTs.js"
+  import { _option } from "../stores/selectedOption.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
+
+  afterUpdate(() => {
+    resizeOptions();
+    if (nodeNumber) {
+      optionsContainer.childNodes.forEach(option => {
+        option.addEventListener('mouseover', () => {
+          if (option.id != selectedOption) {
+            option.style.color = '#33E2E6';
+            option.style.textShadow = '0 0 3px #33E2E6';
+            option.style.listStyleType = 'disc';
+          }
+        })
+        option.addEventListener('mouseout', () => {
+          if (option.id != selectedOption) {
+            option.style.color = 'inherit';
+            option.style.textShadow = 'none';
+            option.style.listStyleType = 'circle';
+          }
+        })
+        if (option.id != selectedOption) {
+          option.style.color = 'inherit';
+          option.style.textShadow = 'none';
+          option.style.listStyleType = 'circle';
+        }
+      })
+    }
+  })
 
   let seasonNumber;
   let nodeNumber;
   let isEnded;
 
-  afterUpdate(resizeOptions);
-
   _season.subscribe(number => { seasonNumber = number });
-
   _episode.subscribe(number => { nodeNumber = number });
+
+  let selectedNFTs;
+  _potentials.subscribe(array => selectedNFTs = array);
+
+  let selectedOption;
+  _option.subscribe(number => { selectedOption = number });
 
   $: storyNode = {
     title: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle : '',
@@ -75,6 +107,23 @@
       }
     }
   }
+
+
+  function selectOption() {
+    if (selectedNFTs.length > 0) {
+      $_option = this.id;
+      this.style.color = '#33E2E6';
+      this.style.textShadow = '0 0 3px #33E2E6';
+      this.style.listStyleType = 'disc';
+      optionsContainer.childNodes.forEach(option => {
+        if (option.id != this.id) {
+          option.style.color = 'inherit';
+          option.style.textShadow = 'none';
+          option.style.listStyleType = 'circle';
+        }
+      })
+    }
+  }
 </script>
 
 
@@ -105,9 +154,10 @@
         {/each}
       </div>
 
+      <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
       <ul class="options" bind:this={optionsContainer}>
-        {#each storyNode.options as option}
-          <li class="option">
+        {#each storyNode.options as option, index}
+          <li class="option" id={index + 1} on:click={selectOption}>
             {option}
           </li>
         {/each}
