@@ -1,4 +1,14 @@
 <script>
+  import { afterUpdate } from "svelte";
+  import { _potentials } from "../stores/selectedNFTs.js"
+
+  let selectedNFTs;
+  _potentials.subscribe(array => selectedNFTs = array);
+
+  afterUpdate(() => {
+    voteIsInactive = selectedNFTs.length > 0 ? false : true;
+  })
+
   const displayScreen = {
     buttons: [
       {
@@ -41,13 +51,22 @@
   }
 
   // Vote button
-  let voteIsInactive = true; //prohibits voting
+  let voteIsInactive; // TRUE prohibits voting
   let voteButtonState = true;
   let voteButtonHover = false;
+
+  if (selectedNFTs != undefined) voteIsInactive = false;
+
   const voteHandle = (event) => {
     if (!voteIsInactive && voteButtonState) {
       if (event.type === 'click') {
         voteButtonState = !voteButtonState;
+        console.log('voted', selectedNFTs) //
+        setTimeout(() => {
+        voteButtonState = !voteButtonState;
+        $_potentials = [];
+        console.log('reset', selectedNFTs) //
+        }, 1000)
       } else if (
         event.type === 'mouseover' || event.type === 'mouseout') {
           voteButtonHover = !voteButtonHover;

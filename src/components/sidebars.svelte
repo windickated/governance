@@ -1,6 +1,7 @@
 <script>
   import { afterUpdate } from "svelte"
   import { _season, _episode } from "../stores/storyNode.js"
+  import { _potentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
 
@@ -14,7 +15,17 @@
 
   _episode.subscribe(number => { nodeNumber = number });
 
-  afterUpdate(() => { if (nodeNumber) activeEpisode(nodeNumber) });
+  afterUpdate(() => {
+    if (nodeNumber) activeEpisode(nodeNumber);
+    if (selectedNFTs.length == 0) {
+      potentials.forEach(nft => nft.clicked = false);
+      nftTiles && nftTiles.childNodes.forEach(tile => {
+        tile.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
+        tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
+        tile.style.color = 'inherit';
+      })
+    }
+  })
 
   function switchSeason() {
     $_season = this.value;
@@ -45,6 +56,9 @@
   let walletButton;
   let isConnected = false;
 
+  let selectedNFTs;
+  _potentials.subscribe(array => selectedNFTs = array);
+
   const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
   class nftTile {
     constructor(data, i) {
@@ -56,8 +70,8 @@
       this.active = true;
     } 
   }
-  const potentials = [];
 
+  const potentials = [];
   const getNFTs = async () => { //test func
     const metadata = [];
     for(let i in nftNumbers) {
@@ -67,11 +81,27 @@
     }
   }
 
-  const selectedNFTs = [];
+  let nftTiles;
   function selectNFT() {
+    $_potentials = [];
     potentials[this.id].clicked = !potentials[this.id].clicked;
-    selectedNFTs.push(potentials[this.id]);
-    console.log(potentials[this.id])
+    nftTiles.childNodes.forEach(tile => {
+      if (tile.id == this.id) {
+        if (potentials[this.id].clicked) {
+          tile.style.backgroundColor = '#2441BD';
+          tile.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1))';
+          tile.style.color = '#33E2E6';
+        } else {
+          tile.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
+          tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
+          tile.style.color = 'inherit';
+        }
+      }
+    })
+    potentials.map(nft => {
+      if (nft.clicked) $_potentials.push(nft);
+    })
+    // console.log(selectedNFTs)
   }
 
   function connectWallet() { //test func
@@ -378,7 +408,7 @@
       <p class="nfts-total">Total NFTs: {potentials.length}</p>
       <p class="nfts-selected">Selected NFTs: {selectedNFTs.length}</p>
     </div>
-    <div class="nfts-container">
+    <div class="nfts-container" bind:this={nftTiles}>
       {#each potentials as NFT}
         <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
         a11y-no-static-element-interactions -->
@@ -640,12 +670,6 @@ a11y-no-static-element-interactions -->
   .nft:hover {
     background-color: rgba(22, 30, 95, 1);
     filter: drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1));
-  }
-
-  .nft:active {
-    background-color: #2441BD;
-    filter: drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1));
-    color: #33E2E6;
   }
 
   .nft-image {
