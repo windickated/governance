@@ -1,6 +1,11 @@
 <script>
   import { afterUpdate } from "svelte";
+  import { _episode } from "../stores/storyNode.js"
   import { _potentials } from "../stores/selectedNFTs.js"
+
+
+  let nodeNumber;
+  _episode.subscribe(number => { nodeNumber = number });
 
   let selectedNFTs;
   _potentials.subscribe(array => selectedNFTs = array);
@@ -41,9 +46,11 @@
     const storyText = document.querySelector('.text');
     const storyVideo = document.querySelector('.video')
     if (event.type === 'click') {
-      formatButtonState = !formatButtonState;
-      storyText.classList.toggle('visible')
-      storyVideo.classList.toggle('visible')
+      if (nodeNumber) {
+        formatButtonState = !formatButtonState;
+        storyText.classList.toggle('visible')
+        storyVideo.classList.toggle('visible')
+      }
     } else if (
       event.type === 'mouseover' || event.type === 'mouseout') {
       formatButtonHover = !formatButtonHover;
@@ -163,8 +170,8 @@
 <style>
   .display-screen {
     position: relative;
-    width: 98vw;
-    margin-inline: 1vw;
+    width: 95vw;
+    margin-inline: 2.5vw;
     margin-top: 2.5vw;
   }
 

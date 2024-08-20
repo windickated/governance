@@ -52,20 +52,20 @@
       if(width >= 600) {
         if(optionsCounter == 5) {
           optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
-          optionsContainer.style.paddingTop = `${9/optionsCounter}vw`;
+          optionsContainer.style.paddingTop = `${8/optionsCounter}vw`;
           optionsContainer.style.height = '23.5vw';
         } else if(optionsCounter == 4) {
           optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
           optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
-          optionsContainer.style.height = '23.5vw';
+          optionsContainer.style.height = '22.75vw';
         } else {
           optionsContainer.style.fontSize = '2.5vw';
           if(optionsCounter == 3) {
             optionsContainer.style.paddingTop = '5vw';
-            optionsContainer.style.height = '21vw';
+            optionsContainer.style.height = '20.25vw';
           } else {
             optionsContainer.style.paddingTop = '7vw';
-            optionsContainer.style.height = '19vw';
+            optionsContainer.style.height = '18.25vw';
           }
         }
       } else {
@@ -130,10 +130,10 @@
 
   .video {
     position: absolute;
-    height: 48.75vw;
-    width: 87vw;
-    top: 10.5vw;
-    left: 6.5vw;
+    height: 47.25vw;
+    width: 84.5vw;
+    top: 10.25vw;
+    left: 7.75vw;
     display: none;
   }
 
@@ -185,10 +185,10 @@
   .text {
     position: absolute;
     top: 10.4vw;
-    width: 82vw;
-    left: 7vw;
+    width: 80vw;
+    left: 8vw;
     overflow-y: scroll;
-    height: 45vw;
+    height: 43vw;
     font-size: 2vw;
     line-height: 3vw;
     margin-bottom: auto;
@@ -225,13 +225,13 @@
 
   .options {
     position: absolute;
-    top: 61vw;
-    width: 61vw;
-    height: 23.5vw;
+    top: 59vw;
+    width: 59vw;
+    height: 25.25vw;
     white-space: nowrap;
     list-style: circle inside;
     margin: 2vw;
-    margin-left: 1.5vw;
+    margin-left: 2.75vw;
     margin-bottom: auto;
     padding-left: 3vw;
     padding-bottom: auto;
