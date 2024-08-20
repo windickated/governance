@@ -773,7 +773,9 @@ a11y-no-static-element-interactions -->
     .wallet-container {
       margin-top: 6vw;
       margin-bottom: 2vw;
-      height: 14vw;
+      width: 80vw;
+      height: auto;
+      padding: 0.5em 1em;
     }
 
     .wallet-legend {
@@ -789,6 +791,10 @@ a11y-no-static-element-interactions -->
       font-size: inherit;
       width: 38vw;
       height: 10vw;
+    }
+
+    .nfts-legend {
+      width: 90vw;
     }
 
     .nfts-total, .nfts-selected {
