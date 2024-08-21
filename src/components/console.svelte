@@ -77,7 +77,7 @@
         button.style.display = 'none';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'block';
-      } else if ((event.type === 'touchstart' || event.type === 'mouseover') && !isClicked) {
+      } else if (event.type === 'mouseover' && !isClicked) {
         button.style.display = 'none';
         buttonHover.style.display = 'block';
         buttonActive.style.display = 'none';
@@ -108,7 +108,7 @@
               break;
           }
         }, 150)
-      } else if (event.type === 'touchcancel' || event.type === 'mouseout') {
+      } else if (event.type === 'mouseout') {
         button.style.display = 'block';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'none';
