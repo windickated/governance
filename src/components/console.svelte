@@ -73,7 +73,7 @@
       const button = document.getElementById(id);
       const buttonHover = document.getElementById(`${id}-hover`);
       const buttonActive = document.getElementById(`${id}-active`);
-      if (event.type === 'click') {
+      if (event.type === 'touchstart' || event.type === 'click') {
         button.style.display = 'none';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'block';
@@ -108,7 +108,7 @@
               break;
           }
         }, 150)
-      } else if (event.type === 'mouseout') {
+      } else if (event.type === 'touchcancel' || event.type === 'mouseout') {
         button.style.display = 'block';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'none';
