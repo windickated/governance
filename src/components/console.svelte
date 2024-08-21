@@ -68,16 +68,16 @@
     }
   }
 
-  const consoleButtonsHandle = (event, id, isActive = false) => {
+  const consoleButtonsHandle = (event, id, isClicked = false) => {
     if (id != 'omnihub') { //temporarily disabled Omnihub
       const button = document.getElementById(id);
       const buttonHover = document.getElementById(`${id}-hover`);
       const buttonActive = document.getElementById(`${id}-active`);
-      if (event.type === 'touchstart' || event.type === 'click') {
+      if (event.type === 'click') {
         button.style.display = 'none';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'block';
-      } else if (event.type === 'mouseover' && !isActive) {
+      } else if ((event.type === 'touchstart' || event.type === 'mouseover') && !isClicked) {
         button.style.display = 'none';
         buttonHover.style.display = 'block';
         buttonActive.style.display = 'none';
