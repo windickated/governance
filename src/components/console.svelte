@@ -81,7 +81,7 @@
         button.style.display = 'none';
         buttonHover.style.display = 'block';
         buttonActive.style.display = 'none';
-      } else if (isActive) {
+      } else if (isClicked) {
         button.style.display = 'none';
         buttonActive.style.display = 'block';
         setTimeout(() => {
