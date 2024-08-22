@@ -96,7 +96,7 @@
           buttonHover.style.display = 'none';
           buttonActive.style.display = 'none';
         }
-      } else { clickHandle(button, buttonActive) }
+      } else { clickHandle(event, id, button, buttonActive) }
     }
 
     function clickHandle(event, id, button, buttonActive) {
