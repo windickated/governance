@@ -1,7 +1,15 @@
 <script>
-  import { afterUpdate } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import { _season, _episode, lastNodeNumber } from "../stores/storyNode.js"
 
+
+  onMount(() => {
+    if ("touchstart" in document.documentElement) {
+      alert('touchscreen')
+    } else {
+      alert('pc')
+    }
+  })
 
   let width;
   let consoleBar;
