@@ -1,7 +1,16 @@
 <script>
+  import { afterUpdate } from "svelte";
   import { _season, _episode, _option } from "../stores/storyNode.js"
   import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
 
+
+  afterUpdate(() => { // minor bugfix
+    const storyText = document.querySelector('.text');
+    const storyVideo = document.querySelector('.video')
+    if (nodeNumber && (!storyText.className.match('visible') && !storyVideo.className.match('visible'))) {
+      storyText.classList.toggle('visible');
+    }
+  })
 
   let seasonNumber;
   let nodeNumber;
@@ -53,8 +62,8 @@
     if (event.type === 'click') {
       if (nodeNumber) {
         formatButtonState = !formatButtonState;
-        storyText.classList.toggle('visible')
-        storyVideo.classList.toggle('visible')
+        storyText.classList.toggle('visible');
+        storyVideo.classList.toggle('visible');
       }
     } else if (
       event.type === 'mouseover' || event.type === 'mouseout') {
