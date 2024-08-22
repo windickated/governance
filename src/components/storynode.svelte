@@ -159,7 +159,7 @@
       </h1>
         <h2 class="duration">{ storyNode.duration }</h2>
       {:else}
-        <h1 class="empty-header">Select episode</h1>
+        <h1 class="empty-header">Select any episode from the tab</h1>
       {/if}
     </div>
 
@@ -238,7 +238,7 @@
   }
 
   .empty-header {
-    font-size: 4vw;
+    font-size: 3.5vw;
     text-align: center;
     padding: 1vw 0;
     color: #33E2E6;
