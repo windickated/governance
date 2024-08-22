@@ -563,6 +563,38 @@ const DischordianSaga = [
           option: `Option 5`
         }
       ]
+    },
+    {
+      episode: 3,
+      videoLink:"bJp1ppTlT_s",
+      storyTitle:"The Meme - Holiday Album Collection",
+      storyDuration:["2024-08-01", "2025-08-01"],
+      storyText:[
+        `North Pole Inc - The DeGenerous Dao's #christmas album is in stores now! This is the best #holidaymusic album of the year!  Listen to humanity fight #AI by spreading the joy of #christmas!
+        `
+      ],
+      storyOptions:[
+        {
+          class: 'Assassin',
+          option: `Option 1`
+        },
+        {
+          class: 'Soldier',
+          option: `Option 2`
+        },
+        {
+          class: 'Spy',
+          option: `Option 3`
+        },
+        {
+          class: 'Engineer',
+          option: `Option 4`
+        },
+        {
+          class: 'Oracle',
+          option: `Option 5`
+        }
+      ]
     }
   ]
 ]

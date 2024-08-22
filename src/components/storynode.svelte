@@ -6,28 +6,28 @@
 
 
   afterUpdate(() => {
-    resizeOptions();
     if (width > 600) mobileTextVisibility = true;
     if (nodeNumber) {
+      resizeOptions();
       optionsContainer.childNodes.forEach(option => {
         option.addEventListener('mouseover', () => {
           if (option.id != selectedOption) {
-            option.style.color = '#33E2E6';
             option.style.textShadow = '0 0 3px #33E2E6';
             option.style.listStyleType = 'disc';
+            option.style.color = '#33E2E6';
           }
         })
         option.addEventListener('mouseout', () => {
           if (option.id != selectedOption) {
-            option.style.color = 'inherit';
             option.style.textShadow = 'none';
             option.style.listStyleType = 'circle';
+            classgateOption(option);
           }
         })
         if (option.id != selectedOption) {
-          option.style.color = 'inherit';
           option.style.textShadow = 'none';
           option.style.listStyleType = 'circle';
+          classgateOption(option);
         }
       })
     }
@@ -80,32 +80,53 @@
   let width;
   let optionsContainer;
   function resizeOptions() {
-    if(nodeNumber) {
-      const optionsCounter = DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
-      if(width >= 600) {
-        if(optionsCounter == 5) {
-          optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
-          optionsContainer.style.paddingTop = `${8/optionsCounter}vw`;
-          optionsContainer.style.height = '23.5vw';
-        } else if(optionsCounter == 4) {
-          optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
-          optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
-          optionsContainer.style.height = '22.75vw';
-        } else {
-          optionsContainer.style.fontSize = '2.5vw';
-          if(optionsCounter == 3) {
-            optionsContainer.style.paddingTop = '5vw';
-            optionsContainer.style.height = '20.25vw';
-          } else {
-            optionsContainer.style.paddingTop = '7vw';
-            optionsContainer.style.height = '18.25vw';
-          }
-        }
+    const optionsCounter = DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
+    if(width >= 600) {
+      if(optionsCounter == 5) {
+        optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
+        optionsContainer.style.paddingTop = `${8/optionsCounter}vw`;
+        optionsContainer.style.height = '23.5vw';
+      } else if(optionsCounter == 4) {
+        optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
+        optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
+        optionsContainer.style.height = '22.75vw';
       } else {
-        optionsContainer.style.fontSize = '1.1em';
-        optionsContainer.style.paddingTop = '2vw';
-        optionsContainer.style.height = 'auto';
+        optionsContainer.style.fontSize = '2.5vw';
+        if(optionsCounter == 3) {
+          optionsContainer.style.paddingTop = '5vw';
+          optionsContainer.style.height = '20.25vw';
+        } else {
+          optionsContainer.style.paddingTop = '7vw';
+          optionsContainer.style.height = '18.25vw';
+        }
       }
+    } else {
+      optionsContainer.style.fontSize = '1.1em';
+      optionsContainer.style.paddingTop = '2vw';
+      optionsContainer.style.height = 'auto';
+    }
+  }
+
+  function classgateOption(option) {
+    switch (option.dataset.class) {
+      case 'Assassin':
+        option.style.color = '#EC8B83';
+        break;
+      case 'Soldier':
+        option.style.color = '#6D9BC3';
+        break;
+      case 'Spy':
+        option.style.color = '#F8D0A0';
+        break;
+      case 'Engineer':
+        option.style.color = '#9DC183';
+        break;
+      case 'Oracle':
+        option.style.color = '#D498C6';
+        break;
+      default:
+        option.style.color = 'inherit';
+        break;
     }
   }
 
@@ -144,7 +165,7 @@
 
 
 
-<svelte:window on:resize={resizeOptions} bind:outerWidth={width} />
+<svelte:window bind:outerWidth={width} />
 
 
 <section class="story-node-wraper">
@@ -193,7 +214,7 @@
         {#each storyNode.options as option, index}
           <li class="option" id={index + 1} data-class={option.class}
             on:click={selectOption}>
-            {option.option}
+            {option.class ? `(${option.class}) ${option.option}` : option.option}
           </li>
         {/each}
       </ul>
@@ -364,6 +385,7 @@
   }
 
   .option {
+    color: inherit;
     -webkit-text-stroke: 0.01vw #33E2E6;
     cursor: pointer;
   }
