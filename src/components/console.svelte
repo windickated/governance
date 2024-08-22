@@ -109,10 +109,10 @@
         buttonActive.style.display = 'none';
         switch (id) {
           case 'sagaverse':
-            window.open('https://sagaverse.vercel.app', '_blank');
+            window.open('https://sagaverse.vercel.app', !touchscreenDevice ? '_blank' : '');
             break;
           case 'conexus':
-            window.open('https://conexus.vercel.app', '_blank');
+            window.open('https://conexus.vercel.app', !touchscreenDevice ? '_blank' : '');
             break;
           case 'back':
             if (nodeNumber) {
