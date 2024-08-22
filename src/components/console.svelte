@@ -81,6 +81,7 @@
       const buttonHover = document.getElementById(`${id}-hover`);
       const buttonActive = document.getElementById(`${id}-active`);
       if (!touchscreenDevice) {
+        alert('pc')
         if (event.type === 'click') {
           button.style.display = 'none';
           buttonHover.style.display = 'none';
@@ -96,7 +97,10 @@
           buttonHover.style.display = 'none';
           buttonActive.style.display = 'none';
         }
-      } else { clickHandle(id, button, buttonActive) }
+      } else {
+          alert('mobile')
+          clickHandle(id, button, buttonActive)
+        }
     }
 
     function clickHandle(id, button, buttonActive) {
