@@ -90,16 +90,19 @@
           buttonHover.style.display = 'block';
           buttonActive.style.display = 'none';
         } else if (isClicked) {
-          clickHandle(event, id, button, buttonActive);
+          clickHandle(button, buttonActive);
         } else if (event.type === 'mouseout') {
           button.style.display = 'block';
           buttonHover.style.display = 'none';
           buttonActive.style.display = 'none';
         }
-      } else { clickHandle(event, id, button, buttonActive) }
+      } else {
+        clickHandle(button, buttonActive)
+        event.stopImmediatePropagation();
+      }
     }
 
-    function clickHandle(event, id, button, buttonActive) {
+    function clickHandle(button, buttonActive) {
       button.style.display = 'none';
       buttonActive.style.display = 'block';
       setTimeout(() => {
@@ -125,7 +128,6 @@
             }
             break;
         }
-        event.stopImmediatePropagation();
       }, 150)
     }
   }
@@ -144,7 +146,7 @@
       <div class="{button.id} {button.size}">
         <img
           on:mouseover={() => {consoleButtonsHandle(event, button.id)}}
-          on:touchstart|stopPropagation={() => {consoleButtonsHandle(event, button.id)}}
+          on:touchstart={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn visible"
           id={button.id}
           src={button.image}
