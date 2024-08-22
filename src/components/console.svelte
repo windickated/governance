@@ -144,7 +144,7 @@
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="{button.id} {button.size}">
         <img
-          on:mouseover={() => {consoleButtonsHandle(event, button.id)}}
+          on:mouseover|stopPropagation|preventDefault={() => {consoleButtonsHandle(event, button.id)}}
           on:touchstart|stopPropagation={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn visible"
           id={button.id}
@@ -162,7 +162,7 @@
           draggable="false"
         />
         <img
-          on:mouseover={() => {consoleButtonsHandle(event, button.id, true)}}
+          on:mouseover|stopPropagation|preventDefault={() => {consoleButtonsHandle(event, button.id, true)}}
           class="console-btn"
           id="{button.id}-active"
           src={button.click}
