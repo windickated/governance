@@ -142,7 +142,7 @@
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="{button.id} {button.size}">
         <img
-          on:mouseover={() => {consoleButtonsHandle(event, button.id)}}
+          on:mouseover|preventDefault={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn visible"
           id={button.id}
           src={button.image}
@@ -150,8 +150,8 @@
           draggable="false" 
         />
         <img
-          on:click={() => {consoleButtonsHandle(event, button.id)}}
-          on:mouseout={() => {consoleButtonsHandle(event, button.id)}}
+          on:click|preventDefault={() => {consoleButtonsHandle(event, button.id)}}
+          on:mouseout|preventDefault={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn"
           id="{button.id}-hover"
           src={button.hover}
@@ -159,7 +159,7 @@
           draggable="false"
         />
         <img
-          on:mouseover={() => {consoleButtonsHandle(event, button.id, true)}}
+          on:mouseover|preventDefault={() => {consoleButtonsHandle(event, button.id, true)}}
           class="console-btn"
           id="{button.id}-active"
           src={button.click}
