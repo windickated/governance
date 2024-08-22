@@ -3,12 +3,10 @@
   import { _season, _episode, lastNodeNumber } from "../stores/storyNode.js"
 
 
+  let touchscreenDevice = false;
   onMount(() => {
-    console.log(document.documentElement)
     if ("ontouchstart" in document.documentElement) {
-      alert('touchscreen')
-    } else {
-      alert('pc')
+      touchscreenDevice = true;
     }
   })
 
@@ -82,7 +80,7 @@
       const button = document.getElementById(id);
       const buttonHover = document.getElementById(`${id}-hover`);
       const buttonActive = document.getElementById(`${id}-active`);
-      if (width >= 600) {
+      if (!touchscreenDevice) {
         if (event.type === 'click') {
           button.style.display = 'none';
           buttonHover.style.display = 'none';
