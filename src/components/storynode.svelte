@@ -168,7 +168,9 @@
         {#if width <= 600}
           <button class="story-text-visibility" on:click={() => {
             mobileTextVisibility = !mobileTextVisibility
-          }}>
+          }}
+          style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.9)' : ''}
+          >
             <p>
               {(mobileTextVisibility ? 'Hide' : 'Show') + ' text'}
             </p>
@@ -297,7 +299,6 @@
     background-color: rgba(1, 0, 32, 0.25);
     outline: none;
     border: none;
-    border-bottom: 0.1vw solid rgba(51, 226, 230, 0.9);
   }
 
   .story-text-visibility > img {
