@@ -90,19 +90,16 @@
           buttonHover.style.display = 'block';
           buttonActive.style.display = 'none';
         } else if (isClicked) {
-          clickHandle(button, buttonActive);
+          clickHandle(id, button, buttonActive);
         } else if (event.type === 'mouseout') {
           button.style.display = 'block';
           buttonHover.style.display = 'none';
           buttonActive.style.display = 'none';
         }
-      } else {
-        clickHandle(button, buttonActive)
-        event.stopImmediatePropagation();
-      }
+      } else { clickHandle(id, button, buttonActive) }
     }
 
-    function clickHandle(button, buttonActive) {
+    function clickHandle(id, button, buttonActive) {
       button.style.display = 'none';
       buttonActive.style.display = 'block';
       setTimeout(() => {
@@ -146,7 +143,7 @@
       <div class="{button.id} {button.size}">
         <img
           on:mouseover={() => {consoleButtonsHandle(event, button.id)}}
-          on:touchstart={() => {consoleButtonsHandle(event, button.id)}}
+          on:touchstart|stopPropagation={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn visible"
           id={button.id}
           src={button.image}
