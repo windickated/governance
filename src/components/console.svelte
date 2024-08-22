@@ -144,7 +144,7 @@
       <div class="{button.id} {button.size}">
         <img
           on:mouseover={() => {consoleButtonsHandle(event, button.id)}}
-          on:touchstart={() => {consoleButtonsHandle(event, button.id)}}
+          on:touchstart|stopPropagation={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn visible"
           id={button.id}
           src={button.image}
