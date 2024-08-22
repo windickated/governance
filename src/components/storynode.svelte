@@ -169,7 +169,7 @@
           <button class="story-text-visibility" on:click={() => {
             mobileTextVisibility = !mobileTextVisibility
           }}
-          style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.9)' : ''}
+          style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.5)' : ''}
           >
             <p>
               {(mobileTextVisibility ? 'Hide' : 'Show') + ' text'}
