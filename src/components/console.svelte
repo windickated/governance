@@ -73,15 +73,15 @@
       const button = document.getElementById(id);
       const buttonHover = document.getElementById(`${id}-hover`);
       const buttonActive = document.getElementById(`${id}-active`);
-      if (event.type === 'click') {
+      if (event.type === 'click' && width >= 600) {
         button.style.display = 'none';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'block';
-      } else if (event.type === 'mouseover' && !isClicked) {
+      } else if ((event.type === 'mouseover' && !isClicked) && width >= 600) {
         button.style.display = 'none';
         buttonHover.style.display = 'block';
         buttonActive.style.display = 'none';
-      } else if (isClicked) {
+      } else if (isClicked || width <= 600) {
         button.style.display = 'none';
         buttonActive.style.display = 'block';
         setTimeout(() => {
@@ -108,7 +108,7 @@
               break;
           }
         }, 150)
-      } else if (event.type === 'mouseout') {
+      } else if (event.type === 'mouseout' && width >= 600) {
         button.style.display = 'block';
         buttonHover.style.display = 'none';
         buttonActive.style.display = 'none';
