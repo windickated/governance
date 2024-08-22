@@ -172,7 +172,7 @@
           style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.5)' : ''}
           >
             <p>
-              {(mobileTextVisibility ? 'Hide' : 'Show') + ' text'}
+              {(mobileTextVisibility ? 'Hide' : 'Show') + ' story text'}
             </p>
             <img
               style={mobileTextVisibility ? 'transform: rotate(180deg)' : ''}
