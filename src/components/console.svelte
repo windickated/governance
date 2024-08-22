@@ -4,7 +4,8 @@
 
 
   onMount(() => {
-    if ("touchstart" in document.documentElement) {
+    console.log(document.documentElement)
+    if ("ontouchstart" in document.documentElement) {
       alert('touchscreen')
     } else {
       alert('pc')
