@@ -7,6 +7,7 @@
 
   afterUpdate(() => {
     resizeOptions();
+    if (width > 600) mobileTextVisibility = true;
     if (nodeNumber) {
       optionsContainer.childNodes.forEach(option => {
         option.addEventListener('mouseover', () => {
@@ -137,6 +138,8 @@
     $_option = undefined;
     console.log('Inactive NFTs:', inactiveNFTs) //used up
   }
+
+  let mobileTextVisibility = false;
 </script>
 
 
@@ -162,9 +165,25 @@
 
     {#if nodeNumber}
       <div class="text">
-        {#each storyNode.text as paragraph}
-          <p class="text-paragraph">{ paragraph }</p>
-        {/each}
+        {#if width <= 600}
+          <button class="story-text-visibility" on:click={() => {
+            mobileTextVisibility = !mobileTextVisibility
+          }}>
+            <p>
+              {(mobileTextVisibility ? 'Hide' : 'Show') + ' text'}
+            </p>
+            <img
+              style={mobileTextVisibility ? 'transform: rotate(180deg)' : ''}
+              src="/dropdown.png"
+              alt={mobileTextVisibility ? 'Hide' : 'Show'}
+            />
+          </button>
+        {/if}
+        {#if mobileTextVisibility}
+          {#each storyNode.text as paragraph}
+            <p class="text-paragraph">{ paragraph }</p>
+          {/each}
+        {/if}
       </div>
 
       <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -262,6 +281,28 @@
     border-radius: auto;
     color: #bebebe;
     display: none;
+  }
+
+  .story-text-visibility {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 12.5vw;
+    padding: 0 4vw;
+    font-size: 1.1em;
+    color: rgba(51, 226, 230, 0.5);
+    -webkit-text-stroke: 0.25vw rgba(51, 226, 230, 0.25);
+    background-color: rgba(1, 0, 32, 0.25);
+    outline: none;
+    border: none;
+    border-bottom: 0.1vw solid rgba(51, 226, 230, 0.9);
+  }
+
+  .story-text-visibility > img {
+    width: 5%;
+    opacity: 0.5;
   }
 
   .text-paragraph {
@@ -387,15 +428,19 @@
       overflow-y: auto;
       height: auto;
       font-size: 1em;
-      line-height: 1.5em;
+      line-height: 1.75em;
       margin-bottom: 2vw;
       background-color: rgba(22, 30, 95, 0.75);
       -webkit-backdrop-filter: blur(2vw);
       backdrop-filter: blur(2vw);
       border: 0.1vw solid rgba(51, 226, 230, 0.5);
       border-radius: 2.5vw;
-      padding: 3vw;
+      padding: 0;
       display: block;
+    }
+
+    .text-paragraph {
+      padding: 1.5vw 4vw 1.5vw 4vw;
     }
 
     .options {
