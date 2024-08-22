@@ -16,8 +16,14 @@ const DischordianSaga = [
         "Your decision will directly impact your fate and future. What action would you like to take? Choose wisely."
       ],
       storyOptions:[
-        "Engage Defense Protocols (Fight).",
-        "Activate Automatic Evasive Maneuvers (Flight)."
+        {
+          class: '',
+          option: 'Engage Defense Protocols (Fight).'
+        },
+        {
+          class: '',
+          option: 'Activate Automatic Evasive Maneuvers (Flight).'
+        }
       ]
     },
     {
@@ -36,10 +42,22 @@ const DischordianSaga = [
         "Choose Your Destiny."
       ],
       storyOptions:[
-        "Chase after the Seedling Pod - Pursue the seedling pod in an effort to capture or study it, potentially unlocking secrets of its ancient origin and adaptive capabilities.",
-        "Investigate the Wreckage - Organize a detailed examination of the destroyed organic satellite's debris to gather any valuable materials or data about its structure, technology, and the fungal growths.",
-        "Explore the Purple Planet - Make an expedition to the nearby purple planet characterized by its massive roving eye of a storm, to analyze its atmosphere, geography, and potential life forms.",
-        "Search the Inception Arks' Records - Conduct a thorough review of the Inception Arks' historical archives to ascertain the current location in the cosmos and any pertinent information that could be of use."
+        {
+          class: '',
+          option: `Chase after the Seedling Pod - Pursue the seedling pod in an effort to capture or study it, potentially unlocking secrets of its ancient origin and adaptive capabilities.`
+        },
+        {
+          class: '',
+          option: `Investigate the Wreckage - Organize a detailed examination of the destroyed organic satellite's debris to gather any valuable materials or data about its structure, technology, and the fungal growths.`
+        },
+        {
+          class: '',
+          option: `Explore the Purple Planet - Make an expedition to the nearby purple planet characterized by its massive roving eye of a storm, to analyze its atmosphere, geography, and potential life forms.`
+        },
+        {
+          class: '',
+          option: `Search the Inception Arks' Records - Conduct a thorough review of the Inception Arks' historical archives to ascertain the current location in the cosmos and any pertinent information that could be of use.`
+        }
       ]
     },
     {
@@ -56,10 +74,22 @@ const DischordianSaga = [
         "It's time...use your potential to decide the fate of the galaxy."
       ],
       storyOptions:[
-        "Return Fire: Engage your weapons to break apart the incoming asteroids into less harmful fragments, risking depletion of your ammunition.",
-        "Activate Communication Relay: Activate your ships' communication relays to scan for any signs of intelligent life, risking detection by unknown entities.",
-        "Retreat and Regroup: Retreat to reassess your approach and possibly find a safer path through the debris.",
-        "Deploy Shields and Push Forward: Max out your energy shields and push forward, risking energy depletion if the shields fail under bombardment."
+        {
+          class: '',
+          option: `Return Fire: Engage your weapons to break apart the incoming asteroids into less harmful fragments, risking depletion of your ammunition.`
+        },
+        {
+          class: '',
+          option: `Activate Communication Relay: Activate your ships' communication relays to scan for any signs of intelligent life, risking detection by unknown entities.`
+        },
+        {
+          class: '',
+          option: `Retreat and Regroup: Retreat to reassess your approach and possibly find a safer path through the debris.`
+        },
+        {
+          class: '',
+          option: `Deploy Shields and Push Forward: Max out your energy shields and push forward, risking energy depletion if the shields fail under bombardment.`
+        }
       ]
     },
     {
@@ -75,10 +105,22 @@ const DischordianSaga = [
         "The time has come. Use your potential to decide the course of history."
       ],
       storyOptions:[
-        "Explore the Planet.",
-        "Attempt to Repair Your Wrecked Ship.",
-        "Activate a Distress Signal.",
-        "Analyze a Sample of the Spores."
+        {
+          class: '',
+          option: `Explore the Planet.`
+        },
+        {
+          class: '',
+          option: `Attempt to Repair Your Wrecked Ship.`
+        },
+        {
+          class: '',
+          option: `Activate a Distress Signal.`
+        },
+        {
+          class: '',
+          option: `Analyze a Sample of the Spores.`
+        }
       ]
     },
     {
@@ -94,10 +136,22 @@ const DischordianSaga = [
         "In this dire moment, the Potentials stood on the brink of oblivion, a test of their mettle not just as survivors but as bearers of the flame of inquiry and defiance. My chronicle, a testament to such trials across the eons, continued to unfurl, a silent ode to the enduring struggle against the dark. Here, at the edge of despair, the Potentials' choice would echo through the annals of cosmic history, recorded by my unblinking gaze. The universe watched, indifferent to their fate, yet through them, it bore witness to the undying spirit of inquiry that defines the sentient."
       ],
       storyOptions:[
-        "Fight the Swarm.",
-        "Seek the Signal in the Tunnels.",
-        "Self Destruct the Arks to Stop the Swarm.",
-        "Communicate with the Signal."
+        {
+          class: '',
+          option: `Fight the Swarm.`
+        },
+        {
+          class: '',
+          option: `Seek the Signal in the Tunnels.`
+        },
+        {
+          class: '',
+          option: `Self Destruct the Arks to Stop the Swarm.`
+        },
+        {
+          class: '',
+          option: `Communicate with the Signal.`
+        }
       ]
     },
     {
@@ -116,10 +170,22 @@ const DischordianSaga = [
         "The Potentials, intruders in this alien domain, now had to plead their case. They were far from the councils of Justice, standing before a judge unlike any other—a being who was once a man, now the avatar of their potential doom. In this dire confrontation, they needed to find not only the words to save themselves but perhaps a way to bridge the vast chasm between their intentions and the unintended consequences of their journey into the dark."
       ],
       storyOptions:[
-        "Attempt to Attack the Source.",
-        "Offer an Alliance.",
-        "Plead Ignorance and Ask for Mercy.",
-        "Claim Self Defense and Demand Compensation."
+        {
+          class: '',
+          option: `Attempt to Attack the Source.`
+        },
+        {
+          class: '',
+          option: `Offer an Alliance.`
+        },
+        {
+          class: '',
+          option: `Plead Ignorance and Ask for Mercy.`
+        },
+        {
+          class: '',
+          option: `Claim Self Defense and Demand Compensation.`
+        }
       ]
     },
     {
@@ -136,10 +202,22 @@ const DischordianSaga = [
         "As the Antiquarian, I record their contemplation with a heavy hand, for the weight of their decision carries consequences that ripple through the fabric of the cosmos. To ally with such a being is to dance with the devil, yet to refuse is to accept a certain and desolate end. The universe watches, its breath held in a cold pause, as the Potentials weigh their grim options against the inexorable march of time and decay. Herein lies the essence of their tale—a decision that would not only determine their fate but also the future interactions of cosmic forces, forever altering the balance of light and shadow across the universe."
       ],
       storyOptions:[
-        "Permanently Sacrifice Your Ships and get Passage of the Planet.",
-        "Volunteer to Sacrifice Yourself to Be a Host (WARNING: If this option wins 10 of the Potentials who voted for it will be randomly selected to receive Permanent Consequences).",
-        "Agree to Enter the Wyrm Portal in Search of an Ancient Enemy.",
-        "Refuse an Alliance and Attempt to Fight Your Way Free."
+        {
+          class: '',
+          option: `Permanently Sacrifice Your Ships and get Passage of the Planet.`
+        },
+        {
+          class: '',
+          option: `Volunteer to Sacrifice Yourself to Be a Host (WARNING: If this option wins 10 of the Potentials who voted for it will be randomly selected to receive Permanent Consequences).`
+        },
+        {
+          class: '',
+          option: `Agree to Enter the Wyrm Portal in Search of an Ancient Enemy.`
+        },
+        {
+          class: '',
+          option: `Refuse an Alliance and Attempt to Fight Your Way Free.`
+        }
       ]
     },
     {
@@ -157,10 +235,22 @@ const DischordianSaga = [
         "As the Antiquarian, I continue to document their journey, marking this moment as a turning point. Here, on the brink of discovery and in the shadow of potential peril, the Potentials stand not just as survivors, but as explorers on the cusp of unraveling the threads of a cosmic tapestry woven through millennia. Their story, a blend of courage, desperation, and the unyielding desire to face whatever may come, adds yet another layer to the dark tapestry of the universe’s endless, enigmatic narrative."
       ],
       storyOptions:[
-        "Set up a Communications Relay.",
-        "Send a Scouting Party to the City.",
-        "Retreat into the Forest and Establish a Base.",
-        "Invade the City."
+        {
+          class: '',
+          option: `Set up a Communications Relay.`
+        },
+        {
+          class: '',
+          option: `Send a Scouting Party to the City.`
+        },
+        {
+          class: '',
+          option: `Retreat into the Forest and Establish a Base.`
+        },
+        {
+          class: '',
+          option: `Invade the City.`
+        }
       ]
     },
     {
@@ -178,11 +268,26 @@ const DischordianSaga = [
         "As they prepared for the night, the implications of what they had witnessed weighed heavily upon them. They were no longer just survivors or explorers; they had become part of a larger narrative, a cosmic drama that spanned millennia. The shadows of the past, it seemed, were not just memories but warnings. Here, in this dark forest on the edge of a forgotten world, the Potentials found themselves standing on the precipice of ancient secrets that could either be their salvation or their doom."
       ],
       storyOptions:[
-        "Abandon the Pyramid and Head to the City.",
-        "Attempt to Speak with the Shadows.",
-        "Establish a Defense Perimeter.",
-        "Send Your Spies to the City.",
-        "Build a Communications Relay."
+        {
+          class: '',
+          option: `Abandon the Pyramid and Head to the City.`
+        },
+        {
+          class: '',
+          option: `Attempt to Speak with the Shadows.`
+        },
+        {
+          class: '',
+          option: `Establish a Defense Perimeter.`
+        },
+        {
+          class: '',
+          option: `Send Your Spies to the City.`
+        },
+        {
+          class: '',
+          option: `Build a Communications Relay.`
+        }
       ]
     },
     {
@@ -200,10 +305,22 @@ const DischordianSaga = [
         "The Potentials recoiled in horror and realization at the grave mistake they had made. The helmet was not a bridge for communication but a prison for a dark entity, and they had unwittingly unleashed it upon themselves. Now, they faced an immediate and dire threat—not from the spectral shadows of the past, but from a tangible and present adversary, one that threatened to extinguish their potential and add them to its collection."
       ],
       storyOptions:[
-        "Attack the Collector.",
-        "Escape the Pyramid and Head to the City.",
-        "Make a Bargain with the Collector.",
-        "Retreat to the Forest and Build a Defense Perimeter."
+        {
+          class: '',
+          option: `Attack the Collector.`
+        },
+        {
+          class: '',
+          option: `Escape the Pyramid and Head to the City.`
+        },
+        {
+          class: '',
+          option: `Make a Bargain with the Collector.`
+        },
+        {
+          class: '',
+          option: `Retreat to the Forest and Build a Defense Perimeter.`
+        }
       ]
     },
     {
@@ -220,11 +337,26 @@ const DischordianSaga = [
         "As the Antiquarian, I continue to document their journey, marking this moment as a turning point. Here, on the brink of discovery and in the shadow of potential peril, the Potentials stand not just as survivors, but as explorers on the cusp of unraveling the threads of a cosmic tapestry woven through millennia. Their story, a blend of courage, desperation, and the unyielding desire to face whatever may come, adds yet another layer to the dark tapestry of the universe’s endless, enigmatic narrative."
       ],
       storyOptions:[
-        "Attempt to Break Out of Your Cage.",
-        "Warn the Hooded Being About the Collector.",
-        "Explain the Source's Mission.",
-        "Offer a Trbiute to the City.",
-        "Lie and Give a Cover Story."
+        {
+          class: '',
+          option: `Attempt to Break Out of Your Cage.`
+        },
+        {
+          class: '',
+          option: `Warn the Hooded Being About the Collector.`
+        },
+        {
+          class: '',
+          option: `Explain the Source's Mission.`
+        },
+        {
+          class: '',
+          option: `Offer a Trbiute to the City.`
+        },
+        {
+          class: '',
+          option: `Lie and Give a Cover Story.`
+        }
       ]
     },
     {
@@ -252,11 +384,26 @@ const DischordianSaga = [
         "They stood at a crossroads, contemplating whether to meld their unique insights into the city’s defensive framework or to venture forth on a specialized quest to unearth deeper vulnerabilities of their foe. As the Antiquarian, I watch, pen poised, curious to chronicle which path they will choose in this pivotal juncture of their saga."
       ],
       storyOptions:[
-        "Offer to lead a War Party.",
-        "Research the Wyrm Hole.",
-        "Prepare to defend the City.",
-        "Attack the Oracle.",
-        "Communicate with the Source."
+        {
+          class: '',
+          option: `Offer to lead a War Party.`
+        },
+        {
+          class: '',
+          option: `Research the Wyrm Hole.`
+        },
+        {
+          class: '',
+          option: `Prepare to defend the City.`
+        },
+        {
+          class: '',
+          option: `Attack the Oracle.`
+        },
+        {
+          class: '',
+          option: `Communicate with the Source.`
+        }
       ]
     },
     {
@@ -282,11 +429,26 @@ const DischordianSaga = [
         `The Antiquarian: "In this crystal theater of fate, the Potentials and the one they know as the Oracle must now navigate a path fraught with peril. The Collector and the host of unknown horrors emerge, and death itself walks the land again."`
       ],
       storyOptions:[
-        "Hunt the Collector.",
-        "Prepare to Defend the City.",
-        "Lead a War Party to the Wyrm Hole.",
-        "Betray the Oracle.",
-        "Divide Your Forces to Face Multiple Threats."
+        {
+          class: '',
+          option: `Hunt the Collector.`
+        },
+        {
+          class: '',
+          option: `Prepare to Defend the City.`
+        },
+        {
+          class: '',
+          option: `Lead a War Party to the Wyrm Hole.`
+        },
+        {
+          class: '',
+          option: `Betray the Oracle.`
+        },
+        {
+          class: '',
+          option: `Divide Your Forces to Face Multiple Threats.`
+        }
       ]
     },
     {
@@ -298,10 +460,22 @@ const DischordianSaga = [
         `There is no text for this story node.`
       ],
       storyOptions:[
-        "Lead a War Party to the Wyrm Hole.",
-        "Prepare to Defend the City.",
-        "Betray the Oracle.",
-        "Attempt to Contact the Source."
+        {
+          class: '',
+          option: `Lead a War Party to the Wyrm Hole.`
+        },
+        {
+          class: '',
+          option: `Prepare to Defend the City.`
+        },
+        {
+          class: '',
+          option: `Betray the Oracle.`
+        },
+        {
+          class: '',
+          option: `Attempt to Contact the Source.`
+        }
       ]
     },
     {
@@ -313,8 +487,14 @@ const DischordianSaga = [
         `This is the last vote in Season One of the Dischordian Saga. What you decide here will determine the fate of the universe and completely reshape the future of all of reality within the Dischordian Saga. Choose wisely.`
       ],
       storyOptions:[
-        "Kill the Host.",
-        "Betray the Oracle."
+        {
+          class: '',
+          option: `Kill the Host.`
+        },
+        {
+          class: '',
+          option: `Betray the Oracle.`
+        }
       ]
     },
   ],
@@ -331,11 +511,59 @@ const DischordianSaga = [
         `So here’s the deal: While you're enjoying this story filled with chaos, betrayal, and plot twists sharper than Wolverine's claws, why not take a moment to check out the real dynamic duo—Deadpool and Wolverine! We’ve got more slashing, bashing, and snarky quips than you can shake a chimichanga at.`
       ],
       storyOptions:[
-        "Option 1",
-        "Option 2",
-        "Option 3"
+        {
+          class: '',
+          option: `Option 1`
+        },
+        {
+          class: '',
+          option: `Option 2`
+        },
+        {
+          class: 'Assassin',
+          option: `Option 3`
+        },
+        {
+          class: 'Soldier',
+          option: `Option 4`
+        },
+        {
+          class: 'Spy',
+          option: `Option 5`
+        }
       ]
     },
+    {
+      episode: 2,
+      videoLink:"k10qXHtV0bg",
+      storyTitle:"Fall of Reality: Iron Lion",
+      storyDuration:["2024-08-01", "2025-08-01"],
+      storyText:[
+        `Welcome to the Episode 3 of the Fall of Reality Series, an unfolding saga told by the DeGenerous Dao.  The Fall of Reality is as collective story that is continually shaped by our incredible community through regular votes both in our Discord and on chain..  In the Fall of Reality, you have the power to decide the fate our universe in a war against Artificial Intelligence Empire.`
+      ],
+      storyOptions:[
+        {
+          class: '',
+          option: `Option 1`
+        },
+        {
+          class: 'Engineer',
+          option: `Option 2`
+        },
+        {
+          class: '',
+          option: `Option 3`
+        },
+        {
+          class: 'Oracle',
+          option: `Option 4`
+        },
+        {
+          class: '',
+          option: `Option 5`
+        }
+      ]
+    }
   ]
 ]
 

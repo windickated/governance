@@ -191,8 +191,9 @@
       <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
       <ul class="options" bind:this={optionsContainer}>
         {#each storyNode.options as option, index}
-          <li class="option" id={index + 1} on:click={selectOption}>
-            {option}
+          <li class="option" id={index + 1} data-class={option.class}
+            on:click={selectOption}>
+            {option.option}
           </li>
         {/each}
       </ul>
