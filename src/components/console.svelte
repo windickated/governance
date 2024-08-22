@@ -109,10 +109,10 @@
         buttonActive.style.display = 'none';
         switch (id) {
           case 'sagaverse':
-            window.open('https://sagaverse.vercel.app', !touchscreenDevice ? '_blank' : '');
+            window.open('https://sagaverse.vercel.app', !touchscreenDevice ? '_blank' : '_self');
             break;
           case 'conexus':
-            window.open('https://conexus.vercel.app', !touchscreenDevice ? '_blank' : '');
+            window.open('https://conexus.vercel.app', !touchscreenDevice ? '_blank' : '_self');
             break;
           case 'back':
             if (nodeNumber) {
@@ -206,7 +206,7 @@
   }
   
 
-  @media screen and (width > 600px) {
+  @media screen and (min-width: 600px) {
     .console-panel {
       margin-top: 8.5vw;
     }
