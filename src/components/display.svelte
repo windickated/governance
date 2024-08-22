@@ -1,19 +1,21 @@
 <script>
-  import { _episode } from "../stores/storyNode.js"
+  import { _season, _episode, _option } from "../stores/storyNode.js"
   import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
-  import { _option } from "../stores/selectedOption.js"
 
 
+  let seasonNumber;
   let nodeNumber;
+  let selectedOption;
+
+  _season.subscribe(number => { seasonNumber = number });
   _episode.subscribe(number => { nodeNumber = number });
+  _option.subscribe(number => { selectedOption = number });
 
   let selectedNFTs;
   let inactiveNFTs = [];
   _potentials.subscribe(array => selectedNFTs = array);
   _inactivePotentials.subscribe(array => inactiveNFTs = array);
 
-  let selectedOption;
-  _option.subscribe(number => { selectedOption = number });
 
   $: voteIsInactive = selectedOption != undefined ? false : true;
 
@@ -69,14 +71,23 @@
     if (!voteIsInactive && voteButtonState) {
       if (event.type === 'click') {
         voteButtonState = !voteButtonState;
-        console.log('Episode:', nodeNumber, ' Option:', selectedOption, selectedNFTs) //vote info
+
         setTimeout(() => {
-        voteButtonState = !voteButtonState;
-        selectedNFTs.map(nft => inactiveNFTs.push(nft));
-        $_inactivePotentials = inactiveNFTs;
-        $_potentials = [];
-        $_option = undefined;
+          voteButtonState = !voteButtonState;
+
+          // vote function
+          alert('Season:' + seasonNumber + '\n' +
+                'Episode:' + nodeNumber + '\n' +
+                'Option:' + selectedOption) //vote info
+          console.log('Selected NFTs:', selectedNFTs)//vote info
+          selectedNFTs.map(nft => inactiveNFTs.push(nft));
+          $_inactivePotentials = inactiveNFTs;
+          $_potentials = [];
+          $_option = undefined;
+          console.log('Inactive NFTs:', inactiveNFTs) //used up
+
         }, 750)
+
       } else if (
         event.type === 'mouseover' || event.type === 'mouseout') {
           voteButtonHover = !voteButtonHover;

@@ -1,8 +1,7 @@
 <script>
-  import { afterUpdate, onMount } from "svelte"
-  import { _season, _episode } from "../stores/storyNode.js"
-  import { _potentials } from "../stores/selectedNFTs.js"
-  import { _option } from "../stores/selectedOption.js"
+  import { afterUpdate } from "svelte"
+  import { _season, _episode, _option } from "../stores/storyNode.js"
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
 
@@ -35,16 +34,17 @@
 
   let seasonNumber;
   let nodeNumber;
+  let selectedOption;
   let isEnded;
 
   _season.subscribe(number => { seasonNumber = number });
   _episode.subscribe(number => { nodeNumber = number });
+  _option.subscribe(number => { selectedOption = number });
 
   let selectedNFTs;
+  let inactiveNFTs = [];
   _potentials.subscribe(array => selectedNFTs = array);
-
-  let selectedOption;
-  _option.subscribe(number => { selectedOption = number });
+  _inactivePotentials.subscribe(array => inactiveNFTs = array);
 
   $: storyNode = {
     title: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle : '',
@@ -122,7 +122,20 @@
           option.style.listStyleType = 'circle';
         }
       })
+      if (width <= 600) setTimeout(vote, 150);
     }
+  }
+
+  function vote() {
+    alert('Season:' + seasonNumber + '\n' +
+          'Episode:' + nodeNumber + '\n' +
+          'Option:' + selectedOption) //vote info
+    console.log('Selected NFTs:', selectedNFTs)//vote info
+    selectedNFTs.map(nft => inactiveNFTs.push(nft));
+    $_inactivePotentials = inactiveNFTs;
+    $_potentials = [];
+    $_option = undefined;
+    console.log('Inactive NFTs:', inactiveNFTs) //used up
   }
 </script>
 
