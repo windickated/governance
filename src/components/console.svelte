@@ -90,7 +90,7 @@
           buttonHover.style.display = 'block';
           buttonActive.style.display = 'none';
         } else if (isClicked) {
-          clickHandle(button, buttonActive);
+          clickHandle(event, id, button, buttonActive);
         } else if (event.type === 'mouseout') {
           button.style.display = 'block';
           buttonHover.style.display = 'none';
@@ -99,7 +99,7 @@
       } else { clickHandle(button, buttonActive) }
     }
 
-    function clickHandle(button, buttonActive) {
+    function clickHandle(event, id, button, buttonActive) {
       button.style.display = 'none';
       buttonActive.style.display = 'block';
       setTimeout(() => {
@@ -125,6 +125,7 @@
             }
             break;
         }
+        event.stopImmediatePropagation();
       }, 150)
     }
   }
@@ -142,7 +143,7 @@
       <!-- svelte-ignore a11y-mouse-events-have-key-events -->
       <div class="{button.id} {button.size}">
         <img
-          on:mouseover|stopPropagation={() => {consoleButtonsHandle(event, button.id)}}
+          on:mouseover={() => {consoleButtonsHandle(event, button.id)}}
           class="console-btn visible"
           id={button.id}
           src={button.image}
@@ -159,7 +160,7 @@
           draggable="false"
         />
         <img
-          on:mouseover|stopPropagation={() => {consoleButtonsHandle(event, button.id, true)}}
+          on:mouseover={() => {consoleButtonsHandle(event, button.id, true)}}
           class="console-btn"
           id="{button.id}-active"
           src={button.click}
