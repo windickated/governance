@@ -4,6 +4,9 @@
   import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
+  import { provider, metamask_init, switch_network, network } from "../lib/ethers"
+  import { loggedIn } from "../stores/auth"
+
 
   /* --- EPISODES tab --- */
 
@@ -68,7 +71,7 @@
   let walletLegend;
   let wallet;
   let walletButton;
-  let isConnected = false;
+  let networkSwitcher;
 
   let selectedNFTs;
   let inactiveNFTs;
@@ -121,21 +124,34 @@
     }
   }
 
-  function connectWallet() { //test func
-    isConnected = !isConnected;
-    if (isConnected) {
-      walletButton.innerHTML = 'Disconect';
-      walletButton.style.backgroundColor = 'rgba(51, 226, 230, 0.9)';
-      walletButton.style.color = '#010020';
-      walletLegend.style.color = '#33E2E6';
-      walletLegend.style.display = 'none';
-      wallet.style.display = 'block';
-      wallet.innerHTML = '0xeb0a...60c1';
-      walletContainer.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
-      walletContainer.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))';
-      getNFTs();
+  async function connectWallet() { //test func
+    if (!$loggedIn) {
+      await provider.getNetwork().then(async (net) => {
+        if (net.chainId === BigInt(network.chainId)) {
+          await provider.send("eth_requestAccounts", []);
+          loggedIn.set(true);
+
+          networkSwitcher.style.display = 'none';
+          walletButton.style.display = 'block';
+          walletButton.innerHTML = 'Disconect';
+          walletButton.style.backgroundColor = 'rgba(51, 226, 230, 0.9)';
+          walletButton.style.color = '#010020';
+          walletLegend.style.color = '#33E2E6';
+          walletLegend.style.display = 'none';
+          wallet.style.display = 'block';
+          wallet.innerHTML = '0xeb0a...60c1';
+          walletContainer.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
+          walletContainer.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))';
+
+          getNFTs();
+        } else {
+          walletLegend.innerHTML = "You're on a wrong network!";
+          walletButton.style.display = 'none';
+          networkSwitcher.style.display = 'block';
+        }
+      });
     } else {
-      walletButton.innerHTML = 'Connect wallet';
+      walletButton.innerHTML = 'Log in';
       walletButton.style.backgroundColor = '#161E5F';
       walletButton.style.color = '#33E2E6';
       walletLegend.style.color = '#010020';
@@ -144,6 +160,8 @@
       wallet.innerHTML = '';
       walletContainer.style.filter = 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))';
       walletContainer.style.backgroundColor = 'rgba(51, 226, 230, 0.5)';
+
+      loggedIn.set(false);
     }
   }
 
@@ -174,7 +192,7 @@
   // NFTs tab opening
   function handleNFTsBar() {
     $_option = undefined;
-    
+
     if (episodesBarState) handleEpisodesBar();
 
     if (!nftBarState) {
@@ -409,20 +427,39 @@
 />
 
 <div class="nft-bar" bind:this={nftBar}>
+
   <div class="wallet-container" bind:this={walletContainer}>
-    <p class="wallet-legend" bind:this={walletLegend}>
-      Connect Web3 Wallet:
-    </p>
-    <p class="wallet" bind:this={wallet}></p>
-    <button
-      class="wallet-connect"
-      bind:this={walletButton}
-      on:click={connectWallet}
-    >
-      Connect wallet
-    </button>
+    {#await metamask_init()}
+      <p class="wallet-legend">Loading Web3 Wallet...</p>
+    {:then provider_exists}
+      {#if provider_exists}
+        <p class="wallet-legend" bind:this={walletLegend}>
+          Connect Web3 Wallet:
+        </p>
+        <p class="wallet" bind:this={wallet}></p>
+        <button
+          class="wallet-connect"
+          bind:this={walletButton}
+          on:click={connectWallet}
+        >
+          Log in
+        </button>
+        <button
+          class="switch-network"
+          bind:this={networkSwitcher}
+          on:click={switch_network}
+        >
+          Switch network
+        </button>
+      {:else}
+        <p class="wallet-legend">Install Web3 Wallet.</p>
+      {/if}
+    {:catch}
+      <p class="wallet-legend">Error Loading Web3 Wallet.</p>
+    {/await}
   </div>
-  {#if isConnected}
+
+  {#if $loggedIn}
     <div class="nfts-legend">
       <p class="nfts-total">Total NFTs: {potentials.length}</p>
       <p class="nfts-selected">Selected NFTs: {selectedNFTs.length}</p>
@@ -636,7 +673,7 @@ a11y-no-static-element-interactions -->
     line-height: 3.5vw;
   }
 
-  .wallet-connect {
+  .wallet-connect, .switch-network {
     height: 3.5vw;
     width: 18vw;
     border: 0.05vw solid #33E2E6;
@@ -644,6 +681,12 @@ a11y-no-static-element-interactions -->
     font-size: 2vw;
     background-color: #161E5F;
     color: #33E2E6;
+  }
+
+  .switch-network {
+    display: none;
+    background-color: rgba(36, 65, 189, 0.9);
+    color: inherit;
   }
 
   .nfts-legend {
@@ -788,7 +831,7 @@ a11y-no-static-element-interactions -->
       padding: 2vw 3vw;
     }
 
-    .wallet-connect {
+    .wallet-connect, .switch-network {
       font-size: inherit;
       width: 38vw;
       height: 10vw;
