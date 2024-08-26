@@ -93,7 +93,7 @@
           $_inactivePotentials = inactiveNFTs;
           $_potentials = [];
           $_option = undefined;
-          console.log('Inactive NFTs:', inactiveNFTs) //used up
+          console.log('Inactive NFTs:', inactiveNFTs) //used nfts
 
         }, 750)
 

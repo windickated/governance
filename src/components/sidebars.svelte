@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from "svelte"
-  import { _season, _episode } from "../stores/storyNode.js"
+  import { _season, _episode, _option } from "../stores/storyNode.js"
   import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
@@ -12,7 +12,6 @@
   let nodeNumber;
 
   _season.subscribe(number => { seasonNumber = number });
-
   _episode.subscribe(number => { nodeNumber = number });
 
   afterUpdate(() => {
@@ -174,6 +173,8 @@
 
   // NFTs tab opening
   function handleNFTsBar() {
+    $_option = undefined;
+    
     if (episodesBarState) handleEpisodesBar();
 
     if (!nftBarState) {

@@ -130,21 +130,32 @@
     }
   }
 
-
+  let classMatch;
   function selectOption() {
     if (selectedNFTs.length > 0) {
-      $_option = this.id;
+  
+      // class validation
+      if (this.dataset.class) {
+        classMatch = true;
+        selectedNFTs.forEach(nft => {
+          if (this.dataset.class != nft.class) classMatch = false;
+        })
+        $_option = classMatch ? this.id : undefined;
+      } else {
+        $_option = this.id;
+      }
+
+      if ($_option != undefined && width <= 600) setTimeout(vote, 150);
+
       this.style.color = '#33E2E6';
       this.style.textShadow = '0 0 3px #33E2E6';
       this.style.listStyleType = 'disc';
       optionsContainer.childNodes.forEach(option => {
         if (option.id != this.id) {
-          option.style.color = 'inherit';
           option.style.textShadow = 'none';
           option.style.listStyleType = 'circle';
         }
       })
-      if (width <= 600) setTimeout(vote, 150);
     }
   }
 
@@ -157,7 +168,7 @@
     $_inactivePotentials = inactiveNFTs;
     $_potentials = [];
     $_option = undefined;
-    console.log('Inactive NFTs:', inactiveNFTs) //used up
+    console.log('Inactive NFTs:', inactiveNFTs) //used nfts
   }
 
   let mobileTextVisibility = false;
