@@ -50,6 +50,7 @@ table {
 /* General */
 
 html {
+  font-family: 'PT Serif Caption', serif;
   background-image: url("/spaceshipBG.avif"), linear-gradient(#000000, #161E5F);
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -62,7 +63,6 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
-  font-family: "PT Serif Caption", serif;
   font-size: 1em;
   color: #dedede;
   word-spacing: 0.2em;
@@ -79,6 +79,7 @@ img {
 }
 
 button {
+  font-family: 'PT Serif Caption', serif;
   cursor: pointer;
 }
 

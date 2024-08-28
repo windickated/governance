@@ -15,19 +15,31 @@
             option.style.textShadow = '0 0 3px #33E2E6';
             option.style.listStyleType = 'disc';
             option.style.color = '#33E2E6';
+            if (!option.dataset.class) 
+              option.childNodes[0].src = '/option-selector-hover.png';
           }
         })
         option.addEventListener('mouseout', () => {
           if (option.id != selectedOption) {
             option.style.textShadow = 'none';
             option.style.listStyleType = 'circle';
-            classgateOption(option);
+            option.style.color = 'inherit';
+            if (option.dataset.class) {
+              option.childNodes[0].src = `/${option.dataset.class}.png`;
+            } else {
+              option.childNodes[0].src = '/option-selector.png';
+            }
           }
         })
         if (option.id != selectedOption) {
           option.style.textShadow = 'none';
           option.style.listStyleType = 'circle';
-          classgateOption(option);
+          option.style.color = 'inherit';
+          if (option.dataset.class) {
+            option.childNodes[0].src = `/${option.dataset.class}.png`;
+          } else {
+            option.childNodes[0].src = '/option-selector.png';
+          }
         }
       })
     }
@@ -82,55 +94,19 @@
   function resizeOptions() {
     const optionsCounter = DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
     if(width >= 600) {
-      if(optionsCounter == 5) {
-        optionsContainer.style.fontSize = `${11/optionsCounter}vw`;
-        optionsContainer.style.paddingTop = `${8/optionsCounter}vw`;
-        optionsContainer.style.height = '23.5vw';
-      } else if(optionsCounter == 4) {
+      if(optionsCounter >= 5) {
         optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
-        optionsContainer.style.paddingTop = `${10/optionsCounter}vw`;
-        optionsContainer.style.height = '22.75vw';
       } else {
-        optionsContainer.style.fontSize = '2.5vw';
-        if(optionsCounter == 3) {
-          optionsContainer.style.paddingTop = '5vw';
-          optionsContainer.style.height = '20.25vw';
-        } else {
-          optionsContainer.style.paddingTop = '7vw';
-          optionsContainer.style.height = '18.25vw';
-        }
+        optionsContainer.style.fontSize = '2.5vw'
       }
     } else {
       optionsContainer.style.fontSize = '1.1em';
-      optionsContainer.style.paddingTop = '2vw';
-      optionsContainer.style.height = 'auto';
-    }
-  }
-
-  function classgateOption(option) {
-    switch (option.dataset.class) {
-      case 'Assassin':
-        option.style.color = '#EC8B83';
-        break;
-      case 'Soldier':
-        option.style.color = '#6D9BC3';
-        break;
-      case 'Spy':
-        option.style.color = '#F8D0A0';
-        break;
-      case 'Engineer':
-        option.style.color = '#9DC183';
-        break;
-      case 'Oracle':
-        option.style.color = '#D498C6';
-        break;
-      default:
-        option.style.color = 'inherit';
-        break;
     }
   }
 
   let classMatch;
+  let classValidation;
+  let className;
   function selectOption() {
     if (selectedNFTs.length > 0) {
   
@@ -138,7 +114,14 @@
       if (this.dataset.class) {
         classMatch = true;
         selectedNFTs.forEach(nft => {
-          if (this.dataset.class != nft.class) classMatch = false;
+          if (this.dataset.class != nft.class) {
+            classMatch = false;
+            className = this.dataset.class;
+            classValidation.style.opacity = '1';
+            setTimeout(() => {
+              classValidation.style.opacity = '0';
+            }, 2000)
+          }
         })
         $_option = classMatch ? this.id : undefined;
       } else {
@@ -181,59 +164,73 @@
 
 <section class="story-node-wraper">
 
-    <iframe src={storyNode.video} class="video visible" title="YouTube" allowfullscreen />
+  <iframe src={storyNode.video} class="video visible" title="YouTube" allowfullscreen />
 
-    <div class="legend">
-      {#if nodeNumber}
-        <h1 class="header">{ storyNode.title }</h1>
-        <h1 class="season-episode-number">
-          The Dischordian Saga: Season {seasonNumber} - Episode { nodeNumber }
-      </h1>
-        <h2 class="duration">{ storyNode.duration }</h2>
-      {:else}
-        <h1 class="empty-header">Select any episode from the tab</h1>
+  <div class="legend">
+    {#if nodeNumber}
+      <h1 class="header">{ storyNode.title }</h1>
+      <h1 class="season-episode-number">
+        The Dischordian Saga: Season {seasonNumber} - Episode { nodeNumber }
+    </h1>
+      <h2 class="duration">{ storyNode.duration }</h2>
+    {:else}
+      <h1 class="empty-header">Select any episode from the tab</h1>
+    {/if}
+  </div>
+
+  {#if nodeNumber}
+    <div class="text">
+      {#if width <= 600}
+        <button class="story-text-visibility" on:click={() => {
+          mobileTextVisibility = !mobileTextVisibility
+        }}
+        style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.5)' : ''}
+        >
+          <p>
+            {(mobileTextVisibility ? 'Hide' : 'Show') + ' story text'}
+          </p>
+          <img
+            style={mobileTextVisibility ? 'transform: rotate(180deg)' : ''}
+            src="/dropdown.png"
+            alt={mobileTextVisibility ? 'Hide' : 'Show'}
+          />
+        </button>
+      {/if}
+      {#if mobileTextVisibility}
+        {#each storyNode.text as paragraph}
+          <p class="text-paragraph">{ paragraph }</p>
+        {/each}
       {/if}
     </div>
 
-    {#if nodeNumber}
-      <div class="text">
-        {#if width <= 600}
-          <button class="story-text-visibility" on:click={() => {
-            mobileTextVisibility = !mobileTextVisibility
-          }}
-          style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.5)' : ''}
-          >
-            <p>
-              {(mobileTextVisibility ? 'Hide' : 'Show') + ' story text'}
-            </p>
-            <img
-              style={mobileTextVisibility ? 'transform: rotate(180deg)' : ''}
-              src="/dropdown.png"
-              alt={mobileTextVisibility ? 'Hide' : 'Show'}
-            />
-          </button>
-        {/if}
-        {#if mobileTextVisibility}
-          {#each storyNode.text as paragraph}
-            <p class="text-paragraph">{ paragraph }</p>
-          {/each}
-        {/if}
+    <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
+    a11y-no-static-element-interactions -->
+    <div class="options" bind:this={optionsContainer}>
+      {#each storyNode.options as option, index}
+        <div
+          class="option"
+          id={index + 1}
+          data-class={option.class}
+          on:click={selectOption}
+        >
+          <img
+            class="option-selector"
+            src={option.class ? `/${option.class}.png` : "/option-selector.png"}
+            alt="selector" 
+          />
+          <p>{option.option}</p>
+        </div>
+      {/each}
       </div>
 
-      <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
-      <ul class="options" bind:this={optionsContainer}>
-        {#each storyNode.options as option, index}
-          <li class="option" id={index + 1} data-class={option.class}
-            on:click={selectOption}>
-            {option.class ? `(${option.class}) ${option.option}` : option.option}
-          </li>
-        {/each}
-      </ul>
+    <span class="voting-ended {isEnded ? '' : 'voting-active'}">
+      {isEnded ? "Voting ended" : "Voting active"}
+    </span>
+  {/if}
 
-      <span class="voting-ended {isEnded ? '' : 'voting-active'}">
-        {isEnded ? "Voting ended" : "Voting active"}
-      </span>
-    {/if}
+  <p class="class-validation" bind:this={classValidation}>
+    Only <strong>{className}</strong> can vote for this option!
+  </p>
 
 </section>
 
@@ -362,17 +359,18 @@
   }
 
   .options {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
     position: absolute;
     top: 59vw;
     width: 59vw;
-    height: 25.25vw;
+    height: 23.25vw;
     white-space: nowrap;
-    list-style: circle inside;
     margin: 2vw;
     margin-left: 2.75vw;
     margin-bottom: auto;
-    padding-left: 3vw;
-    padding-bottom: auto;
+    padding: 1vw 0 1vw 3vw;
     font-size: 1.1em;
     line-height: 2em;
     overflow-y: hidden;
@@ -396,9 +394,26 @@
   }
 
   .option {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 1vw;
     color: inherit;
     -webkit-text-stroke: 0.01vw #33E2E6;
+    background-color: rgba(0,0,0,0);
+    border: none;
     cursor: pointer;
+  }
+
+  .option-selector {
+    height: 3vw;
+    width: auto;
+    background-image: url('/option-selector.png');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: 0.9;
   }
 
   .option:hover, .option:active {
@@ -422,6 +437,25 @@
   .voting-active {
     color: rgba(51, 226, 230, 0.8);
     -webkit-text-stroke: 0.2vw rgba(0, 255, 0, 0.1);
+  }
+
+  .class-validation {
+    opacity: 0;
+    position: fixed;
+    text-align: center;
+    width: 90vw;
+    top: 40%;
+    left: 5vw;
+    font-size: 2.5vw;
+    line-height: 5vw;
+    color: rgba(255, 55, 55, 0.8);
+    filter: drop-shadow(0 0 0.5vw rgb(0,0,0));
+    pointer-events: none;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+  }
+
+  .class-validation strong {
+    color: rgba(255, 55, 55, 0.9);
   }
 
 
@@ -487,6 +521,7 @@
       white-space: wrap;
       margin-left: -2vw;
       margin-bottom: 4vw;
+      padding-top: 2vw;
       background-color: rgba(1, 0, 32, 0.6);
       -webkit-backdrop-filter: blur(1vw);
       backdrop-filter: blur(1vw);
@@ -497,6 +532,7 @@
     }
 
     .option {
+      gap: 0.75em;
       margin-bottom: 0.5em;
     }
 
@@ -504,10 +540,19 @@
       margin-bottom: 0;
     }
 
+    .option-selector {
+      height: 1.5em;
+    }
+
     .voting-ended {
       font-size: 1.2em;
       margin-top: 0;
       margin-bottom: 0;
+    }
+
+    .class-validation {
+      font-size: 1.5em;
+      line-height: 1.5em;
     }
   }
 </style>
