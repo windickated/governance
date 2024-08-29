@@ -1,91 +1,108 @@
 <script>
-  import { afterUpdate } from "svelte"
-  import { _season, _episode, _option, isEnded } from "../stores/storyNode.js"
-  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
-  import DischordianSaga from "../data/DischordianSaga.js"
+  import { afterUpdate } from "svelte";
+  import { _season, _episode, _option, isEnded } from "../stores/storyNode.js";
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js";
+  import DischordianSaga from "../data/DischordianSaga.js";
 
   import { contract } from "../lib/contract";
-
 
   afterUpdate(() => {
     if (width > 600) mobileTextVisibility = true;
     if (nodeNumber) {
       resizeOptions();
-      optionsContainer.childNodes.forEach(option => {
-        option.addEventListener('mouseover', () => {
+      optionsContainer.childNodes.forEach((option) => {
+        option.addEventListener("mouseover", () => {
           if (option.id != selectedOption) {
-            option.style.textShadow = '0 0 3px #33E2E6';
-            option.style.listStyleType = 'disc';
-            option.style.color = '#33E2E6';
-            if (!option.dataset.class) 
-              option.childNodes[0].src = '/option-selector-hover.png';
+            option.style.textShadow = "0 0 3px #33E2E6";
+            option.style.listStyleType = "disc";
+            option.style.color = "#33E2E6";
+            if (!option.dataset.class)
+              option.childNodes[0].src = "/option-selector-hover.png";
           }
-        })
-        option.addEventListener('mouseout', () => {
+        });
+        option.addEventListener("mouseout", () => {
           if (option.id != selectedOption) {
-            option.style.textShadow = 'none';
-            option.style.listStyleType = 'circle';
-            option.style.color = 'inherit';
+            option.style.textShadow = "none";
+            option.style.listStyleType = "circle";
+            option.style.color = "inherit";
             if (option.dataset.class) {
               option.childNodes[0].src = `/${option.dataset.class}.png`;
             } else {
-              option.childNodes[0].src = '/option-selector.png';
+              option.childNodes[0].src = "/option-selector.png";
             }
           }
-        })
+        });
         if (option.id != selectedOption) {
-          option.style.textShadow = 'none';
-          option.style.listStyleType = 'circle';
-          option.style.color = 'inherit';
+          option.style.textShadow = "none";
+          option.style.listStyleType = "circle";
+          option.style.color = "inherit";
           if (option.dataset.class) {
             option.childNodes[0].src = `/${option.dataset.class}.png`;
           } else {
-            option.childNodes[0].src = '/option-selector.png';
+            option.childNodes[0].src = "/option-selector.png";
           }
         }
-      })
+      });
     }
-  })
+  });
 
   let seasonNumber;
   let nodeNumber;
   let selectedOption;
 
-  _season.subscribe(number => { seasonNumber = number });
-  _episode.subscribe(number => { nodeNumber = number });
-  _option.subscribe(number => { selectedOption = number });
+  _season.subscribe((number) => {
+    seasonNumber = number;
+  });
+  _episode.subscribe((number) => {
+    nodeNumber = number;
+  });
+  _option.subscribe((number) => {
+    selectedOption = number;
+  });
 
   let selectedNFTs;
   let inactiveNFTs = [];
-  _potentials.subscribe(array => selectedNFTs = array);
-  _inactivePotentials.subscribe(array => inactiveNFTs = array);
+  _potentials.subscribe((array) => (selectedNFTs = array));
+  _inactivePotentials.subscribe((array) => (inactiveNFTs = array));
 
   $: storyNode = {
-    title: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle : '',
-    duration: nodeNumber ? getStoryDate() : '',
-    video: nodeNumber ? `https://www.youtube.com/embed/${DischordianSaga[seasonNumber - 1][nodeNumber - 1].videoLink}` : '',
-    text: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyText : '',
-    options: nodeNumber ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions : ''
-  }
+    title: nodeNumber
+      ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle
+      : "",
+    duration: nodeNumber ? getStoryDate() : "",
+    video: nodeNumber
+      ? `https://www.youtube.com/embed/${DischordianSaga[seasonNumber - 1][nodeNumber - 1].videoLink}`
+      : "",
+    text: nodeNumber
+      ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyText
+      : "",
+    options: nodeNumber
+      ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions
+      : "",
+  };
 
   function getStoryDate() {
-    let dateStart = new Date(DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[0]);
-    let dateEnd = new Date(DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[1]);
+    let dateStart = new Date(
+      DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[0]
+    );
+    let dateEnd = new Date(
+      DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[1]
+    );
 
-    let dayStart = ('0' + dateStart.getDate()).slice(-2);
-    let dayEnd = ('0' + dateEnd.getDate()).slice(-2);
-    let monthStart = ('0' + (dateStart.getMonth() + 1)).slice(-2);
-    let monthEnd = ('0' + (dateEnd.getMonth() + 1)).slice(-2);
+    let dayStart = ("0" + dateStart.getDate()).slice(-2);
+    let dayEnd = ("0" + dateEnd.getDate()).slice(-2);
+    let monthStart = ("0" + (dateStart.getMonth() + 1)).slice(-2);
+    let monthEnd = ("0" + (dateEnd.getMonth() + 1)).slice(-2);
     let yearStart = dateStart.getFullYear();
     let yearEnd = dateEnd.getFullYear();
 
     let fullDateStart = `${dayStart}.${monthStart}.${yearStart}`;
     let fullDateEnd = `${dayEnd}.${monthEnd}.${yearEnd}`;
 
-    let fullDate = 'Duration: ' + fullDateStart + ' - ' + fullDateEnd;
+    let fullDate = "Duration: " + fullDateStart + " - " + fullDateEnd;
 
     let dateNow = new Date();
-    $isEnded = (dateNow > dateEnd) ? true : false;
+    $isEnded = dateNow > dateEnd ? true : false;
 
     return fullDate;
   }
@@ -93,15 +110,16 @@
   let width;
   let optionsContainer;
   function resizeOptions() {
-    const optionsCounter = DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
-    if(width >= 600) {
-      if(optionsCounter >= 5) {
-        optionsContainer.style.fontSize = `${10/optionsCounter}vw`;
+    const optionsCounter =
+      DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
+    if (width >= 600) {
+      if (optionsCounter >= 5) {
+        optionsContainer.style.fontSize = `${10 / optionsCounter}vw`;
       } else {
-        optionsContainer.style.fontSize = '2.5vw'
+        optionsContainer.style.fontSize = "2.5vw";
       }
     } else {
-      optionsContainer.style.fontSize = '1.1em';
+      optionsContainer.style.fontSize = "1.1em";
     }
   }
 
@@ -110,20 +128,19 @@
   let className;
   function selectOption() {
     if ($isEnded === false && selectedNFTs.length > 0) {
-  
       // class validation
       if (this.dataset.class) {
         classMatch = true;
-        selectedNFTs.forEach(nft => {
+        selectedNFTs.forEach((nft) => {
           if (this.dataset.class != nft.class) {
             classMatch = false;
             className = this.dataset.class;
-            classValidation.style.opacity = '1';
+            classValidation.style.opacity = "1";
             setTimeout(() => {
-              classValidation.style.opacity = '0';
-            }, 2000)
+              classValidation.style.opacity = "0";
+            }, 2000);
           }
-        })
+        });
         $_option = classMatch ? this.id : undefined;
       } else {
         $_option = this.id;
@@ -131,66 +148,78 @@
 
       if ($_option != undefined && width <= 600) setTimeout(vote, 150);
 
-      this.style.color = '#33E2E6';
-      this.style.textShadow = '0 0 3px #33E2E6';
-      this.style.listStyleType = 'disc';
-      optionsContainer.childNodes.forEach(option => {
+      this.style.color = "#33E2E6";
+      this.style.textShadow = "0 0 3px #33E2E6";
+      this.style.listStyleType = "disc";
+      optionsContainer.childNodes.forEach((option) => {
         if (option.id != this.id) {
-          option.style.textShadow = 'none';
-          option.style.listStyleType = 'circle';
+          option.style.textShadow = "none";
+          option.style.listStyleType = "circle";
         }
-      })
+      });
     }
   }
 
   async function vote() {
-    alert('Season:' + seasonNumber + '\n' +
-          'Episode:' + nodeNumber + '\n' +
-          'Option:' + selectedOption) //vote info
-    console.log('Selected NFTs:', selectedNFTs)//vote info
+    alert(
+      "Season:" +
+        seasonNumber +
+        "\n" +
+        "Episode:" +
+        nodeNumber +
+        "\n" +
+        "Option:" +
+        selectedOption
+    ); //vote info
+    console.log("Selected NFTs:", selectedNFTs); //vote info
 
     //voting contract
     if (selectedNFTs.length == 1) {
-      const potentialNumber = selectedNFTs[0].name.slice(selectedNFTs[0].name.slice().length - 3);
-      await (await contract()).singleVote(nodeNumber, potentialNumber, selectedOption);
+      const potentialNumber = selectedNFTs[0].name.slice(
+        selectedNFTs[0].name.slice().length - 3
+      );
+      await (
+        await contract()
+      ).singleVote(nodeNumber, potentialNumber, selectedOption);
     } else {
       const potentialNumbers = [];
-      selectedNFTs.map(nft => {
+      selectedNFTs.map((nft) => {
         potentialNumbers.push(nft.name.slice(nft.name.slice().length - 3));
-      })
+      });
       const options = new Array(potentialNumbers.length).fill(selectedOption);
       await (await contract()).batchVote(nodeNumber, potentialNumbers, options);
     }
 
     //inactive potentials with NO contract
-    selectedNFTs.map(nft => inactiveNFTs.push(nft));
+    selectedNFTs.map((nft) => inactiveNFTs.push(nft));
     $_inactivePotentials = inactiveNFTs;
 
     $_potentials = [];
     $_option = undefined;
 
-    console.log('Inactive NFTs:', inactiveNFTs) //used nfts
+    console.log("Inactive NFTs:", inactiveNFTs); //used nfts
   }
 
   let mobileTextVisibility = false;
 </script>
 
-
-
 <svelte:window bind:outerWidth={width} />
 
-
 <section class="story-node-wraper">
-
-  <iframe src={storyNode.video} class="video visible" title="YouTube" allowfullscreen />
+  <iframe
+    src={storyNode.video}
+    class="video visible"
+    title="YouTube"
+    allowfullscreen
+  />
 
   <div class="legend">
     {#if nodeNumber}
-      <h1 class="header">{ storyNode.title }</h1>
+      <h1 class="header">{storyNode.title}</h1>
       <h1 class="season-episode-number">
-        The Dischordian Saga: Season {seasonNumber} - Episode { nodeNumber }
-    </h1>
-      <h2 class="duration">{ storyNode.duration }</h2>
+        The Dischordian Saga: Season {seasonNumber} - Episode {nodeNumber}
+      </h1>
+      <h2 class="duration">{storyNode.duration}</h2>
     {:else}
       <h1 class="empty-header">Select any episode from the tab</h1>
     {/if}
@@ -199,24 +228,28 @@
   {#if nodeNumber}
     <div class="text">
       {#if width <= 600}
-        <button class="story-text-visibility" on:click={() => {
-          mobileTextVisibility = !mobileTextVisibility
-        }}
-        style={mobileTextVisibility ? 'border-bottom: 0.1vw solid rgba(51, 226, 230, 0.5)' : ''}
+        <button
+          class="story-text-visibility"
+          on:click={() => {
+            mobileTextVisibility = !mobileTextVisibility;
+          }}
+          style={mobileTextVisibility
+            ? "border-bottom: 0.1vw solid rgba(51, 226, 230, 0.5)"
+            : ""}
         >
           <p>
-            {(mobileTextVisibility ? 'Hide' : 'Show') + ' story text'}
+            {(mobileTextVisibility ? "Hide" : "Show") + " story text"}
           </p>
           <img
-            style={mobileTextVisibility ? 'transform: rotate(180deg)' : ''}
+            style={mobileTextVisibility ? "transform: rotate(180deg)" : ""}
             src="/dropdown.png"
-            alt={mobileTextVisibility ? 'Hide' : 'Show'}
+            alt={mobileTextVisibility ? "Hide" : "Show"}
           />
         </button>
       {/if}
       {#if mobileTextVisibility}
         {#each storyNode.text as paragraph}
-          <p class="text-paragraph">{ paragraph }</p>
+          <p class="text-paragraph">{paragraph}</p>
         {/each}
       {/if}
     </div>
@@ -234,12 +267,12 @@
           <img
             class="option-selector"
             src={option.class ? `/${option.class}.png` : "/option-selector.png"}
-            alt="selector" 
+            alt="selector"
           />
           <p>{option.option}</p>
         </div>
       {/each}
-      </div>
+    </div>
 
     <span class="voting-ended {$isEnded ? '' : 'voting-active'}">
       {$isEnded ? "Voting ended" : "Voting active"}
@@ -249,10 +282,7 @@
   <p class="class-validation" bind:this={classValidation}>
     Only <strong>{className}</strong> can vote for this option!
   </p>
-
 </section>
-
-
 
 <style>
   .story-node-wraper {
@@ -288,15 +318,16 @@
     font-size: 3.5vw;
     text-align: center;
     padding: 1vw 0;
-    color: #33E2E6;
+    color: #33e2e6;
     opacity: 0.5;
   }
 
-  .header, .season-episode-number {
+  .header,
+  .season-episode-number {
     font-size: 3vw;
     text-align: center;
-    -webkit-text-stroke: 0.03vw #33E2E6;
-    filter: drop-shadow(0 0 0.1vw #33E2E6);
+    -webkit-text-stroke: 0.03vw #33e2e6;
+    filter: drop-shadow(0 0 0.1vw #33e2e6);
     line-height: 5vw;
   }
 
@@ -309,8 +340,8 @@
   .duration {
     font-size: 2vw;
     text-align: center;
-    -webkit-text-stroke: 0.03vw #33E2E6;
-    filter: drop-shadow(0 0 0.1vw #33E2E6);
+    -webkit-text-stroke: 0.03vw #33e2e6;
+    filter: drop-shadow(0 0 0.1vw #33e2e6);
     color: #bebebe;
   }
 
@@ -407,7 +438,12 @@
   }
 
   .options::-webkit-scrollbar-thumb {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(51, 226, 230, 0.5), rgba(0, 0, 0, 0));
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0),
+      rgba(51, 226, 230, 0.5),
+      rgba(0, 0, 0, 0)
+    );
     border-radius: 0.5vw;
   }
 
@@ -417,8 +453,8 @@
     align-items: center;
     gap: 1vw;
     color: inherit;
-    -webkit-text-stroke: 0.01vw #33E2E6;
-    background-color: rgba(0,0,0,0);
+    -webkit-text-stroke: 0.01vw #33e2e6;
+    background-color: rgba(0, 0, 0, 0);
     border: none;
     cursor: pointer;
   }
@@ -426,7 +462,7 @@
   .option-selector {
     height: 3vw;
     width: auto;
-    background-image: url('/option-selector.png');
+    background-image: url("/option-selector.png");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: center;
@@ -434,9 +470,10 @@
     opacity: 0.9;
   }
 
-  .option:hover, .option:active {
-    color: #33E2E6;
-    text-shadow: 0 0 3px #33E2E6;
+  .option:hover,
+  .option:active {
+    color: #33e2e6;
+    text-shadow: 0 0 3px #33e2e6;
     list-style-type: disc;
   }
 
@@ -448,7 +485,7 @@
     color: rgba(255, 255, 255, 0.5);
     text-align: center;
     font-size: 3vw;
-    filter: drop-shadow(0 0 1vw 5vw #33E2E6);
+    filter: drop-shadow(0 0 1vw 5vw #33e2e6);
     -webkit-text-stroke: 0.2vw rgba(255, 0, 0, 0.1);
   }
 
@@ -467,7 +504,7 @@
     font-size: 2.5vw;
     line-height: 5vw;
     color: rgba(255, 55, 55, 0.8);
-    filter: drop-shadow(0 0 0.5vw rgb(0,0,0));
+    filter: drop-shadow(0 0 0.5vw rgb(0, 0, 0));
     pointer-events: none;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
   }
@@ -475,7 +512,6 @@
   .class-validation strong {
     color: rgba(255, 55, 55, 0.9);
   }
-
 
   @media screen and (max-width: 600px) {
     .video {
@@ -492,7 +528,8 @@
       font-size: 1.2em;
     }
 
-    .header, .season-episode-number {
+    .header,
+    .season-episode-number {
       font-size: 1.2em;
       line-height: 1.6em;
       margin-bottom: 0.5em;

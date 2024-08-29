@@ -1,12 +1,16 @@
 <script>
-  import { afterUpdate } from "svelte"
-  import { _season, _episode, _option } from "../stores/storyNode.js"
-  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
-  import DischordianSaga from "../data/DischordianSaga.js"
+  import { afterUpdate } from "svelte";
+  import { _season, _episode, _option } from "../stores/storyNode.js";
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js";
+  import DischordianSaga from "../data/DischordianSaga.js";
 
-  import { provider, metamask_init, switch_network, network } from "../lib/ethers"
-  import { loggedIn } from "../stores/auth"
-
+  import {
+    provider,
+    metamask_init,
+    switch_network,
+    network,
+  } from "../lib/ethers";
+  import { loggedIn } from "../stores/auth";
 
   /* --- EPISODES tab --- */
 
@@ -14,35 +18,40 @@
   let seasonNumber;
   let nodeNumber;
 
-  _season.subscribe(number => { seasonNumber = number });
-  _episode.subscribe(number => { nodeNumber = number });
+  _season.subscribe((number) => {
+    seasonNumber = number;
+  });
+  _episode.subscribe((number) => {
+    nodeNumber = number;
+  });
 
   afterUpdate(() => {
     if (nodeNumber) activeEpisode(nodeNumber);
     if (selectedNFTs.length == 0) {
-      potentials.forEach(nft => nft.clicked = false);
-      nftTiles && nftTiles.childNodes.forEach(tile => {
-        tile.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
-        tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
-        tile.style.color = 'inherit';
-      })
+      potentials.forEach((nft) => (nft.clicked = false));
+      nftTiles &&
+        nftTiles.childNodes.forEach((tile) => {
+          tile.style.backgroundColor = "rgba(22, 30, 95, 0.75)";
+          tile.style.filter = "drop-shadow(0 0 0.1vw #010020)";
+          tile.style.color = "inherit";
+        });
     }
     if (inactiveNFTs.length > 0) {
       for (let i = 0; i < inactiveNFTs.length; i++) {
-        potentials.forEach(potential => {
+        potentials.forEach((potential) => {
           if (potential.id == inactiveNFTs[i].id) {
             potential.active = false;
-            nftTiles.childNodes.forEach(tile => {
+            nftTiles.childNodes.forEach((tile) => {
               if (tile.id == potential.id) {
-                tile.style.opacity = '0.5';
-                tile.style.pointerEvents = 'none';
+                tile.style.opacity = "0.5";
+                tile.style.pointerEvents = "none";
               }
-            })
+            });
           }
-        })
+        });
       }
     }
-  })
+  });
 
   function switchSeason() {
     $_season = this.value;
@@ -50,20 +59,21 @@
     activeEpisode(0);
   }
 
-  function switchEpisode() { $_episode = this.id };
-
-  function activeEpisode(id) {
-    episodes.childNodes.forEach(episode => {
-      if (id == episode.id) {
-        episode.style.color = '#010020';
-        episode.style.filter = 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.8))';
-      } else {
-        episode.style.color = 'inherit';
-        episode.style.filter = 'none';
-      }
-    })
+  function switchEpisode() {
+    $_episode = this.id;
   }
 
+  function activeEpisode(id) {
+    episodes.childNodes.forEach((episode) => {
+      if (id == episode.id) {
+        episode.style.color = "#010020";
+        episode.style.filter = "drop-shadow(0 0 1vw rgba(51, 226, 230, 0.8))";
+      } else {
+        episode.style.color = "inherit";
+        episode.style.filter = "none";
+      }
+    });
+  }
 
   /* --- NFTs tab --- */
 
@@ -77,8 +87,8 @@
 
   let selectedNFTs;
   let inactiveNFTs;
-  _potentials.subscribe(array => selectedNFTs = array);
-  _inactivePotentials.subscribe(array => inactiveNFTs = array);
+  _potentials.subscribe((array) => (selectedNFTs = array));
+  _inactivePotentials.subscribe((array) => (inactiveNFTs = array));
 
   class nftTile {
     constructor(data, i) {
@@ -88,87 +98,94 @@
       this.class = data[i].attributes[5].value;
       this.clicked = false;
       this.active = true;
-    } 
+    }
   }
 
   const potentials = [];
   const getNFTs = async () => {
     const address = await (await provider.getSigner()).getAddress();
-    walletAddress = address.slice(0, 6) + '...' + address.slice(address.length - 4);
-    const json = await fetch(`https://api.degenerousdao.com/nft/owner/${address}`);
+    walletAddress =
+      address.slice(0, 6) + "..." + address.slice(address.length - 4);
+    const json = await fetch(
+      `https://api.degenerousdao.com/nft/owner/${address}`
+    );
     const data = await json.json();
-    const nftNumbers = data.ownedNfts.map(nft => +nft.tokenId);
+    const nftNumbers = data.ownedNfts.map((nft) => +nft.tokenId);
     const metadata = [];
-    for(let i in nftNumbers) {
-      const response = await fetch(`https://api.degenerousdao.com/nft/data/${nftNumbers[i]}`);
+    for (let i in nftNumbers) {
+      const response = await fetch(
+        `https://api.degenerousdao.com/nft/data/${nftNumbers[i]}`
+      );
       metadata[i] = await response.json();
       potentials[i] = new nftTile(metadata, i);
     }
-  }
+  };
 
   let nftTiles;
   function selectNFT() {
     if (nodeNumber) {
       $_potentials = [];
       potentials[this.id].clicked = !potentials[this.id].clicked;
-      nftTiles.childNodes.forEach(tile => {
+      nftTiles.childNodes.forEach((tile) => {
         if (tile.id == this.id) {
           if (potentials[this.id].clicked) {
-            tile.style.backgroundColor = '#2441BD';
-            tile.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1))';
-            tile.style.color = '#33E2E6';
+            tile.style.backgroundColor = "#2441BD";
+            tile.style.filter = "drop-shadow(0 0 0.5vw rgba(51, 226, 230, 1))";
+            tile.style.color = "#33E2E6";
           } else {
-            tile.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
-            tile.style.filter = 'drop-shadow(0 0 0.1vw #010020)';
-            tile.style.color = 'inherit';
+            tile.style.backgroundColor = "rgba(22, 30, 95, 0.75)";
+            tile.style.filter = "drop-shadow(0 0 0.1vw #010020)";
+            tile.style.color = "inherit";
           }
         }
-      })
-      potentials.map(nft => {
+      });
+      potentials.map((nft) => {
         if (nft.clicked) $_potentials.push(nft);
-      })
+      });
     }
   }
 
-  async function connectWallet() { //test func
+  async function connectWallet() {
+    //test func
     if (!$loggedIn) {
       await provider.getNetwork().then(async (net) => {
         if (net.chainId === BigInt(network.chainId)) {
           await provider.send("eth_requestAccounts", []);
           loggedIn.set(true);
 
-          networkSwitcher.style.display = 'none';
-          walletButton.style.display = 'block';
-          walletButton.innerHTML = 'Disconect';
-          walletButton.style.backgroundColor = 'rgba(51, 226, 230, 0.9)';
-          walletButton.style.color = '#010020';
-          walletLegend.style.color = '#33E2E6';
-          walletLegend.style.display = 'none';
-          wallet.style.display = 'block';
-          walletContainer.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
-          walletContainer.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))';
+          networkSwitcher.style.display = "none";
+          walletButton.style.display = "block";
+          walletButton.innerHTML = "Disconect";
+          walletButton.style.backgroundColor = "rgba(51, 226, 230, 0.9)";
+          walletButton.style.color = "#010020";
+          walletLegend.style.color = "#33E2E6";
+          walletLegend.style.display = "none";
+          wallet.style.display = "block";
+          walletContainer.style.backgroundColor = "rgba(22, 30, 95, 0.75)";
+          walletContainer.style.filter =
+            "drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))";
 
           getNFTs();
         } else {
           walletLegend.innerHTML = "You're on a wrong network!";
-          walletButton.style.display = 'none';
-          networkSwitcher.style.display = 'block';
+          walletButton.style.display = "none";
+          networkSwitcher.style.display = "block";
         }
       });
     } else {
-      walletButton.innerHTML = 'Log in';
-      walletButton.style.backgroundColor = '#161E5F';
-      walletButton.style.color = '#33E2E6';
-      walletLegend.style.color = '#010020';
-      walletLegend.style.display = 'block';
-      wallet.style.display = 'none';
-      walletContainer.style.filter = 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))';
-      walletContainer.style.backgroundColor = 'rgba(51, 226, 230, 0.5)';
+      walletButton.innerHTML = "Log in";
+      walletButton.style.backgroundColor = "#161E5F";
+      walletButton.style.color = "#33E2E6";
+      walletLegend.style.color = "#010020";
+      walletLegend.style.display = "block";
+      wallet.style.display = "none";
+      walletContainer.style.filter =
+        "drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))";
+      walletContainer.style.backgroundColor = "rgba(51, 226, 230, 0.5)";
 
       loggedIn.set(false);
     }
   }
-
 
   /* --- TABS HANDLING --- */
 
@@ -201,22 +218,30 @@
 
     if (!nftBarState) {
       if (width <= 600) {
-        nftsInterval = setInterval(() => { slideBarMobile(true, 'nfts') }, 5);
+        nftsInterval = setInterval(() => {
+          slideBarMobile(true, "nfts");
+        }, 5);
       } else {
-        nftsInterval = setInterval(() => { slideBarPC(true, 'nfts') }, 5);
+        nftsInterval = setInterval(() => {
+          slideBarPC(true, "nfts");
+        }, 5);
       }
       nftBarState = true;
-      iconHandle('nfts');
-      BG.style.display = 'block';
+      iconHandle("nfts");
+      BG.style.display = "block";
     } else {
       if (width <= 600) {
-        nftsInterval = setInterval(() => { slideBarMobile(false, 'nfts') }, 5);
+        nftsInterval = setInterval(() => {
+          slideBarMobile(false, "nfts");
+        }, 5);
       } else {
-        nftsInterval = setInterval(() => { slideBarPC(false, 'nfts') }, 5);
+        nftsInterval = setInterval(() => {
+          slideBarPC(false, "nfts");
+        }, 5);
       }
       nftBarState = false;
-      iconHandle('nfts');
-      BG.style.display = 'none';
+      iconHandle("nfts");
+      BG.style.display = "none";
     }
   }
 
@@ -226,57 +251,70 @@
 
     if (!episodesBarState) {
       if (width <= 600) {
-        episodesInterval = setInterval(() => { slideBarMobile(true, 'episodes') }, 5);
+        episodesInterval = setInterval(() => {
+          slideBarMobile(true, "episodes");
+        }, 5);
       } else {
-        episodesInterval = setInterval(() => { slideBarPC(true, 'episodes') }, 5);
+        episodesInterval = setInterval(() => {
+          slideBarPC(true, "episodes");
+        }, 5);
       }
       episodesBarState = true;
-      iconHandle('episodes');
-      BG.style.display = 'block';
+      iconHandle("episodes");
+      BG.style.display = "block";
     } else {
       if (width <= 600) {
-        episodesInterval = setInterval(() => { slideBarMobile(false, 'episodes') }, 5);
+        episodesInterval = setInterval(() => {
+          slideBarMobile(false, "episodes");
+        }, 5);
       } else {
-        episodesInterval = setInterval(() => { slideBarPC(false, 'episodes') }, 5);
+        episodesInterval = setInterval(() => {
+          slideBarPC(false, "episodes");
+        }, 5);
       }
       episodesBarState = false;
-      iconHandle('episodes');
-      BG.style.display = 'none';
+      iconHandle("episodes");
+      BG.style.display = "none";
     }
   }
 
   // Utility function for icons switching
   function iconHandle(tab) {
     if (width <= 600) {
-      if (tab === 'nfts') {
+      if (tab === "nfts") {
         if (nftBarState) {
-          episodesIcon.style.zIndex = '19';
-          episodesIcon.style.backgroundImage = "url('/episodesMobileOpen-Inactive.avif')";
+          episodesIcon.style.zIndex = "19";
+          episodesIcon.style.backgroundImage =
+            "url('/episodesMobileOpen-Inactive.avif')";
           nftIcon.style.backgroundImage = "url('/sideIconMobileClose.avif')";
         } else {
-          episodesIcon.style.zIndex = '19';
-          episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
+          episodesIcon.style.zIndex = "19";
+          episodesIcon.style.backgroundImage =
+            "url('/episodesMobileOpen.avif')";
           nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
         }
-      } else if (tab === 'episodes') {
+      } else if (tab === "episodes") {
         if (episodesBarState) {
-          episodesIcon.style.zIndex = '22';
-          episodesIcon.style.backgroundImage = "url('/episodesMobileClose.avif')";
-          nftIcon.style.backgroundImage = "url('/sideIconMobileOpen-Inactive.avif')";
+          episodesIcon.style.zIndex = "22";
+          episodesIcon.style.backgroundImage =
+            "url('/episodesMobileClose.avif')";
+          nftIcon.style.backgroundImage =
+            "url('/sideIconMobileOpen-Inactive.avif')";
         } else {
-          episodesIcon.style.zIndex = '19';
-          episodesIcon.style.backgroundImage = "url('/episodesMobileOpen.avif')";
+          episodesIcon.style.zIndex = "19";
+          episodesIcon.style.backgroundImage =
+            "url('/episodesMobileOpen.avif')";
           nftIcon.style.backgroundImage = "url('/sideIconMobileOpen.avif')";
         }
       }
     } else {
-      if (tab === 'nfts') {
+      if (tab === "nfts") {
         if (nftBarState) {
           nftIcon.style.backgroundImage = "url('/sideIconPCClose.avif')";
         } else {
           nftIcon.style.backgroundImage = "url('/sideIconPCOpen.avif')";
         }
-      } else if (tab === 'episodes') {
+      } else if (tab === "episodes") {
         if (episodesBarState) {
           episodesIcon.style.backgroundImage = "url('/episodesPCClose.avif')";
         } else {
@@ -288,7 +326,7 @@
 
   // Utility function for PC tabs handling
   function slideBarPC(open, tab) {
-    if (tab === 'nfts') {
+    if (tab === "nfts") {
       if (open) {
         if (nftsBarPosition == 80) {
           clearInterval(nftsInterval);
@@ -298,7 +336,7 @@
           nftBar.style.right = `${nftsBarPosition - 80}vw`;
         }
       } else {
-        if(nftsBarPosition == 0) {
+        if (nftsBarPosition == 0) {
           clearInterval(nftsInterval);
         } else {
           nftsBarPosition -= 4;
@@ -306,7 +344,7 @@
           nftBar.style.right = `${nftsBarPosition - 80}vw`;
         }
       }
-    } else if (tab === 'episodes') {
+    } else if (tab === "episodes") {
       if (open) {
         if (episodesBarPosition == 40) {
           clearInterval(episodesInterval);
@@ -316,7 +354,7 @@
           episodesBar.style.left = `${episodesBarPosition - 40}vw`;
         }
       } else {
-        if(episodesBarPosition == 0) {
+        if (episodesBarPosition == 0) {
           clearInterval(episodesInterval);
         } else {
           episodesBarPosition -= 4;
@@ -330,7 +368,7 @@
   // Utility function for Mobile tabs handling
   function slideBarMobile(open, tab) {
     if (open) {
-      if (tab === 'nfts') {
+      if (tab === "nfts") {
         if (nftsBarPosition == 80) {
           clearInterval(nftsInterval);
         } else {
@@ -339,7 +377,7 @@
           nftIcon.style.top = `${nftsBarPosition}%`;
           nftBar.style.top = `${nftsBarPosition - 80}%`;
         }
-      } else if (tab === 'episodes') {
+      } else if (tab === "episodes") {
         if (episodesBarPosition == 80) {
           clearInterval(episodesInterval);
         } else {
@@ -350,8 +388,8 @@
         }
       }
     } else {
-      if (tab === 'nfts') {
-        if(nftsBarPosition == 0) {
+      if (tab === "nfts") {
+        if (nftsBarPosition == 0) {
           clearInterval(nftsInterval);
         } else {
           nftsBarPosition -= 4;
@@ -359,8 +397,8 @@
           nftIcon.style.top = `${nftsBarPosition}%`;
           nftBar.style.top = `${nftsBarPosition - 80}%`;
         }
-      } else if (tab === 'episodes') {
-        if(episodesBarPosition == 0) {
+      } else if (tab === "episodes") {
+        if (episodesBarPosition == 0) {
           clearInterval(episodesInterval);
         } else {
           episodesBarPosition -= 4;
@@ -373,10 +411,7 @@
   }
 </script>
 
-
-
 <svelte:window bind:outerWidth={width} />
-
 
 <!-- --- Episodes tab --- -->
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -419,19 +454,17 @@
   </div>
 </div>
 
-
 <!-- --- NFTs tab --- -->
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <span
   bind:this={nftIcon}
-  role="button" 
+  role="button"
   tabindex="0"
   class="nft-icon"
   on:click={handleNFTsBar}
 />
 
 <div class="nft-bar" bind:this={nftBar}>
-
   <div class="wallet-container" bind:this={walletContainer}>
     {#await metamask_init()}
       <p class="wallet-legend">Loading Web3 Wallet...</p>
@@ -468,7 +501,7 @@
       <p class="nfts-total">
         {#await getNFTs()}
           Loading NFTs...
-        {:then} 
+        {:then}
           Total NFTs: {potentials.length}
         {/await}
       </p>
@@ -481,25 +514,25 @@
           a11y-no-static-element-interactions -->
           <div class="nft" id={NFT.id} on:click={selectNFT}>
             <img class="nft-image" src={NFT.image} alt={NFT.name} />
-            <p class="nft-name">{ NFT.name }</p>
-            <p class="nft-class">{ NFT.class }</p>
+            <p class="nft-name">{NFT.name}</p>
+            <p class="nft-class">{NFT.class}</p>
           </div>
         {/each}
       </div>
     {:else}
       <p class="no-nfts-title">
-        You need to have a <a href="https://magiceden.io/collections/ethereum/0xfa511d5c4cce10321e6e86793cc083213c36278e">Potential</a> to be able to vote.
+        You need to have a <a
+          href="https://magiceden.io/collections/ethereum/0xfa511d5c4cce10321e6e86793cc083213c36278e"
+          >Potential</a
+        > to be able to vote.
       </p>
     {/if}
   {/if}
 </div>
 
-
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
 a11y-no-static-element-interactions -->
 <div class="bg" on:click={closeActiveTab} bind:this={BG}></div>
-
-
 
 <style>
   .nft-icon {
@@ -511,7 +544,7 @@ a11y-no-static-element-interactions -->
     width: 15vw;
     filter: drop-shadow(-0.1vw 0.1vw 0.5vw #010020);
     cursor: pointer;
-    background-image: url('/sideIconPCOpen.avif');
+    background-image: url("/sideIconPCOpen.avif");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: top;
@@ -526,7 +559,7 @@ a11y-no-static-element-interactions -->
     width: 20vw;
     filter: drop-shadow(0.1vw 0.1vw 0.5vw #010020);
     cursor: pointer;
-    background-image: url('/episodesPCOpen.avif');
+    background-image: url("/episodesPCOpen.avif");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: top;
@@ -559,7 +592,7 @@ a11y-no-static-element-interactions -->
     width: 40vw;
     display: flex;
     flex-flow: column nowrap;
-    background-image: url('/sideBorder.avif');
+    background-image: url("/sideBorder.avif");
     background-size: contain;
     background-repeat: no-repeat;
     background-color: rgba(1, 0, 32, 0.5);
@@ -571,7 +604,8 @@ a11y-no-static-element-interactions -->
     padding: 1vw 2vw;
   }
 
-  .nft-bar::-webkit-scrollbar, .episodes-bar::-webkit-scrollbar {
+  .nft-bar::-webkit-scrollbar,
+  .episodes-bar::-webkit-scrollbar {
     width: 0px;
   }
 
@@ -594,7 +628,7 @@ a11y-no-static-element-interactions -->
     padding: 2vw;
     font-size: 2.5vw;
     color: rgba(51, 226, 230, 0.9);
-    filter: drop-shadow(0 0 1vw 5vw #33E2E6);
+    filter: drop-shadow(0 0 1vw 5vw #33e2e6);
   }
 
   .season {
@@ -620,14 +654,14 @@ a11y-no-static-element-interactions -->
     margin: 1vw;
     margin-bottom: 2vw;
     background-color: rgba(51, 226, 230, 0.4);
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1.5vw;
     cursor: pointer;
   }
 
   .episode-image {
     object-fit: cover;
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1vw;
     width: 100%;
     height: 20vw;
@@ -653,7 +687,7 @@ a11y-no-static-element-interactions -->
 
   .episode:hover {
     background-color: rgba(51, 226, 230, 0.5);
-    color: #33E2E6;
+    color: #33e2e6;
   }
 
   /* NFTs bar */
@@ -666,12 +700,12 @@ a11y-no-static-element-interactions -->
     filter: drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5));
     margin: 3vw 5vw 1vw 5vw;
     padding: 1vw 2vw;
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1.5vw;
   }
 
   .wallet-legend {
-    color: #161E5F;
+    color: #161e5f;
     font-size: 2.5vw;
     filter: drop-shadow(0 0 0.05vw #010020);
     text-align: right;
@@ -684,19 +718,20 @@ a11y-no-static-element-interactions -->
     font-size: 2vw;
     color: rgba(51, 226, 230, 1);
     background-color: rgba(51, 226, 230, 0.2);
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1vw;
     line-height: 3.5vw;
   }
 
-  .wallet-connect, .switch-network {
+  .wallet-connect,
+  .switch-network {
     height: 3.5vw;
     width: 18vw;
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1vw;
     font-size: 2vw;
-    background-color: #161E5F;
-    color: #33E2E6;
+    background-color: #161e5f;
+    color: #33e2e6;
   }
 
   .switch-network {
@@ -711,9 +746,10 @@ a11y-no-static-element-interactions -->
     justify-content: space-between;
   }
 
-  .nfts-total, .nfts-selected {
-    color: #33E2E6;
-    -webkit-text-stroke: 0.1vw #33E2E6;
+  .nfts-total,
+  .nfts-selected {
+    color: #33e2e6;
+    -webkit-text-stroke: 0.1vw #33e2e6;
     padding-top: 2.5vw;
     padding-bottom: 1vw;
     padding-left: 5vw;
@@ -748,7 +784,7 @@ a11y-no-static-element-interactions -->
     height: 23vw;
     background-color: rgba(22, 30, 95, 0.75);
     margin: 1vw;
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1.5vw;
     padding-bottom: 1vw;
     cursor: pointer;
@@ -759,7 +795,8 @@ a11y-no-static-element-interactions -->
     filter: drop-shadow(0 0 0.1vw #010020);
   }
 
-  .nft:hover, .nft:active {
+  .nft:hover,
+  .nft:active {
     opacity: 0.9;
   }
 
@@ -768,7 +805,7 @@ a11y-no-static-element-interactions -->
     height: 70%;
     width: 95%;
     margin: 2.5%;
-    border: 0.05vw solid #33E2E6;
+    border: 0.05vw solid #33e2e6;
     border-radius: 1vw;
   }
 
@@ -783,24 +820,24 @@ a11y-no-static-element-interactions -->
     opacity: 0.75;
   }
 
-
   @media screen and (max-width: 600px) {
     .nft-icon {
       width: 90vw;
       height: 12vw;
       top: 0;
       filter: drop-shadow(0 0.5vw 1vw #010020);
-      background-image: url('/sideIconMobileOpen.avif');
+      background-image: url("/sideIconMobileOpen.avif");
     }
 
     .episodes-icon {
       width: 31.6vw;
       height: 12vw;
       filter: drop-shadow(0 0.5vw 1vw #010020);
-      background-image: url('/episodesMobileOpen.avif');
+      background-image: url("/episodesMobileOpen.avif");
     }
 
-    .nft-bar, .episodes-bar {
+    .nft-bar,
+    .episodes-bar {
       display: flex;
       flex-flow: column nowrap;
       align-items: center;
@@ -865,7 +902,8 @@ a11y-no-static-element-interactions -->
       padding: 2vw 3vw;
     }
 
-    .wallet-connect, .switch-network {
+    .wallet-connect,
+    .switch-network {
       font-size: inherit;
       width: 38vw;
       height: 10vw;
@@ -875,7 +913,8 @@ a11y-no-static-element-interactions -->
       width: 90vw;
     }
 
-    .nfts-total, .nfts-selected {
+    .nfts-total,
+    .nfts-selected {
       font-size: inherit;
     }
 
