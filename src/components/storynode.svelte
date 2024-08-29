@@ -162,11 +162,13 @@
       await (await contract()).batchVote(nodeNumber, potentialNumbers, options);
     }
 
+    //inactive potentials with NO contract
     selectedNFTs.map(nft => inactiveNFTs.push(nft));
     $_inactivePotentials = inactiveNFTs;
+
     $_potentials = [];
     $_option = undefined;
-    
+
     console.log('Inactive NFTs:', inactiveNFTs) //used nfts
   }
 

@@ -80,7 +80,6 @@
   _potentials.subscribe(array => selectedNFTs = array);
   _inactivePotentials.subscribe(array => inactiveNFTs = array);
 
-  // const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
   class nftTile {
     constructor(data, i) {
       this.id = i;
