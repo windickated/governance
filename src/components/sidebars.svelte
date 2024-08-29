@@ -754,6 +754,10 @@ a11y-no-static-element-interactions -->
     filter: drop-shadow(0 0 0.1vw #010020);
   }
 
+  .nft:hover, .nft:active {
+    opacity: 0.9;
+  }
+
   .nft-image {
     object-fit: cover;
     height: 70%;
