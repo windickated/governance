@@ -4,6 +4,8 @@
   import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
+  import { contract } from "../lib/contract";
+
 
   afterUpdate(() => {
     if (width > 600) mobileTextVisibility = true;
@@ -141,15 +143,30 @@
     }
   }
 
-  function vote() {
+  async function vote() {
     alert('Season:' + seasonNumber + '\n' +
           'Episode:' + nodeNumber + '\n' +
           'Option:' + selectedOption) //vote info
     console.log('Selected NFTs:', selectedNFTs)//vote info
+
+    //voting contract
+    if (selectedNFTs.length == 1) {
+      const potentialNumber = selectedNFTs[0].name.slice(selectedNFTs[0].name.slice().length - 3);
+      await (await contract()).singleVote(nodeNumber, potentialNumber, selectedOption);
+    } else {
+      const potentialNumbers = [];
+      selectedNFTs.map(nft => {
+        potentialNumbers.push(nft.name.slice(nft.name.slice().length - 3));
+      })
+      const options = new Array(potentialNumbers.length).fill(selectedOption);
+      await (await contract()).batchVote(nodeNumber, potentialNumbers, options);
+    }
+
     selectedNFTs.map(nft => inactiveNFTs.push(nft));
     $_inactivePotentials = inactiveNFTs;
     $_potentials = [];
     $_option = undefined;
+    
     console.log('Inactive NFTs:', inactiveNFTs) //used nfts
   }
 
