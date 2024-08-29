@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate } from "svelte"
-  import { _season, _episode, _option } from "../stores/storyNode.js"
+  import { _season, _episode, _option, isEnded } from "../stores/storyNode.js"
   import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js"
   import DischordianSaga from "../data/DischordianSaga.js"
 
@@ -48,7 +48,6 @@
   let seasonNumber;
   let nodeNumber;
   let selectedOption;
-  let isEnded;
 
   _season.subscribe(number => { seasonNumber = number });
   _episode.subscribe(number => { nodeNumber = number });
@@ -84,7 +83,7 @@
     let fullDate = 'Duration: ' + fullDateStart + ' - ' + fullDateEnd;
 
     let dateNow = new Date();
-    isEnded = (dateNow > dateEnd) ? true : false;
+    $isEnded = (dateNow > dateEnd) ? true : false;
 
     return fullDate;
   }
@@ -108,7 +107,7 @@
   let classValidation;
   let className;
   function selectOption() {
-    if (selectedNFTs.length > 0) {
+    if ($isEnded === false && selectedNFTs.length > 0) {
   
       // class validation
       if (this.dataset.class) {
@@ -223,8 +222,8 @@
       {/each}
       </div>
 
-    <span class="voting-ended {isEnded ? '' : 'voting-active'}">
-      {isEnded ? "Voting ended" : "Voting active"}
+    <span class="voting-ended {$isEnded ? '' : 'voting-active'}">
+      {$isEnded ? "Voting ended" : "Voting active"}
     </span>
   {/if}
 
