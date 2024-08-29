@@ -73,12 +73,14 @@
   let walletButton;
   let networkSwitcher;
 
+  let walletAddress;
+
   let selectedNFTs;
   let inactiveNFTs;
   _potentials.subscribe(array => selectedNFTs = array);
   _inactivePotentials.subscribe(array => inactiveNFTs = array);
 
-  const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
+  // const nftNumbers = [1, 3, 5, 11, 22, 38, 49, 79, 121, 200, 298, 305, 374, 489, 592, 645, 788, 815, 890, 950, 970];
   class nftTile {
     constructor(data, i) {
       this.id = i;
@@ -91,7 +93,12 @@
   }
 
   const potentials = [];
-  const getNFTs = async () => { //test func
+  const getNFTs = async () => {
+    const address = await (await provider.getSigner()).getAddress();
+    walletAddress = address.slice(0, 6) + '...' + address.slice(address.length - 4);
+    const json = await fetch(`https://api.degenerousdao.com/nft/owner/${address}`);
+    const data = await json.json();
+    const nftNumbers = data.ownedNfts.map(nft => +nft.tokenId);
     const metadata = [];
     for(let i in nftNumbers) {
       const response = await fetch(`https://api.degenerousdao.com/nft/data/${nftNumbers[i]}`);
@@ -139,7 +146,6 @@
           walletLegend.style.color = '#33E2E6';
           walletLegend.style.display = 'none';
           wallet.style.display = 'block';
-          wallet.innerHTML = '0xeb0a...60c1';
           walletContainer.style.backgroundColor = 'rgba(22, 30, 95, 0.75)';
           walletContainer.style.filter = 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))';
 
@@ -157,7 +163,6 @@
       walletLegend.style.color = '#010020';
       walletLegend.style.display = 'block';
       wallet.style.display = 'none';
-      wallet.innerHTML = '';
       walletContainer.style.filter = 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))';
       walletContainer.style.backgroundColor = 'rgba(51, 226, 230, 0.5)';
 
@@ -436,7 +441,7 @@
         <p class="wallet-legend" bind:this={walletLegend}>
           Connect Web3 Wallet:
         </p>
-        <p class="wallet" bind:this={wallet}></p>
+        <p class="wallet" bind:this={wallet}>{walletAddress}</p>
         <button
           class="wallet-connect"
           bind:this={walletButton}
@@ -464,17 +469,23 @@
       <p class="nfts-total">Total NFTs: {potentials.length}</p>
       <p class="nfts-selected">Selected NFTs: {selectedNFTs.length}</p>
     </div>
-    <div class="nfts-container" bind:this={nftTiles}>
-      {#each potentials as NFT}
-        <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
-        a11y-no-static-element-interactions -->
-        <div class="nft" id={NFT.id} on:click={selectNFT}>
-          <img class="nft-image" src={NFT.image} alt={NFT.name} />
-          <p class="nft-name">{ NFT.name }</p>
-          <p class="nft-class">{ NFT.class }</p>
-        </div>
-      {/each}
-    </div>
+    {#if potentials.length > 0}
+      <div class="nfts-container" bind:this={nftTiles}>
+        {#each potentials as NFT}
+          <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
+          a11y-no-static-element-interactions -->
+          <div class="nft" id={NFT.id} on:click={selectNFT}>
+            <img class="nft-image" src={NFT.image} alt={NFT.name} />
+            <p class="nft-name">{ NFT.name }</p>
+            <p class="nft-class">{ NFT.class }</p>
+          </div>
+        {/each}
+      </div>
+    {:else}
+      <p class="no-nfts-title">
+        You need to have a <a href="https://magiceden.io/collections/ethereum/0xfa511d5c4cce10321e6e86793cc083213c36278e">Potential</a> to be able to vote.
+      </p>
+    {/if}
   {/if}
 </div>
 
@@ -703,6 +714,20 @@ a11y-no-static-element-interactions -->
     padding-left: 5vw;
     padding-right: 5vw;
     font-size: 2vw;
+    white-space: nowrap;
+  }
+
+  .no-nfts-title {
+    width: 80%;
+    text-align: center;
+    font-size: 2vw;
+    line-height: 4vw;
+    margin: 2vw auto;
+    color: rgba(51, 226, 230, 0.8);
+  }
+
+  .no-nfts-title a {
+    color: rgba(51, 226, 230, 0.9);
   }
 
   .nfts-container {
@@ -843,6 +868,12 @@ a11y-no-static-element-interactions -->
 
     .nfts-total, .nfts-selected {
       font-size: inherit;
+    }
+
+    .no-nfts-title {
+      font-size: 1em;
+      line-height: 1.6em;
+      margin-block: 2em;
     }
 
     .nft {
