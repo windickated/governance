@@ -466,7 +466,13 @@
 
   {#if $loggedIn}
     <div class="nfts-legend">
-      <p class="nfts-total">Total NFTs: {potentials.length}</p>
+      <p class="nfts-total">
+        {#await getNFTs()}
+          Loading NFTs...
+        {:then} 
+          Total NFTs: {potentials.length}
+        {/await}
+      </p>
       <p class="nfts-selected">Selected NFTs: {selectedNFTs.length}</p>
     </div>
     {#if potentials.length > 0}
