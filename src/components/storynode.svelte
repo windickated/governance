@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import { afterUpdate } from "svelte";
-  import { _season, _episode, _option, isEnded } from "../stores/storyNode.js";
-  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js";
-  import DischordianSaga from "../data/DischordianSaga.js";
+  import { _season, _episode, _option, isEnded } from "../stores/storyNode";
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs";
+  import DischordianSaga from "../data/DischordianSaga";
 
   import { contract } from "../lib/contract";
 
@@ -10,45 +10,48 @@
     if (width > 600) mobileTextVisibility = true;
     if (nodeNumber) {
       resizeOptions();
-      optionsContainer.childNodes.forEach((option) => {
+      optionsContainer.childNodes.forEach((option: HTMLDivElement) => {
+        const optionSelector = option.childNodes[0] as HTMLImageElement;
         option.addEventListener("mouseover", () => {
-          if (option.id != selectedOption) {
+          if (option.id != (selectedOption ? selectedOption.toString() : 0)) {
             option.style.textShadow = "0 0 3px #33E2E6";
             option.style.listStyleType = "disc";
             option.style.color = "#33E2E6";
             if (!option.dataset.class)
-              option.childNodes[0].src = "/option-selector-hover.png";
+              optionSelector.src = "/option-selector-hover.png";
           }
         });
         option.addEventListener("mouseout", () => {
-          if (option.id != selectedOption) {
+          if (option.id != (selectedOption ? selectedOption.toString() : 0)) {
             option.style.textShadow = "none";
             option.style.listStyleType = "circle";
             option.style.color = "inherit";
             if (option.dataset.class) {
-              option.childNodes[0].src = `/${option.dataset.class}.png`;
+              optionSelector.src = `/${option.dataset.class}.png`;
             } else {
-              option.childNodes[0].src = "/option-selector.png";
+              optionSelector.src = "/option-selector.png";
             }
           }
         });
-        if (option.id != selectedOption) {
+        if (option.id != (selectedOption ? selectedOption.toString() : 0)) {
           option.style.textShadow = "none";
           option.style.listStyleType = "circle";
           option.style.color = "inherit";
           if (option.dataset.class) {
-            option.childNodes[0].src = `/${option.dataset.class}.png`;
+            optionSelector.src = `/${option.dataset.class}.png`;
           } else {
-            option.childNodes[0].src = "/option-selector.png";
+            optionSelector.src = "/option-selector.png";
           }
         }
       });
     }
   });
 
-  let seasonNumber;
-  let nodeNumber;
-  let selectedOption;
+  let mobileTextVisibility: boolean = false;
+
+  let seasonNumber: number;
+  let nodeNumber: number;
+  let selectedOption: number;
 
   _season.subscribe((number) => {
     seasonNumber = number;
@@ -60,12 +63,20 @@
     selectedOption = number;
   });
 
-  let selectedNFTs;
-  let inactiveNFTs = [];
+  let selectedNFTs: Array<any>;
+  let inactiveNFTs: Array<any>;
   _potentials.subscribe((array) => (selectedNFTs = array));
   _inactivePotentials.subscribe((array) => (inactiveNFTs = array));
 
-  $: storyNode = {
+  interface Node {
+    title: string;
+    duration: string;
+    video: string;
+    text: string[];
+    options: Array<any>;
+  }
+
+  $: storyNode = <Node>{
     title: nodeNumber
       ? DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyTitle
       : "",
@@ -81,36 +92,36 @@
       : "",
   };
 
-  function getStoryDate() {
-    let dateStart = new Date(
+  function getStoryDate(): string {
+    let dateStart: Date = new Date(
       DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[0]
     );
-    let dateEnd = new Date(
+    let dateEnd: Date = new Date(
       DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyDuration[1]
     );
 
-    let dayStart = ("0" + dateStart.getDate()).slice(-2);
-    let dayEnd = ("0" + dateEnd.getDate()).slice(-2);
-    let monthStart = ("0" + (dateStart.getMonth() + 1)).slice(-2);
-    let monthEnd = ("0" + (dateEnd.getMonth() + 1)).slice(-2);
-    let yearStart = dateStart.getFullYear();
-    let yearEnd = dateEnd.getFullYear();
+    let dayStart: string = ("0" + dateStart.getDate()).slice(-2);
+    let dayEnd: string = ("0" + dateEnd.getDate()).slice(-2);
+    let monthStart: string = ("0" + (dateStart.getMonth() + 1)).slice(-2);
+    let monthEnd: string = ("0" + (dateEnd.getMonth() + 1)).slice(-2);
+    let yearStart: number = dateStart.getFullYear();
+    let yearEnd: number = dateEnd.getFullYear();
 
-    let fullDateStart = `${dayStart}.${monthStart}.${yearStart}`;
-    let fullDateEnd = `${dayEnd}.${monthEnd}.${yearEnd}`;
+    let fullDateStart: string = `${dayStart}.${monthStart}.${yearStart}`;
+    let fullDateEnd: string = `${dayEnd}.${monthEnd}.${yearEnd}`;
 
-    let fullDate = "Duration: " + fullDateStart + " - " + fullDateEnd;
+    let fullDate: string = "Duration: " + fullDateStart + " - " + fullDateEnd;
 
-    let dateNow = new Date();
+    let dateNow: Date = new Date();
     $isEnded = dateNow > dateEnd ? true : false;
 
     return fullDate;
   }
 
-  let width;
-  let optionsContainer;
+  let width: number;
+  let optionsContainer: HTMLDivElement;
   function resizeOptions() {
-    const optionsCounter =
+    const optionsCounter: number =
       DischordianSaga[seasonNumber - 1][nodeNumber - 1].storyOptions.length;
     if (width >= 600) {
       if (optionsCounter >= 5) {
@@ -123,9 +134,9 @@
     }
   }
 
-  let classMatch;
-  let classValidation;
-  let className;
+  let classMatch: boolean;
+  let classValidation: HTMLParagraphElement;
+  let className: string;
   function selectOption() {
     if ($isEnded === false && selectedNFTs.length > 0) {
       // class validation
@@ -151,7 +162,7 @@
       this.style.color = "#33E2E6";
       this.style.textShadow = "0 0 3px #33E2E6";
       this.style.listStyleType = "disc";
-      optionsContainer.childNodes.forEach((option) => {
+      optionsContainer.childNodes.forEach((option: HTMLElement) => {
         if (option.id != this.id) {
           option.style.textShadow = "none";
           option.style.listStyleType = "circle";
@@ -175,18 +186,20 @@
 
     //voting contract
     if (selectedNFTs.length == 1) {
-      const potentialNumber = selectedNFTs[0].name.slice(
+      const potentialNumber: number = selectedNFTs[0].name.slice(
         selectedNFTs[0].name.slice().length - 3
       );
       await (
         await contract()
       ).singleVote(nodeNumber, potentialNumber, selectedOption);
     } else {
-      const potentialNumbers = [];
+      const potentialNumbers: number[] = [];
       selectedNFTs.map((nft) => {
         potentialNumbers.push(nft.name.slice(nft.name.slice().length - 3));
       });
-      const options = new Array(potentialNumbers.length).fill(selectedOption);
+      const options: number[] = new Array(potentialNumbers.length).fill(
+        selectedOption
+      );
       await (await contract()).batchVote(nodeNumber, potentialNumbers, options);
     }
 
@@ -199,8 +212,6 @@
 
     console.log("Inactive NFTs:", inactiveNFTs); //used nfts
   }
-
-  let mobileTextVisibility = false;
 </script>
 
 <svelte:window bind:outerWidth={width} />
@@ -260,7 +271,7 @@
       {#each storyNode.options as option, index}
         <div
           class="option"
-          id={index + 1}
+          id={(index + 1).toString()}
           data-class={option.class}
           on:click={selectOption}
         >

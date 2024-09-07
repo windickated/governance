@@ -1,18 +1,18 @@
-<script>
+<script lang="ts">
   import { afterUpdate, onMount } from "svelte";
-  import { _season, _episode, lastNodeNumber } from "../stores/storyNode.js";
+  import { _season, _episode, lastNodeNumber } from "../stores/storyNode";
 
-  let touchscreenDevice = false;
+  let touchscreenDevice: boolean = false;
   onMount(() => {
     if ("ontouchstart" in document.documentElement) {
       touchscreenDevice = true;
     }
   });
 
-  let width;
-  let consoleBar;
-  let seasonNumber;
-  let nodeNumber;
+  let width: number;
+  let consoleBar: HTMLDivElement;
+  let seasonNumber: number;
+  let nodeNumber: number;
 
   afterUpdate(() => {
     if (width <= 600) {
@@ -34,8 +34,16 @@
     nodeNumber = number;
   });
 
+  interface ConsoleBtn {
+    id: "conexus" | "back" | "omnihub" | "forward" | "sagaverse";
+    image: string;
+    hover: string;
+    click: string;
+    size: "big" | "small";
+  }
+
   const consolePanel = {
-    buttons: [
+    buttons: <ConsoleBtn[]>[
       {
         id: "conexus",
         image: "/conexus.avif",
@@ -78,12 +86,16 @@
     },
   };
 
-  const consoleButtonsHandle = (event, id, isClicked = false) => {
+  const consoleButtonsHandle = (
+    event: Event,
+    id: string,
+    isClicked: boolean = false
+  ) => {
     if (id != "omnihub") {
       //temporarily disabled Omnihub
-      const button = document.getElementById(id);
-      const buttonHover = document.getElementById(`${id}-hover`);
-      const buttonActive = document.getElementById(`${id}-active`);
+      const button: HTMLElement = document.getElementById(id);
+      const buttonHover: HTMLElement = document.getElementById(`${id}-hover`);
+      const buttonActive: HTMLElement = document.getElementById(`${id}-active`);
       if (!touchscreenDevice) {
         if (event.type === "click") {
           button.style.display = "none";
@@ -105,7 +117,11 @@
       }
     }
 
-    function clickHandle(id, button, buttonActive) {
+    function clickHandle(
+      id: string,
+      button: HTMLElement,
+      buttonActive: HTMLElement
+    ) {
       button.style.display = "none";
       buttonActive.style.display = "block";
       setTimeout(() => {

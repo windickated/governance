@@ -1,14 +1,13 @@
-<script>
+<script lang="ts">
   import { afterUpdate } from "svelte";
-  import { _season, _episode, _option } from "../stores/storyNode.js";
-  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js";
+  import { _season, _episode, _option } from "../stores/storyNode";
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs";
 
   import { contract } from "../lib/contract";
 
   afterUpdate(() => {
-    // minor bugfix
-    const storyText = document.querySelector(".text");
-    const storyVideo = document.querySelector(".video");
+    const storyText: HTMLDivElement = document.querySelector(".text");
+    const storyVideo: HTMLIFrameElement = document.querySelector(".video");
     if (
       nodeNumber &&
       !storyText.className.match("visible") &&
@@ -18,9 +17,9 @@
     }
   });
 
-  let seasonNumber;
-  let nodeNumber;
-  let selectedOption;
+  let seasonNumber: number;
+  let nodeNumber: number;
+  let selectedOption: number;
 
   _season.subscribe((number) => {
     seasonNumber = number;
@@ -32,12 +31,10 @@
     selectedOption = number;
   });
 
-  let selectedNFTs;
-  let inactiveNFTs = [];
+  let selectedNFTs: Array<any>;
+  let inactiveNFTs: Array<any>;
   _potentials.subscribe((array) => (selectedNFTs = array));
   _inactivePotentials.subscribe((array) => (inactiveNFTs = array));
-
-  $: voteIsInactive = selectedOption != undefined ? false : true;
 
   const displayScreen = {
     buttons: [
@@ -65,11 +62,11 @@
   };
 
   // Format button
-  let formatButtonState = true; // video on, text off
-  let formatButtonHover = false;
-  const switcherHandle = (event) => {
-    const storyText = document.querySelector(".text");
-    const storyVideo = document.querySelector(".video");
+  let formatButtonState: boolean = true; // video on, text off
+  let formatButtonHover: boolean = false;
+  const switcherHandle = (event: Event) => {
+    const storyText: HTMLDivElement = document.querySelector(".text");
+    const storyVideo: HTMLIFrameElement = document.querySelector(".video");
     if (event.type === "click") {
       if (nodeNumber) {
         formatButtonState = !formatButtonState;
@@ -82,11 +79,11 @@
   };
 
   // Vote button
-  let voteIsInactive; // TRUE prohibits voting
-  let voteButtonState = true;
-  let voteButtonHover = false;
+  $: voteIsInactive = selectedOption != undefined ? false : true;
+  let voteButtonState: boolean = true;
+  let voteButtonHover: boolean = false;
 
-  const voteHandle = (event) => {
+  const voteHandle = (event: Event) => {
     if (!voteIsInactive && voteButtonState) {
       if (event.type === "click") {
         voteButtonState = !voteButtonState;
@@ -109,20 +106,20 @@
 
           //voting contract
           if (selectedNFTs.length == 1) {
-            const potentialNumber = selectedNFTs[0].name.slice(
+            const potentialNumber: number = selectedNFTs[0].name.slice(
               selectedNFTs[0].name.slice().length - 3
             );
             await (
               await contract()
             ).singleVote(nodeNumber, potentialNumber, selectedOption);
           } else {
-            const potentialNumbers = [];
+            const potentialNumbers: number[] = [];
             selectedNFTs.map((nft) => {
               potentialNumbers.push(
                 nft.name.slice(nft.name.slice().length - 3)
               );
             });
-            const options = new Array(potentialNumbers.length).fill(
+            const options: number[] = new Array(potentialNumbers.length).fill(
               selectedOption
             );
             await (

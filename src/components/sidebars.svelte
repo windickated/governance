@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import { afterUpdate } from "svelte";
-  import { _season, _episode, _option } from "../stores/storyNode.js";
-  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs.js";
-  import DischordianSaga from "../data/DischordianSaga.js";
+  import { _season, _episode, _option } from "../stores/storyNode";
+  import { _potentials, _inactivePotentials } from "../stores/selectedNFTs";
+  import DischordianSaga from "../data/DischordianSaga";
 
   import {
     provider,
@@ -14,9 +14,9 @@
 
   /* --- EPISODES tab --- */
 
-  let episodes;
-  let seasonNumber;
-  let nodeNumber;
+  let episodes: HTMLDivElement;
+  let seasonNumber: number;
+  let nodeNumber: number;
 
   _season.subscribe((number) => {
     seasonNumber = number;
@@ -30,7 +30,7 @@
     if (selectedNFTs.length == 0) {
       potentials.forEach((nft) => (nft.clicked = false));
       nftTiles &&
-        nftTiles.childNodes.forEach((tile) => {
+        nftTiles.childNodes.forEach((tile: HTMLDivElement) => {
           tile.style.backgroundColor = "rgba(22, 30, 95, 0.75)";
           tile.style.filter = "drop-shadow(0 0 0.1vw #010020)";
           tile.style.color = "inherit";
@@ -41,8 +41,8 @@
         potentials.forEach((potential) => {
           if (potential.id == inactiveNFTs[i].id) {
             potential.active = false;
-            nftTiles.childNodes.forEach((tile) => {
-              if (tile.id == potential.id) {
+            nftTiles.childNodes.forEach((tile: HTMLDivElement) => {
+              if (tile.id == potential.id.toString()) {
                 tile.style.opacity = "0.5";
                 tile.style.pointerEvents = "none";
               }
@@ -63,9 +63,9 @@
     $_episode = this.id;
   }
 
-  function activeEpisode(id) {
-    episodes.childNodes.forEach((episode) => {
-      if (id == episode.id) {
+  function activeEpisode(id: number) {
+    episodes.childNodes.forEach((episode: HTMLElement) => {
+      if (id.toString() == episode.id) {
         episode.style.color = "#010020";
         episode.style.filter = "drop-shadow(0 0 1vw rgba(51, 226, 230, 0.8))";
       } else {
@@ -77,21 +77,22 @@
 
   /* --- NFTs tab --- */
 
-  let walletContainer;
-  let walletLegend;
-  let wallet;
-  let walletButton;
-  let networkSwitcher;
+  let walletContainer: HTMLDivElement;
+  let walletLegend: HTMLParagraphElement;
+  let wallet: HTMLParagraphElement;
+  let walletButton: HTMLButtonElement;
+  let networkSwitcher: HTMLButtonElement;
 
-  let walletAddress;
-
-  let selectedNFTs;
-  let inactiveNFTs;
-  _potentials.subscribe((array) => (selectedNFTs = array));
-  _inactivePotentials.subscribe((array) => (inactiveNFTs = array));
+  let walletAddress: string;
 
   class nftTile {
-    constructor(data, i) {
+    id: number;
+    name: string;
+    image: string;
+    class: string;
+    clicked: boolean;
+    active: boolean;
+    constructor(data, i: number) {
       this.id = i;
       this.name = data[i].name;
       this.image = data[i].image;
@@ -101,7 +102,14 @@
     }
   }
 
-  const potentials = [];
+  interface NFT extends nftTile {}
+
+  let selectedNFTs: Array<NFT>;
+  let inactiveNFTs: Array<NFT>;
+  _potentials.subscribe((array) => (selectedNFTs = array));
+  _inactivePotentials.subscribe((array) => (inactiveNFTs = array));
+
+  const potentials: Array<NFT> = [];
   const getNFTs = async () => {
     const address = await (await provider.getSigner()).getAddress();
     walletAddress =
@@ -117,16 +125,16 @@
         `https://api.degenerousdao.com/nft/data/${nftNumbers[i]}`
       );
       metadata[i] = await response.json();
-      potentials[i] = new nftTile(metadata, i);
+      potentials[i] = new nftTile(metadata, Number(i));
     }
   };
 
-  let nftTiles;
+  let nftTiles: HTMLDivElement;
   function selectNFT() {
     if (nodeNumber) {
       $_potentials = [];
       potentials[this.id].clicked = !potentials[this.id].clicked;
-      nftTiles.childNodes.forEach((tile) => {
+      nftTiles.childNodes.forEach((tile: HTMLDivElement) => {
         if (tile.id == this.id) {
           if (potentials[this.id].clicked) {
             tile.style.backgroundColor = "#2441BD";
@@ -146,7 +154,6 @@
   }
 
   async function connectWallet() {
-    //test func
     if (!$loggedIn) {
       await provider.getNetwork().then(async (net) => {
         if (net.chainId === BigInt(network.chainId)) {
@@ -189,18 +196,18 @@
 
   /* --- TABS HANDLING --- */
 
-  let width;
-  let nftIcon;
-  let episodesIcon;
-  let nftBar;
-  let episodesBar;
-  let BG;
+  let width: number;
+  let nftIcon: HTMLSpanElement;
+  let episodesIcon: HTMLSpanElement;
+  let nftBar: HTMLDivElement;
+  let episodesBar: HTMLDivElement;
+  let BG: HTMLDivElement;
 
-  let nftBarState = false;
-  let episodesBarState = false;
+  let nftBarState: boolean = false;
+  let episodesBarState: boolean = false;
 
-  let nftsBarPosition = nftBarState ? 80 : 0;
-  let episodesBarPosition = episodesBarState ? 44 : 0;
+  let nftsBarPosition: number = nftBarState ? 80 : 0;
+  let episodesBarPosition: number = episodesBarState ? 44 : 0;
 
   let nftsInterval;
   let episodesInterval;
@@ -279,7 +286,7 @@
   }
 
   // Utility function for icons switching
-  function iconHandle(tab) {
+  function iconHandle(tab: "nfts" | "episodes") {
     if (width <= 600) {
       if (tab === "nfts") {
         if (nftBarState) {
@@ -325,7 +332,7 @@
   }
 
   // Utility function for PC tabs handling
-  function slideBarPC(open, tab) {
+  function slideBarPC(open: boolean, tab: "nfts" | "episodes") {
     if (tab === "nfts") {
       if (open) {
         if (nftsBarPosition == 80) {
@@ -366,7 +373,7 @@
   }
 
   // Utility function for Mobile tabs handling
-  function slideBarMobile(open, tab) {
+  function slideBarMobile(open: boolean, tab: "nfts" | "episodes") {
     if (open) {
       if (tab === "nfts") {
         if (nftsBarPosition == 80) {
@@ -439,7 +446,7 @@
         role="button"
         tabindex="0"
         class="episode"
-        id={episode.episode}
+        id={episode.episode.toString()}
         on:click={switchEpisode}
       >
         <img
@@ -512,7 +519,7 @@
         {#each potentials as NFT}
           <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions
           a11y-no-static-element-interactions -->
-          <div class="nft" id={NFT.id} on:click={selectNFT}>
+          <div class="nft" id={NFT.id.toString()} on:click={selectNFT}>
             <img class="nft-image" src={NFT.image} alt={NFT.name} />
             <p class="nft-name">{NFT.name}</p>
             <p class="nft-class">{NFT.class}</p>
