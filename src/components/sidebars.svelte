@@ -159,19 +159,11 @@
         if (net.chainId === BigInt(network.chainId)) {
           await provider.send("eth_requestAccounts", []);
           loggedIn.set(true);
-
           networkSwitcher.style.display = "none";
           walletButton.style.display = "block";
           walletButton.innerHTML = "Disconect";
-          walletButton.style.backgroundColor = "rgba(51, 226, 230, 0.9)";
-          walletButton.style.color = "#010020";
-          walletLegend.style.color = "#33E2E6";
           walletLegend.style.display = "none";
           wallet.style.display = "block";
-          walletContainer.style.backgroundColor = "rgba(22, 30, 95, 0.75)";
-          walletContainer.style.filter =
-            "drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))";
-
           getNFTs();
         } else {
           walletLegend.innerHTML = "You're on a wrong network!";
@@ -181,15 +173,8 @@
       });
     } else {
       walletButton.innerHTML = "Log in";
-      walletButton.style.backgroundColor = "#161E5F";
-      walletButton.style.color = "#33E2E6";
-      walletLegend.style.color = "#010020";
       walletLegend.style.display = "block";
       wallet.style.display = "none";
-      walletContainer.style.filter =
-        "drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))";
-      walletContainer.style.backgroundColor = "rgba(51, 226, 230, 0.5)";
-
       loggedIn.set(false);
     }
   }
@@ -472,7 +457,18 @@
 />
 
 <div class="nft-bar" bind:this={nftBar}>
-  <div class="wallet-container" bind:this={walletContainer}>
+  <div
+    class="wallet-container"
+    bind:this={walletContainer}
+    style="
+      background-color: {$loggedIn
+      ? 'rgba(22, 30, 95, 0.75)'
+      : 'rgba(51, 226, 230, 0.5)'};
+      filter: {$loggedIn
+      ? 'drop-shadow(0 0 0.5vw rgba(51, 226, 230, 0.2))'
+      : 'drop-shadow(0 0 1vw rgba(51, 226, 230, 0.5))'}
+    "
+  >
     {#await metamask_init()}
       <p class="wallet-legend">Loading Web3 Wallet...</p>
     {:then provider_exists}
@@ -485,6 +481,12 @@
           class="wallet-connect"
           bind:this={walletButton}
           on:click={connectWallet}
+          style="
+            background-color: {$loggedIn
+            ? 'rgba(51, 226, 230, 0.9)'
+            : '#161E5F'};
+            color: {$loggedIn ? '#010020' : '#33E2E6'}
+          "
         >
           Log in
         </button>
@@ -712,7 +714,7 @@ a11y-no-static-element-interactions -->
   }
 
   .wallet-legend {
-    color: #161e5f;
+    color: #010020;
     font-size: 2.5vw;
     filter: drop-shadow(0 0 0.05vw #010020);
     text-align: right;
